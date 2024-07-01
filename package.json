@@ -1,14 +1,5 @@
 {
   "name": "nuxt-app",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
   "dependencies": {
     "@nuxt/fonts": "^0.7.0",
     "@nuxt/ui": "^2.16.0",
@@ -19,13 +10,19 @@
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },
-  "devDependencies": {
-    "@vercel/kv": "^2.0.0"
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "trustedDependencies": [
     "@fortawesome/fontawesome-common-types",
     "@fortawesome/free-regular-svg-icons",
     "@fortawesome/free-solid-svg-icons",
     "json-editor-vue"
-  ]
+  ],
+  "type": "module"
 }
