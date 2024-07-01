@@ -1,28 +1,31 @@
 {
-  "name": "nuxt-app",
-  "dependencies": {
-    "@nuxt/fonts": "^0.7.0",
-    "@nuxt/ui": "^2.16.0",
-    "@nuxtjs/seo": "^2.0.0-rc.10",
-    "@sidebase/nuxt-auth": "^0.7.2",
-    "nuxt": "^3.12.2",
-    "nuxt-aos": "^1.2.4",
-    "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
-  },
-  "private": true,
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "trustedDependencies": [
-    "@fortawesome/fontawesome-common-types",
-    "@fortawesome/free-regular-svg-icons",
-    "@fortawesome/free-solid-svg-icons",
-    "json-editor-vue"
-  ],
-  "type": "module"
+	"name": "nuxt-app",
+	"dependencies": {
+		"@nuxt/fonts": "^0.7.0",
+		"@nuxt/ui": "^2.16.0",
+		"@nuxtjs/seo": "^2.0.0-rc.10",
+		"@nuxtjs/supabase": "^1.2.2",
+		"@sidebase/nuxt-auth": "^0.7.2",
+		"nuxt": "^3.12.2",
+		"nuxt-aos": "^1.2.4",
+		"supabase": ">=1.8.1",
+		"vue": "^3.4.27",
+		"vue-router": "^4.3.2"
+	},
+	"private": true,
+	"scripts": {
+		"gentypes": "bunx supabase gen types typescript --project-id 'cbwbgxorrdehkskbhefq' --schema public > types/supabase.ts",
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare"
+	},
+	"trustedDependencies": [
+		"@fortawesome/fontawesome-common-types",
+		"@fortawesome/free-regular-svg-icons",
+		"@fortawesome/free-solid-svg-icons",
+		"json-editor-vue"
+	],
+	"type": "module"
 }
