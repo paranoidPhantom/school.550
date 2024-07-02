@@ -46,7 +46,9 @@ export default defineEventHandler(async (event) => {
             if (valid) {
                 event.context.user = authObject;
                 const perms =
-                    (await kv.get(`auth_perms_${authObject.id}`)) ?? [];
+                    (await kv.get(
+                        `${process.env.NODE_ENV}_auth_perms_${authObject.id}`
+                    )) ?? [];
                 event.context.perms = perms;
             }
         }
