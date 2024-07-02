@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-    <main class="__default">
+    <main class="__manage">
         <slot />
     </main>
 </template>
