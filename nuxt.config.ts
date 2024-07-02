@@ -1,5 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    devServer: {
+        port: 80,
+        host: "0.0.0.0",
+    },
     devtools: { enabled: true },
     modules: [
         "nuxt-aos",
@@ -17,12 +21,9 @@ export default defineNuxtConfig({
     future: {
         compatibilityVersion: 4,
     },
-    supabase: {
-        redirectOptions: {
-            login: "/manage/auth",
-            callback: "/manage/confirm",
-            include: ["/manage*"],
-            cookieRedirect: true,
+    runtimeConfig: {
+        public: {
+            tgbot: process.env.TG_BOT,
         },
     },
 });
