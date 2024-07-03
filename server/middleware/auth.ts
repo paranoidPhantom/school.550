@@ -45,14 +45,16 @@ export default defineEventHandler(async (event) => {
 
             if (valid) {
                 event.context.user = authObject;
+                const environment =
+                    process.env.VERCEL_ENV ?? process.env.NODE_ENV;
                 const perms =
                     (await kv.get(
-                        `${process.env.NODE_ENV}_auth_perms_${authObject.id}`
+                        `${environment}_auth_perms_${authObject.id}`
                     )) ?? [];
                 event.context.perms = perms;
             }
         }
     } catch (error) {
-        console.error(error);
+        console.error("Error auth middleware:", error);
     }
 });
