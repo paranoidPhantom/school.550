@@ -11,8 +11,14 @@ export default defineNuxtConfig({
         "@nuxtjs/seo",
         "@nuxt/fonts",
         "@paranoidphantom/tgauth",
+        "@nuxtjs/mdc",
     ],
-    seo: {
+    app: {
+        layoutTransition: { name: "layout", mode: "out-in" },
+        pageTransition: { name: "page", mode: "out-in" },
+    },
+    css: ["@/assets/style.scss"],
+    site: {
         url: "https://portal.ort.spb.ru",
         name: "Школа №550",
         description: "Оффициальный портал ГБОУ СОШ №550",
