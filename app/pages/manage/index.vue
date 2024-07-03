@@ -42,24 +42,26 @@ const logout = () => {
                     />
                 </div>
             </template>
-            <template v-if="perms.length === 0">
-                <UAlert
-                    title="У вас пока нет доступа ни к одной части сайта"
-                    color="yellow"
-                    variant="subtle"
-                    icon="line-md:alert-loop"
-                >
-                    <template #description>
-                        <p class="text-sm">
-                            Чтобы получить права необходимо обратиться к
-                            администратору сайта и сообщить свой ID -
-                            <UBadge variant="subtle" color="yellow">
-                                {{ user.id }}</UBadge
-                            >
-                        </p>
-                    </template>
-                </UAlert>
-            </template>
+            <UAlert
+                title="У вас пока нет доступа ни к одной части сайта"
+                color="yellow"
+                variant="subtle"
+                icon="line-md:alert-loop"
+                v-if="perms.length === 0"
+            >
+                <template #description>
+                    <p class="text-sm">
+                        Чтобы получить права необходимо обратиться к
+                        администратору сайта и сообщить свой ID -
+                        <UBadge variant="subtle" color="yellow">
+                            {{ user.id }}</UBadge
+                        >
+                    </p>
+                </template>
+            </UAlert>
+            <div class="flex flex-col gap-4" v-else>
+                <ManageOptionRoot v-if="perms.includes('root')" />
+            </div>
         </UCard>
     </div>
 </template>
