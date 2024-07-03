@@ -4,14 +4,19 @@ definePageMeta({
     layout: "manage",
 });
 
-const { user } = useTelegramUser();
+const { user, logout: clearCredentials } = useTelegramUser();
 
 const { data: perms } = await useFetch("/api/auth/perms");
+
+const logout = () => {
+    clearCredentials();
+    window.location.reload();
+};
 </script>
 
 <template>
     <div class="__manage p-4">
-        <UCard>
+        <UCard v-if="user">
             <template #header>
                 <div class="flex items-center gap-4">
                     <UAvatar
@@ -23,7 +28,9 @@ const { data: perms } = await useFetch("/api/auth/perms");
                         <h2 class="text-xl">
                             {{ user.first_name }} {{ user.last_name }}
                         </h2>
-                        <p class="text-xs opacity-50">@{{ user.username }}</p>
+                        <p class="text-xs opacity-50">
+                            @{{ user.username }} - {{ user.id }}
+                        </p>
                     </div>
                     <UButton
                         class="ml-auto"
@@ -31,11 +38,27 @@ const { data: perms } = await useFetch("/api/auth/perms");
                         variant="ghost"
                         color="white"
                         size="xl"
+                        @click="logout"
                     />
                 </div>
             </template>
             <template v-if="perms.length === 0">
-                <h3 class="text-center">У вас пока нет доступа</h3>
+                <UAlert
+                    title="У вас пока нет доступа ни к одной части сайта"
+                    color="yellow"
+                    variant="subtle"
+                    icon="line-md:alert-loop"
+                >
+                    <template #description>
+                        <p class="text-sm">
+                            Чтобы получить права необходимо обратиться к
+                            администратору сайта и сообщить свой ID -
+                            <UBadge variant="subtle" color="yellow">
+                                {{ user.id }}</UBadge
+                            >
+                        </p>
+                    </template>
+                </UAlert>
             </template>
         </UCard>
     </div>
