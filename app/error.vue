@@ -6,12 +6,6 @@ const suffix = ref();
 const comment = ref();
 
 switch (error.statusCode) {
-    case 500: {
-        suffix.value = "Серверная ошибка";
-    }
-}
-
-switch (error.statusCode) {
     case 404: {
         comment.value = `Страница, которую вы ищите, не существует.
 Возможно, она была перемещена или удалена`;
