@@ -61,6 +61,7 @@ const logout = () => {
             </UAlert>
             <div class="flex flex-col gap-4" v-else>
                 <ManageOptionRoot v-if="perms.includes('root')" />
+                <ManageOptionContent v-if="perms.includes('edit_content')" />
             </div>
         </UCard>
     </div>
