@@ -1,0 +1,23 @@
+import { kv } from "@vercel/kv";
+import type { Role } from "../../../types/role";
+
+export default defineEventHandler(async (event) => {
+    // ROOT ONLY
+    if (!event.context.perms.includes("root")) {
+        throw createError({
+            statusCode: 403,
+            statusMessage: "Forbidden",
+        });
+    }
+    const { id } = getRouterParams(event);
+    const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+    try {
+        const roles =
+            (await kv.get<string[]>(`${environment}_auth_perms_${id}`)) ?? [];
+        console.log(roles);
+        return roles;
+    } catch (error) {
+        console.error("Error user/[id]/roles.get:", error);
+        throw createError(error as Error);
+    }
+});
