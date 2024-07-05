@@ -6,6 +6,7 @@ const {
 definePageMeta({
     title: "Авторизация",
     middleware: ["auth"],
+    layout: "manage",
 });
 
 const {
