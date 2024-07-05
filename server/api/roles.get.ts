@@ -1,5 +1,5 @@
 import { kv } from "@vercel/kv";
-import { Role } from "../types/role";
+import type { Role } from "../types/role";
 
 export default defineEventHandler(async (event) => {
     if (!event.context.perms.includes("root")) {
@@ -14,6 +14,6 @@ export default defineEventHandler(async (event) => {
         return roles;
     } catch (error) {
         console.error("Error roles.get:", error);
-        return [];
+        throw createError(error as Error);
     }
 });

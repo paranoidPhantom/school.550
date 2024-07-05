@@ -1,7 +1,8 @@
 import { kv } from "@vercel/kv";
-import { Role } from "../types/role";
+import type { Role } from "../types/role";
 
 export default defineEventHandler(async (event) => {
+    // ROOT ONLY
     if (!event.context.perms.includes("root")) {
         throw createError({
             statusCode: 403,
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
         const body = (await readBody(event)) as Role;
         for (const role of previousRoles) {
             if (role.key === body.key) {
-                throw createError({
+                return createError({
                     statusCode: 400,
                     statusMessage: "Role already exists",
                 });
@@ -25,5 +26,6 @@ export default defineEventHandler(async (event) => {
         await kv.set(`${environment}_roles`, [...previousRoles, body]);
     } catch (error) {
         console.error("Error roles.put:", error);
+        throw createError(error as Error);
     }
 });
