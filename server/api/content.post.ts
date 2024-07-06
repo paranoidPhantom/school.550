@@ -22,7 +22,11 @@ export default defineEventHandler(async (event) => {
                 });
             }
         }
-        await kv.set(`${environment}_content`, [...previousContent, body]);
+        const { id: UID } = await event.context.user;
+        await kv.set(`${environment}_content`, [
+            ...previousContent,
+            { ...body, created_by: UID },
+        ]);
     } catch (error) {
         console.error("Error content.post:", error);
         throw createError(error as Error);

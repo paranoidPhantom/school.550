@@ -11,9 +11,8 @@ export default defineEventHandler(async (event) => {
     try {
         const { slug } = getRouterParams(event);
         const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
-        const body = (await readBody(event)) as string;
-
-        await kv.set(`${environment}_content_${slug}`, body);
+        const { md } = (await readBody(event)) as { md: string };
+        await kv.set(`${environment}_content_${slug}`, md);
     } catch (error) {
         console.error("Error content/[...slug].put:", error);
         throw createError(error as Error);

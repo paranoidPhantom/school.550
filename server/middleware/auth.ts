@@ -2,7 +2,12 @@ import { createHmac, createHash } from "crypto";
 import { kv } from "@vercel/kv";
 
 export default defineEventHandler(async (event) => {
-    if (event.path.startsWith("/api")) {
+    // Skip middleware for non-API routes (performance)
+    const isAPI = event.path.startsWith("/api");
+    const isContent =
+        event.method === "GET" && event.path.match(/^\/api\/content\/(.*)$/);
+
+    if (isAPI && !isContent) {
         event.context.perms = [];
         event.context.valid = false;
 
