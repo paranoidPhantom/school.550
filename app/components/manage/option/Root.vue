@@ -149,7 +149,6 @@ const userRolePicked = ref();
 
 watch(userRolePicked, (picked) => {
     if (!picked) return;
-    console.log("PICKed", picked);
     giveUserRole(picked);
     userRolePicked.value = undefined;
 });

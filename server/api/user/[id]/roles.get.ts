@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
     try {
         const roles =
             (await kv.get<string[]>(`${environment}_auth_perms_${id}`)) ?? [];
-        console.log(roles);
         return roles;
     } catch (error) {
         console.error("Error user/[id]/roles.get:", error);
