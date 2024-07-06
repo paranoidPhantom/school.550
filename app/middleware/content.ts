@@ -1,8 +1,8 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const {
         params: { slug },
-    } = to;
-    const { data: md } = await useFetch(`/api/content/${slug}`);
+    } = to as unknown as { params: { slug: string[] } };
+    const { data: md } = await useFetch(`/api/content/${slug.join("/")}`);
 
     if (md.value) {
         to.meta.md = md.value;
