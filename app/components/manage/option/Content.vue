@@ -44,7 +44,10 @@ const fetchedMD = computedAsync(async () => {
             `/api/content${editContentState.slug}`
         )) as string;
         loading.value = false;
-        return md || "> Нет содержимого";
+        return (
+            md ||
+            "> Страница пуста (она не будет отображаться для пользователей)"
+        );
     }
 }, null);
 
