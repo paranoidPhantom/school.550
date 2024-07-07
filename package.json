@@ -8,6 +8,7 @@
     "@paranoidphantom/tgauth": "^1.0.2",
     "@sidebase/nuxt-auth": "^0.7.2",
     "@vavt/cm-extension": "^1.4.4",
+    "@vercel/speed-insights": "^1.0.12",
     "md-editor-v3": "^4.17.2",
     "nuxt": "^3.12.2",
     "nuxt-aos": "^1.2.4",
