@@ -11,11 +11,5 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 path: "/manage/auth",
                 query: { redirect: to.path },
             });
-        const { data: valid } = await useFetch("/api/auth/validate");
-        if (!valid.value)
-            return navigateTo({
-                path: "/manage/auth",
-                query: { redirect: to.path },
-            });
     }
 });
