@@ -7,9 +7,12 @@ defineShortcuts({
 </script>
 
 <template>
-    <main class="__default">
-        <slot />
-    </main>
+    <div class="__layout-default">
+        <ClientHeader />
+        <main class="px-4 mt-4 md:px-8">
+            <slot />
+        </main>
+    </div>
 </template>
 
 <style lang="scss" scoped></style>
