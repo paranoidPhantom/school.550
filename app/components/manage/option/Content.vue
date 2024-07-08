@@ -83,9 +83,13 @@ const savePage = async () => {
     const slug = editContentState.slug;
     if (!slug || !slug.startsWith("/")) return;
     loading.value = true;
+
+    const ast = await parseMarkdown(editContentState.md);
+    const { title, description } = ast.data;
+
     await $fetch(`/api/content${slug}`, {
         method: "PUT",
-        body: { md: editContentState.md },
+        body: { title, description, md: editContentState.md },
     });
     loading.value = false;
     mdRefresher.value++;
@@ -120,118 +124,118 @@ defineShortcuts({
 </script>
 
 <template>
-    <UAlert
-        title="Редактор контента "
-        :color="useKeyToColor('edit_content')"
-        variant="soft"
-        icon="line-md:document-code-twotone"
-    />
-    <UProgress
-        size="sm"
-        class="transition-opacity"
-        :style="{ opacity: statusAnim.value === 0 ? 0 : 1 }"
-        :animation="statusAnim.animation"
-        :value="statusAnim.value"
-    />
-    <UModal prevent-close v-model="loading">
-        <div
-            class="py-8 flex items-center justify-center flex-col gap-2 w-full"
-        >
-            <UIcon name="svg-spinners:ring-resize" class="text-4xl" />
-            <h3 class="text-lg font-semibold">Обработка запроса</h3>
-        </div>
-    </UModal>
-    <div>
-        <UButtonGroup class="w-full">
-            <UInputMenu
-                class="w-full"
-                :options="content"
-                value-attribute="label"
-                placeholder="URL страницы"
-                v-model="editContentState.slug"
-                v-model:query="newPageSlug"
-                name="content-slug"
+    <div class="flex flex-col gap-4">
+        <UAlert
+            title="Редактор контента "
+            :color="useKeyToColor('edit_content')"
+            variant="soft"
+            icon="line-md:document-code-twotone"
+        />
+        <UProgress
+            size="sm"
+            class="transition-opacity"
+            :style="{ opacity: statusAnim.value === 0 ? 0 : 1 }"
+            :animation="statusAnim.animation"
+            :value="statusAnim.value"
+        />
+        <UModal prevent-close v-model="loading">
+            <div
+                class="py-8 flex items-center justify-center flex-col gap-2 w-full"
             >
-                <template #option-empty="{ query }">
-                    Страница с URL <q>{{ query }}</q> не существует
-                </template>
-                <template #empty>
-                    Пока что не создано ни одной страницы
-                </template>
-            </UInputMenu>
+                <UIcon name="svg-spinners:ring-resize" class="text-4xl" />
+                <h3 class="text-lg font-semibold">Обработка запроса</h3>
+            </div>
+        </UModal>
+        <div>
+            <UButtonGroup class="w-full">
+                <UInputMenu
+                    class="w-full"
+                    :options="content"
+                    value-attribute="label"
+                    placeholder="URL страницы"
+                    v-model="editContentState.slug"
+                    v-model:query="newPageSlug"
+                    name="content-slug"
+                >
+                    <template #option-empty="{ query }">
+                        Страница с URL <q>{{ query }}</q> не существует
+                    </template>
+                    <template #empty>
+                        Пока что не создано ни одной страницы
+                    </template>
+                </UInputMenu>
 
-            <UButton
-                color="gray"
-                icon="line-md:plus"
-                v-show="newPageSlug !== editContentState.slug"
-                @click="createNewPage"
-            />
-            <UButton
-                color="gray"
-                icon="material-symbols:eye-tracking-outline-rounded"
-                v-show="gotSomeMD"
-                :to="{
-                    path: editContentState.slug,
-                }"
-                target="_blank"
-            />
-            <UButton
-                color="gray"
-                icon="akar-icons:save"
-                @click="savePage"
-                :disabled="fetchedMD === editContentState.md || !gotSomeMD"
-            />
-        </UButtonGroup>
-    </div>
-    <div class="flex flex-wrap" v-if="gotSomeMD">
-        <ClientOnly>
-            <MDEditor
-                v-if="typeof editContentState.md === 'string'"
-                v-model="editContentState.md"
-                :class="{
-                    'md-editor-dark': colorMode.value === 'dark',
-                }"
-                class="w-full xl:!w-1/2 rounded-t-xl xl:rounded-l-xl xl:rounded-r-none"
-                language="ru"
-                codeTheme="github"
-                previewTheme="github"
-                editorId="md-editor-manage"
-                :onUploadImg="async () => 'url'"
-                :toolbars="[
-                    'bold',
-                    'underline',
-                    'italic',
-                    '-',
-                    'title',
-                    'strikeThrough',
-                    'sub',
-                    'sup',
-                    'quote',
-                    'unorderedList',
-                    'orderedList',
-                    'task',
-                    '-',
-                    'link',
-                    'image',
-                    'table',
-                    '-',
-                    'revoke',
-                    'next',
-                ]"
-                :preview="false"
-                style="--md-bk-color: var(--color-gray-900)"
-            />
-
-            <MarkdownFormatter
-                class="border border-gray-200 dark:border-gray-800 w-full xl:w-1/2 rounded-b-xl xl:rounded-r-xl xl:rounded-l-none px-4 min-h-96"
-            >
-                <MDC
-                    v-if="editContentState.md"
-                    class="mt-4"
-                    :value="editContentState.md"
+                <UButton
+                    color="gray"
+                    icon="line-md:plus"
+                    v-show="newPageSlug !== editContentState.slug"
+                    @click="createNewPage"
                 />
-            </MarkdownFormatter>
-        </ClientOnly>
+                <UButton
+                    color="gray"
+                    icon="material-symbols:eye-tracking-outline-rounded"
+                    v-show="gotSomeMD"
+                    :to="editContentState.slug"
+                    target="_blank"
+                />
+                <UButton
+                    color="gray"
+                    icon="akar-icons:save"
+                    @click="savePage"
+                    :disabled="fetchedMD === editContentState.md || !gotSomeMD"
+                />
+            </UButtonGroup>
+        </div>
+        <div class="flex flex-wrap" v-if="gotSomeMD">
+            <ClientOnly>
+                <MDEditor
+                    v-if="typeof editContentState.md === 'string'"
+                    v-model="editContentState.md"
+                    :class="{
+                        'md-editor-dark': colorMode.value === 'dark',
+                    }"
+                    class="w-full xl:!w-1/2 rounded-t-xl xl:rounded-l-xl xl:rounded-r-none"
+                    language="ru"
+                    codeTheme="github"
+                    previewTheme="github"
+                    editorId="md-editor-manage"
+                    :onUploadImg="async () => 'url'"
+                    :toolbars="[
+                        'bold',
+                        'underline',
+                        'italic',
+                        '-',
+                        'title',
+                        'strikeThrough',
+                        'sub',
+                        'sup',
+                        'quote',
+                        'unorderedList',
+                        'orderedList',
+                        'task',
+                        '-',
+                        'link',
+                        'image',
+                        'table',
+                        '-',
+                        'revoke',
+                        'next',
+                    ]"
+                    :preview="false"
+                    style="--md-bk-color: var(--color-gray-900)"
+                />
+
+                <MarkdownFormatter
+                    class="border border-gray-200 dark:border-gray-800 w-full xl:w-1/2 rounded-b-xl xl:rounded-r-xl xl:rounded-l-none px-4 min-h-96"
+                >
+                    <MDC
+                        v-if="editContentState.md"
+                        class="mt-4"
+                        :value="editContentState.md"
+                    />
+                </MarkdownFormatter>
+            </ClientOnly>
+        </div>
     </div>
 </template>
 
