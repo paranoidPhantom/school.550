@@ -12,10 +12,22 @@ export default defineNuxtConfig({
         "@nuxt/fonts",
         "@paranoidphantom/tgauth",
         "@nuxtjs/mdc",
+        "@nuxtjs/algolia",
     ],
+    routeRules: {
+        "/manage/**": { robots: false },
+    },
+    sitemap: {
+        sources: ["/api/sitemap/content"],
+    },
     app: {
         layoutTransition: { name: "layout", mode: "out-in" },
         pageTransition: { name: "page", mode: "out-in" },
+    },
+    algolia: {
+        instantSearch: {
+            theme: "algolia",
+        },
     },
     css: ["@/assets/style.scss"],
     site: {
