@@ -1,4 +1,5 @@
 import { kv } from "@vercel/kv";
+import algoliasearch from "algoliasearch";
 
 export default defineEventHandler(async (event) => {
     // EDIT_CONTENT ONLY
@@ -11,8 +12,30 @@ export default defineEventHandler(async (event) => {
     try {
         const { slug } = getRouterParams(event);
         const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
-        const { md } = (await readBody(event)) as { md: string };
+        const { md, title, description } = (await readBody(event)) as {
+            title: string;
+            description: string;
+            md: string;
+        };
         await kv.set(`${environment}_content_${slug}`, md);
+        await useStorage("cache").removeItem(
+            `nitro:handlers:content:${slug}.json`
+        );
+
+        // @ts-expect-error
+        const algolia = algoliasearch(
+            process.env.ALGOLIA_APPLICATION_ID,
+            process.env.ALGOLIA_API_KEY
+        );
+        const index = algolia.initIndex("dev_550-portal");
+
+        index.saveObject({
+            objectID: slug,
+            title,
+            description,
+            content: md,
+            slug,
+        });
     } catch (error) {
         console.error("Error content/[...slug].put:", error);
         throw createError(error as Error);
