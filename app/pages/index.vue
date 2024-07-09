@@ -38,9 +38,12 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
             <!-- Hero -->
             <div class="flex flex-col items-center gap-2" v-show="!isServer">
                 <!-- Line 1 -->
-                <div class="flex gap-5" data-aos="fade-right">
+                <div
+                    class="flex gap-5 flex-wrap max-w-full"
+                    data-aos="fade-right"
+                >
                     <h1
-                        class="gradient text-8xl"
+                        class="gradient text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
                         style="animation-delay: 1.84s"
                     >
                         Школа
@@ -48,14 +51,13 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                     <img
                         src="/images/school_compact.png"
                         alt="Школа"
-                        class="rounded-full"
-                        style="height: 74px"
+                        class="rounded-full hidden sm:block sm:h-12 md:h-14 lg:h-[4.6rem]"
                     />
                 </div>
                 <!-- Line 2 -->
-                <div class="flex gap-5" data-aos="fade-left">
+                <div class="flex gap-5 flex-wrap" data-aos="fade-left">
                     <h1
-                        class="gradient text-4xl"
+                        class="gradient text-md sm:text-2xl md:text-3xl lg:text-4xl"
                         style="animation-delay: 2.74s"
                     >
                         Информационных технологий<span
@@ -67,15 +69,14 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                     </h1>
                 </div>
                 <!-- Line 3 -->
-                <div class="flex gap-5" data-aos="fade-right">
+                <div class="flex gap-5 flex-wrap" data-aos="fade-right">
                     <div
-                        style="height: 74px"
-                        class="flex items-center justify-center bg-white py-2 px-4 rounded-full"
+                        class="sm:flex sm:h-12 md:h-14 lg:h-20 items-center justify-center bg-white py-2 px-4 rounded-full hidden"
                     >
                         <img class="h-2/3" src="/images/ort.png" alt="ORT" />
                     </div>
                     <h1
-                        class="gradient text-8xl"
+                        class="gradient text-6xl md:text-7xl lg:text-8xl"
                         style="animation-delay: 0.67s"
                     >
                         550
@@ -83,6 +84,9 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                 </div>
             </div>
         </section>
+        <UButton @click="feedbackForm = true"
+            >Открыть форму госуслуг (вместо кнопки будет банер)</UButton
+        >
     </div>
 </template>
 
