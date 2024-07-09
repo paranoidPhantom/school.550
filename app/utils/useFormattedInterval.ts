@@ -9,7 +9,7 @@ export default (seconds: number) => {
         result.push(`${weeks} ${unit}`);
     }
     if (days > 0) {
-        const unit = days > 1 ? (days > 4 ? "дня" : "дней") : "день";
+        const unit = days > 1 ? (days > 4 ? "дней" : "дня") : "день";
         result.push(`${days} ${unit}`);
     }
     if (hours > 0) {
