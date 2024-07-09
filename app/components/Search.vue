@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-const { result, search } = useAlgoliaSearch("dev_550-portal");
+const {
+    public: { environment },
+} = useRuntimeConfig();
+const { result, search } = useAlgoliaSearch(`pages_${environment}`);
 onMounted(async () => {
     await search({ query: "Samsung" });
 });

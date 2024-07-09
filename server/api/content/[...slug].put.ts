@@ -22,12 +22,12 @@ export default defineEventHandler(async (event) => {
             `nitro:handlers:content:${slug}.json`
         );
 
-        // @ts-expect-error
         const algolia = algoliasearch(
+            // @ts-expect-error
             process.env.ALGOLIA_APPLICATION_ID,
             process.env.ALGOLIA_API_KEY
         );
-        const index = algolia.initIndex("dev_550-portal");
+        const index = algolia.initIndex(`pages_${environment}`);
 
         index.saveObject({
             objectID: slug,
