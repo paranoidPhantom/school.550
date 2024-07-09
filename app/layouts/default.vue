@@ -12,6 +12,7 @@ defineShortcuts({
         <main class="px-4 mt-4 md:px-8">
             <slot />
         </main>
+        <Feedback />
     </div>
 </template>
 

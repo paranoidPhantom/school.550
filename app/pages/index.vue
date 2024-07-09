@@ -12,6 +12,8 @@ onMounted(() => {
 });
 
 const { x, y } = useMouse();
+
+const feedbackForm = useState("feedback_form_enabled", () => false);
 </script>
 
 <template>
