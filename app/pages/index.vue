@@ -84,9 +84,26 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                 </div>
             </div>
         </section>
-        <UButton @click="feedbackForm = true"
-            >Открыть форму госуслуг (вместо кнопки будет банер)</UButton
-        >
+        <section class="max-w-[1200px] w-full mx-auto" id="content">
+            <div class="feedback-prompt overflow-hidden relative rounded-2xl">
+                <img
+                    src="/images/banner-graphic.svg"
+                    alt="Баннер"
+                    class="w-full min-h-64 object-[80%] object-cover rounded-3xl opacity-50 sm:opacity-90"
+                />
+                <div
+                    class="content absolute inset-0 p-8 flex flex-col justify-center gap-4 w-2/3 max-w-[400px] bg-gradient-to-r from-gray-100 dark:from-gray-900"
+                >
+                    <p class="w-3/4 text-sm">
+                        Есть предложения по организации учебного процесса или
+                        знаете, как сделать школу лучше?
+                    </p>
+                    <UButton @click="feedbackForm = true" class="w-fit"
+                        >Сообщить о проблеме</UButton
+                    >
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
