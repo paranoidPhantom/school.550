@@ -17,6 +17,7 @@ onMounted(async () => {
 </script>
 
 <template>
+    <NuxtLoadingIndicator color="rgb(var(--color-primary-500))" />
     <NuxtLayout>
         <NuxtPage />
     </NuxtLayout>
