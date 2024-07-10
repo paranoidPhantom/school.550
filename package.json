@@ -1,7 +1,24 @@
 {
   "name": "nuxt-app",
+  "dependencies": {
+    "@nuxt/fonts": "^0.7.0",
+    "@nuxt/ui": "^2.16.0",
+    "@nuxtjs/algolia": "^1.10.2",
+    "@nuxtjs/mdc": "^0.8.3",
+    "@nuxtjs/seo": "^2.0.0-rc.10",
+    "@paranoidphantom/tgauth": "^1.0.2",
+    "@sidebase/nuxt-auth": "^0.7.2",
+    "@vavt/cm-extension": "^1.4.4",
+    "@vercel/speed-insights": "^1.0.12",
+    "algoliasearch": "^4.24.0",
+    "md-editor-v3": "^4.17.2",
+    "nuxt": "^3.12.2",
+    "nuxt-aos": "^1.2.4",
+    "supabase": ">=1.8.1",
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2"
+  },
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -9,13 +26,15 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "dependencies": {
-    "@nuxt/fonts": "^0.7.0",
-    "@nuxt/ui": "^2.16.0",
-    "@nuxtjs/seo": "^2.0.0-rc.10",
-    "nuxt": "^3.11.2",
-    "nuxt-aos": "^1.2.4",
-    "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+  "trustedDependencies": [
+    "@fortawesome/fontawesome-common-types",
+    "@fortawesome/free-regular-svg-icons",
+    "@fortawesome/free-solid-svg-icons",
+    "json-editor-vue"
+  ],
+  "type": "module",
+  "devDependencies": {
+    "@vercel/kv": "^2.0.0",
+    "sass": "^1.77.6"
   }
 }
