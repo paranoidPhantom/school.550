@@ -2,10 +2,7 @@
 const {
     public: { environment },
 } = useRuntimeConfig();
-const { result, search } = useAlgoliaSearch(`pages_${environment}`);
-onMounted(async () => {
-    await search({ query: "Samsung" });
-});
+const { search } = useAlgoliaSearch(`pages_${environment}`);
 
 const enabled = useState("search_palette", () => false);
 
@@ -20,7 +17,7 @@ const results = [
 
             const { hits } = await search({ query: q });
 
-            return hits.map((hit) => ({
+            return hits.map((hit: Record<string, any>) => ({
                 label: hit.title,
                 suffix: hit.description,
                 handler: () => console.log(hit),
