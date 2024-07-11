@@ -5,6 +5,7 @@ export default defineCachedEventHandler(
         try {
             const { slug } = getRouterParams(event);
             const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+            console.log("Reading from", `${environment}_content_${slug}`);
             const md = await kv.get<string>(`${environment}_content_${slug}`);
 
             return md;
@@ -16,6 +17,6 @@ export default defineCachedEventHandler(
     {
         name: "content",
         maxAge: 28800,
-        getKey: (event) => getRouterParams(event).slug,
+        getKey: (event) => getRouterParams(event).slug.replaceAll("/", "_"),
     }
 );

@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
         };
         await kv.set(`${environment}_content_${slug}`, md);
         await useStorage("cache").removeItem(
-            `nitro:handlers:content:${slug}.json`
+            `nitro:handlers:content:${slug.replaceAll("/", "_")}.json`
         );
 
         const algolia = algoliasearch(
@@ -31,9 +31,12 @@ export default defineEventHandler(async (event) => {
 
         index.saveObject({
             objectID: slug,
-            title,
-            description,
-            content: md,
+            title: title.slice(0, 300),
+            description: description.slice(0, 700),
+            content: md
+                .replaceAll("\n", " ")
+                .replaceAll("-", "")
+                .slice(0, 5000),
             slug,
         });
     } catch (error) {
