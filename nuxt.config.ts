@@ -5,6 +5,10 @@ export default defineNuxtConfig({
         host: "0.0.0.0",
     },
     devtools: { enabled: true },
+    monacoEditor: {
+        // These are default values:
+        locale: "ru",
+    },
     modules: [
         "nuxt-aos",
         "@nuxt/ui",
@@ -13,6 +17,7 @@ export default defineNuxtConfig({
         "@paranoidphantom/tgauth",
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
+        "nuxt-monaco-editor",
     ],
     routeRules: {
         "/manage/**": { robots: false },
