@@ -6,7 +6,9 @@ export default defineEventHandler(async (event) => {
     if (!event.context.perms.includes("edit_content")) {
         throw createError({
             statusCode: 403,
-            statusMessage: "Can't edit content",
+            message: `Cant edit content: ${event.context.perms.join(", ")} | ${
+                process.env.VERCEL_ENV ?? process.env.NODE_ENV
+            }`,
         });
     }
     const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
