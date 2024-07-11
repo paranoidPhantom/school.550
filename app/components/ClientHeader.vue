@@ -126,9 +126,7 @@ const links: {
                                     v-if="state.active"
                                     v-bind="link"
                                     :style="{
-                                        transitionDelay: `${
-                                            (index + 5) * 0.05
-                                        }s`,
+                                        transitionDelay: `${index * 0.05}s`,
                                     }"
                                     >{{ link.label }}</NuxtLink
                                 >
