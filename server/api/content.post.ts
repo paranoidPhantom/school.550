@@ -1,8 +1,8 @@
-import { kv } from "@vercel/kv";
 import type { Content } from "../types/content";
 
 export default defineEventHandler(async (event) => {
     // EDIT_CONTENT ONLY
+    const storage = useStorage(event.context.storage_driver);
     if (!event.context.perms.includes("edit_content")) {
         throw createError({
             statusCode: 403,
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
     try {
         const previousContent =
-            (await kv.get<Content[]>(`${environment}_content`)) ?? [];
+            (await storage.getItem<Content[]>(`${environment}_content`)) ?? [];
         const body = (await readBody(event)) as Content;
         for (const content of previousContent) {
             if (content.slug === body.slug) {
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
             }
         }
         const { id: UID } = await event.context.user;
-        await kv.set(`${environment}_content`, [
+        await storage.setItem(`${environment}_content`, [
             ...previousContent,
             { ...body, created_by: UID },
         ]);

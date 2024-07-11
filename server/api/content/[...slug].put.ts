@@ -1,8 +1,8 @@
-import { kv } from "@vercel/kv";
 import algoliasearch from "algoliasearch";
 
 export default defineEventHandler(async (event) => {
     // EDIT_CONTENT ONLY
+    const storage = useStorage(event.context.storage_driver);
     if (!event.context.perms.includes("edit_content")) {
         throw createError({
             statusCode: 403,
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
             description: string;
             md: string;
         };
-        await kv.set(`${environment}_content_${slug}`, md);
+        await storage.setItem(`${environment}_content_${slug}`, md);
         await useStorage("cache").removeItem(
             `nitro:handlers:content:${slug.replaceAll("/", "_")}.json`
         );
