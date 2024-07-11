@@ -48,7 +48,7 @@ const fetchedMD = computedAsync(async () => {
         loading.value = false;
         return (
             md ||
-            "> Страница пуста (она не будет отображаться для пользователей)"
+            "---\ntitle: Название Страницы\ndescription: Описание Страницы\n---\n # Странца пока что пуста, но это легко исправить.\n\n[Ресурсы для редакторов](/manage/learn)"
         );
     }
 }, null);
