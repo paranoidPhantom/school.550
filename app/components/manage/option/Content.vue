@@ -6,6 +6,8 @@ import "md-editor-v3/lib/style.css";
 
 const pageSlugCookie = useCookie("editing_page_slug");
 
+const toast = useToast();
+
 const loading = ref(false);
 
 const editContentState = reactive<{
@@ -121,6 +123,37 @@ defineShortcuts({
         usingInput: "content-slug",
     },
 });
+
+const promptDelete = async () => {
+    if (!gotSomeMD.value) return;
+    toast.add({
+        title: "Удалить страницу",
+        description: "Вы уверены, что хотите удалить страницу?",
+        color: "red",
+        actions: [
+            {
+                label: "Удалить",
+                color: "red",
+                click: async () => {
+                    await $fetch(`/api/content${editContentState.slug}`, {
+                        method: "DELETE",
+                    });
+                    await $fetch(`/api/content`, {
+                        body: {
+                            firefoslug: editContentState.slug,
+                        },
+                        method: "DELETE",
+                    });
+                    await refreshContent();
+                    toast.add({
+                        title: "Страница удалена",
+                        description: "Страница удалена из базы данных",
+                    });
+                },
+            },
+        ],
+    });
+};
 </script>
 
 <template>
@@ -183,6 +216,12 @@ defineShortcuts({
                     icon="akar-icons:save"
                     @click="savePage"
                     :disabled="fetchedMD === editContentState.md || !gotSomeMD"
+                />
+                <UButton
+                    color="red"
+                    icon="material-symbols:delete-outline"
+                    @click="promptDelete"
+                    :disabled="!gotSomeMD"
                 />
             </UButtonGroup>
         </div>
