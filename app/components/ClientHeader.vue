@@ -14,53 +14,164 @@ const state = reactive<{
     lastEnteredIndex: number;
 }>({
     active: false,
-    currentGroup: undefined,
+    currentGroup: "Сведения об ОУ",
     animation: "left",
-    lastEnteredIndex: 0,
+    lastEnteredIndex: 1,
 });
 
 const links: {
-    [key: string]: { [key: string]: { label: string; to: string }[] };
+    [key: string]: {
+        [key: string]: { label: string; to: string; customIndex?: number }[];
+    };
 } = {
     "Сведения об ОУ": {
         "Сведения об оброзовательном учреждении": [
             {
                 label: "Основные сведения",
-                to: "/",
+                to: "/info/primary",
             },
             {
-                label: "Основные сведения",
-                to: "/",
+                label: "Структура и органы управления",
+                to: "/info/structure",
             },
             {
-                label: "Основные сведения",
-                to: "/",
+                label: "Документы",
+                to: "/info/documents",
             },
             {
-                label: "Основные сведения",
-                to: "/",
+                label: "Образование",
+                to: "/info/education",
             },
             {
-                label: "Основные сведения",
-                to: "/",
+                label: "Образовательные стандарты",
+                to: "/info/standards",
+            },
+            {
+                label: "Руководство. Педагогический (научно-педагогический) состав",
+                to: "/info/teachers",
+            },
+            {
+                label: "Материально-техническое обеспечение и оснащенность образовательного процесса",
+                to: "/info/equipment",
+            },
+        ],
+        "": [
+            {
+                label: "Стипендии и иные виды материальной поддержки",
+                to: "/info/scholarship",
+                customIndex: 8,
+            },
+            {
+                label: "Платные образовательные услуги",
+                to: "/info/paid",
+                customIndex: 9,
+            },
+            {
+                label: "Финансово-хозяйственная деятельность",
+                to: "/info/finance",
+                customIndex: 10,
+            },
+            {
+                label: "Вакантные места для приема (перевода) обучающихся",
+                to: "/info/vacancies",
+                customIndex: 11,
+            },
+            {
+                label: "Доступная среда",
+                to: "/info/accessible-environment",
+                customIndex: 12,
+            },
+            {
+                label: "Международное сотрудничество",
+                to: "/info/collaboration",
+                customIndex: 13,
+            },
+            {
+                label: "Организация питания",
+                to: "/info/food",
+                customIndex: 14,
+            },
+            {
+                label: "Методические и иные документы",
+                to: "/info/materials",
+                customIndex: 15,
             },
         ],
     },
-    "Сведения об ОУ 2": {
-        "Сведения об оброзовательном учреждении": [
+    Родителям: {
+        "Информация для родителей": [
             {
-                label: "Основные сведения",
-                to: "/",
+                label: "Обучение с использованием ДОТ",
+                to: "/for-parents/distantedu",
+            },
+            {
+                label: "Информация о ГИА",
+                to: "/for-parents/gia",
+            },
+            {
+                label: "О приеме в школу",
+                to: "/for-parents/admission",
+            },
+            {
+                label: "О толерантности",
+                to: "/for-parents/tolerance",
+            },
+            {
+                label: "ОРКСЭ",
+                to: "/for-parents/orkse",
+            },
+        ],
+    },
+    Еще: {
+        "Прочие разделы": [
+            {
+                label: "Партнеры",
+                to: "/partners",
+            },
+            {
+                label: "Противодействие коррупции",
+                to: "/curruption-prevention",
+            },
+            {
+                label: "Безопасная среда",
+                to: "/partners",
+            },
+            {
+                label: "Партнеры",
+                to: "/partners",
+            },
+            {
+                label: "Функциональная грамотность",
+                to: "/funclit",
+            },
+            {
+                label: "Школьный спортивный клуб",
+                to: "/sportclub",
             },
         ],
     },
 };
+
+const openHeader = (groupName: string, index: number) => {
+    state.active = true;
+    state.currentGroup = groupName;
+    state.animation = state.lastEnteredIndex > index ? "left" : "right";
+    state.lastEnteredIndex = index;
+};
+
+const heights = [450, 300, 350];
 </script>
 
 <template>
     <div class="__header">
         <h1 class="hidden">Школа 550</h1>
-        <div class="wrapper" :class="{ active: state.active }">
+        <div
+            class="wrapper"
+            :class="{ active: state.active }"
+            :style="{
+                '--section-height': `${heights[state.lastEnteredIndex]}px`,
+            }"
+        >
             <header @mouseleave="state.active = false">
                 <div class="base">
                     <UButton
@@ -74,17 +185,7 @@ const links: {
                     <nav class="hidden lg:flex items-center gap-2">
                         <UButton
                             v-for="(group, groupName, index) in links"
-                            @mouseenter="
-                                () => {
-                                    state.currentGroup = groupName;
-                                    state.active = true;
-                                    state.animation =
-                                        state.lastEnteredIndex > index
-                                            ? 'left'
-                                            : 'right';
-                                    state.lastEnteredIndex = index;
-                                }
-                            "
+                            @mouseenter="openHeader(groupName, index)"
                             :label="(groupName as string)"
                             variant="link"
                             color="white"
@@ -124,9 +225,13 @@ const links: {
                                 <NuxtLink
                                     v-for="(link, index) in subgroup"
                                     v-if="state.active"
+                                    @click="state.active = false"
                                     v-bind="link"
+                                    class="hover:underline underline-offset-4 transition-all w-fit max-w-96"
                                     :style="{
-                                        transitionDelay: `${index * 0.05}s`,
+                                        transitionDelay: `${
+                                            (link.customIndex ?? index) * 0.05
+                                        }s`,
                                     }"
                                     >{{ link.label }}</NuxtLink
                                 >
@@ -169,8 +274,9 @@ const links: {
                 height: calc(var(--header-height) - 1.6rem - 2px);
             }
         }
+        --section-height: 500px;
         &.active {
-            @apply h-screen lg:h-[400px];
+            @apply h-screen lg:h-[--section-height];
             padding: 0;
             header {
                 max-width: 100vw;
