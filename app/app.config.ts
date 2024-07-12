@@ -5,5 +5,10 @@ export default defineAppConfig({
         icons: {
             dynamic: true,
         },
+        commandPalette: {
+            default: {
+                loadingIcon: "svg-spinners:ring-resize",
+            },
+        },
     },
 });

@@ -58,5 +58,8 @@
     a {
         @apply text-blue-500 underline;
     }
+    hr {
+        @apply opacity-10;
+    }
 }
 </style>

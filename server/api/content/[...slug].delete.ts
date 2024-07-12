@@ -6,20 +6,15 @@ export default defineEventHandler(async (event) => {
     if (!event.context.perms.includes("edit_content")) {
         throw createError({
             statusCode: 403,
-            statusMessage: "Can't edit content",
+            statusMessage: "Can't delete content",
         });
     }
     try {
         const { slug } = getRouterParams(event);
         const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
-        const { md, title, description } = (await readBody(event)) as {
-            title: string;
-            description: string;
-            md: string;
-        };
-        await storage.setItem(`${environment}_content_${slug}`, md);
+        await storage.removeItem(`${environment}_content_${slug}`);
         await useStorage("cache").removeItem(
-            `nitro:handlers:content:${slug.replaceAll("/", "_")}.json`
+            `nitro:handlers:content:${slug}.json`
         );
 
         const algolia = algoliasearch(
@@ -29,18 +24,9 @@ export default defineEventHandler(async (event) => {
         );
         const index = algolia.initIndex(`pages_${environment}`);
 
-        index.saveObject({
-            objectID: slug,
-            title: title.slice(0, 300),
-            description: description.slice(0, 700),
-            content: md
-                .replaceAll("\n", " ")
-                .replaceAll("-", "")
-                .slice(0, 5000),
-            slug,
-        });
+        index.deleteObject(slug);
     } catch (error) {
-        console.error("Error content/[...slug].put:", error);
+        console.error("Error content/[...slug].delete:", error);
         throw createError(error as Error);
     }
 });

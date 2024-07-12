@@ -20,7 +20,6 @@ const results = [
             return hits.map((hit: Record<string, any>) => ({
                 label: hit.title,
                 suffix: hit.description,
-                handler: () => console.log(hit),
                 to: `/${hit.slug}`,
             }));
         },

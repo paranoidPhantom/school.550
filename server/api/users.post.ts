@@ -1,8 +1,8 @@
-import { kv } from "@vercel/kv";
 import type { User } from "../types/user";
 
 export default defineEventHandler(async (event) => {
     // ROOT ONLY
+    const storage = useStorage(event.context.storage_driver);
     if (!event.context.perms.includes("root")) {
         throw createError({
             statusCode: 403,
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
     try {
         const previousUsers =
-            (await kv.get<User[]>(`${environment}_users`)) ?? [];
+            (await storage.getItem<User[]>(`${environment}_users`)) ?? [];
         const body = (await readBody(event)) as User;
         for (const user of previousUsers) {
             if (user.id === body.id) {
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
                 });
             }
         }
-        await kv.set(`${environment}_users`, [...previousUsers, body]);
+        await storage.setItem(`${environment}_users`, [...previousUsers, body]);
     } catch (error) {
         console.error("Error users.post:", error);
         throw createError(error as Error);

@@ -1,8 +1,8 @@
-import { kv } from "@vercel/kv";
 import type { Role } from "../types/role";
 
 export default defineEventHandler(async (event) => {
     // ROOT ONLY
+    const storage = useStorage(event.context.storage_driver);
     if (!event.context.perms.includes("root")) {
         throw createError({
             statusCode: 403,
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
     try {
         const previousRoles =
-            (await kv.get<Role[]>(`${environment}_roles`)) ?? [];
+            (await storage.getItem<Role[]>(`${environment}_roles`)) ?? [];
         const body = (await readBody(event)) as Role;
         for (const role of previousRoles) {
             if (role.key === body.key) {
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
             }
         }
 
-        await kv.set(`${environment}_roles`, [...previousRoles, body]);
+        await storage.setItem(`${environment}_roles`, [...previousRoles, body]);
     } catch (error) {
         console.error("Error roles.put:", error);
         throw createError(error as Error);

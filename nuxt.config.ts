@@ -1,10 +1,24 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    nitro: {
+        storage: {
+            default: {
+                driver: "cloudflare-kv-http",
+                accountId: process.env.KV_ACCOUND_ID,
+                namespaceId: process.env.KV_NAMESPACE_ID,
+                apiToken: process.env.KV_API_TOKEN,
+            },
+        },
+    },
     devServer: {
         port: 80,
         host: "0.0.0.0",
     },
     devtools: { enabled: true },
+    monacoEditor: {
+        // These are default values:
+        locale: "ru",
+    },
     modules: [
         "nuxt-aos",
         "@nuxt/ui",
@@ -13,6 +27,7 @@ export default defineNuxtConfig({
         "@paranoidphantom/tgauth",
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
+        "nuxt-monaco-editor",
     ],
     routeRules: {
         "/manage/**": { robots: false },

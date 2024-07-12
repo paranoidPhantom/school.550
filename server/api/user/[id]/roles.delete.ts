@@ -1,8 +1,8 @@
-import { kv } from "@vercel/kv";
 import type { Role } from "../../../types/role";
 
 export default defineEventHandler(async (event) => {
     // ROOT ONLY
+    const storage = useStorage(event.context.storage_driver);
     if (!event.context.perms.includes("root")) {
         throw createError({
             statusCode: 403,
@@ -14,8 +14,9 @@ export default defineEventHandler(async (event) => {
     try {
         const body = (await readBody(event)) as { role: string };
         const roles =
-            (await kv.get<Role["key"][]>(`${environment}_auth_perms_${id}`)) ??
-            [];
+            (await storage.getItem<Role["key"][]>(
+                `${environment}_auth_perms_${id}`
+            )) ?? [];
         if (!roles.includes(body.role)) {
             return createError({
                 statusCode: 400,
@@ -23,7 +24,7 @@ export default defineEventHandler(async (event) => {
             });
         }
         roles.splice(roles.indexOf(body.role), 1);
-        await kv.set(`${environment}_auth_perms_${id}`, roles);
+        await storage.setItem(`${environment}_auth_perms_${id}`, roles);
     } catch (error) {
         console.error("Error user/[id]/roles.delete:", error);
         throw createError(error as Error);

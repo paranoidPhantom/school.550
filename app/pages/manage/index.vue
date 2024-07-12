@@ -12,6 +12,9 @@ const logout = () => {
     clearCredentials();
     window.location.reload();
 };
+
+// Extra protective layer (can be bypassed easily but mainly here to not show the option to devs who don't need it)
+const kvEditors = [5491328220];
 </script>
 
 <template>
@@ -42,6 +45,9 @@ const logout = () => {
                     />
                 </div>
             </template>
+            <DevOnly v-if="kvEditors.includes(user.id)">
+                <ManageOptionKVEditor />
+            </DevOnly>
             <UAlert
                 title="У вас пока нет доступа ни к одной части сайта"
                 color="yellow"

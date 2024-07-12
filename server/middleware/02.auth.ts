@@ -1,8 +1,8 @@
 import { createHmac, createHash } from "crypto";
-import { kv } from "@vercel/kv";
 
 export default defineEventHandler(async (event) => {
     // Skip middleware for non-API routes (performance)
+    const storage = useStorage(event.context.storage_driver);
     const isAPI = event.path.startsWith("/api");
     const isContent =
         event.method === "GET" && event.path.match(/^\/api\/content\/(.*)$/);
@@ -64,22 +64,22 @@ export default defineEventHandler(async (event) => {
                         process.env.VERCEL_ENV ?? process.env.NODE_ENV;
                     // Get user permissions
                     const perms =
-                        (await kv.get(
+                        (await storage.getItem(
                             `${environment}_auth_perms_${authObject.id}`
                         )) ?? [];
                     event.context.perms = perms;
 
-                    kv.get(`${environment}_auth_byid_${authObject.id}`).then(
-                        async (user) => {
+                    storage
+                        .getItem(`${environment}_auth_byid_${authObject.id}`)
+                        .then(async (user) => {
                             if (!user) {
                                 // Save user in DB if he just "signed up"
-                                await kv.set(
+                                await storage.setItem(
                                     `${environment}_auth_byid_${authObject.id}`,
                                     authObject
                                 );
                             }
-                        }
-                    );
+                        });
                 }
             }
         } catch (error) {

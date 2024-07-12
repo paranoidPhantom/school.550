@@ -1,8 +1,18 @@
 <script lang="ts" setup>
+definePageMeta({
+    title: "Ресурсы для редакторов",
+    layout: "manage",
+    middleware: ["auth"],
+});
 const ytVids: {
     title: string;
     url: string;
-}[] = [];
+}[] = [
+    {
+        title: "Ресурсы для редакторов сайта - Часть 1 - Авторизация",
+        url: "https://youtube.com/watch?v=aWsS0d7xpB4",
+    },
+];
 const ytID = ({ url }: (typeof ytVids)[number]) =>
     (url.split("v=")[1] as string).split("?")[0];
 </script>

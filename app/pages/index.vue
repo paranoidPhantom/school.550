@@ -26,7 +26,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
             />
             <img
                 src="/images/noise.png"
-                class="absolute top-0 left-0 w-full object-cover opacity-30 -z-10"
+                class="static-noise absolute top-0 left-0 w-full object-cover opacity-30 -z-10"
                 style="height: calc(100vh + 5px)"
             />
             <img
@@ -135,17 +135,28 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
             text-align: center;
             animation: scale 3s infinite ease-in-out;
         }
+        .static-noise {
+            --image: linear-gradient(to bottom, black, black 90%, transparent);
+            mask-image: var(--image);
+        }
         .dynamic-noise {
-            -webkit-mask-image: radial-gradient(
-                circle 200px at var(--x) var(--y),
-                black 0,
-                transparent 100%
-            );
-            mask-image: radial-gradient(
-                circle 200px at var(--x) var(--y),
-                black 0,
-                transparent 100%
-            );
+            --image: radial-gradient(
+                    circle 200px at var(--x) var(--y),
+                    black 0,
+                    transparent 100%
+                ),
+                linear-gradient(to bottom, black, black 90%, transparent);
+            @supports not (mask-composite: intersect) {
+                --image: radial-gradient(
+                    circle 200px at var(--x) var(--y),
+                    black 0,
+                    transparent 100%
+                );
+            }
+            -webkit-mask-image: var(--image);
+            mask-image: var(--image);
+            -webkit-mask-composite: intersect;
+            mask-composite: intersect;
         }
     }
 }
