@@ -3,7 +3,10 @@ export default defineNuxtConfig({
     nitro: {
         storage: {
             default: {
-                driver: process.env.KV_DRIVER ?? "memory",
+                driver: "cloudflare-kv-http",
+                accountId: process.env.KV_ACCOUND_ID,
+                namespaceId: process.env.KV_NAMESPACE_ID,
+                apiToken: process.env.KV_API_TOKEN,
             },
         },
     },
