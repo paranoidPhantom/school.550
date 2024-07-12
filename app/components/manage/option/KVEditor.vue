@@ -1,5 +1,9 @@
 <script lang="ts" setup>
+import { useFileSystemAccess } from "@vueuse/core";
+
 const envs = ["development", "preview", "production"];
+
+const toast = useToast();
 
 const state = reactive({
     env: envs[0],
@@ -16,7 +20,7 @@ const { data: fetchedValue, refresh: refreshValue } = await useFetch(
     }
 );
 
-watch(state, refreshValue);
+watch(state, () => refreshValue());
 
 watch(fetchedValue, () => {
     try {
@@ -33,6 +37,46 @@ const write = async () => {
 };
 
 const colorMode = useColorMode();
+
+const { data, open } = useFileSystemAccess({
+    dataType: "Text",
+    types: [
+        {
+            description: "550",
+            accept: {
+                "application/json": [".json"],
+            },
+        },
+    ],
+});
+
+const backedUp = ref(false);
+const loadConfirmation = ref(false);
+const confirmationPhrase = "I am sure I want to replace the database.";
+const confirmationPhraseInput = ref("");
+const loadDB = async () => {
+    if (backedUp.value) {
+        await open();
+        const newDB = await data.value;
+        loadConfirmation.value = true;
+    } else {
+        toast.add({
+            title: "To replace database you first need to download a backup",
+            color: "red",
+            icon: "mdi:alert",
+        });
+    }
+};
+
+const loadDBConfirmation = async () => {
+    if (confirmationPhraseInput.value === confirmationPhrase) {
+        await $fetch("/api/devonly/snapshot", {
+            method: "PUT",
+            body: data.value,
+        });
+        window.location.reload();
+    }
+};
 </script>
 
 <template>
@@ -83,11 +127,83 @@ const colorMode = useColorMode();
                 <MonacoEditor
                     lang="json"
                     v-model="json"
-                    class="h-96"
+                    class="h-96 mb-4"
                     :options="{
                         theme: colorMode.value === 'dark' ? 'vs-dark' : 'vs',
                     }"
                 />
+                <hr class="opacity-20 mb-4" />
+                <UAlert
+                    color="red"
+                    variant="soft"
+                    icon="mdi:alert"
+                    title="Danger zone"
+                >
+                    <template #description>
+                        <div class="flex items-center gap-4 py-2">
+                            <UButton
+                                color="gray"
+                                icon="mdi:database-export"
+                                @click="backedUp = true"
+                            >
+                                <a
+                                    download="backup.json"
+                                    href="/api/devonly/snapshot"
+                                    >Download DB</a
+                                >
+                            </UButton>
+                            <UButton
+                                icon="mdi:database-import"
+                                color="red"
+                                variant="outline"
+                                @click="loadDB"
+                                label="Replace DB"
+                            />
+                        </div>
+                    </template>
+                </UAlert>
+                <!-- Confirmation -->
+                <UModal v-model="loadConfirmation">
+                    <UCard
+                        :ui="{
+                            base: 'overflow-hidden',
+                            body: {
+                                base: 'h-[680px]',
+                                padding: '!p-0',
+                            },
+                        }"
+                    >
+                        <div class="flex flex-col gap-2 h-full">
+                            <MonacoEditor
+                                lang="json"
+                                v-model="data"
+                                class="h-[600px]"
+                                :options="{
+                                    theme:
+                                        colorMode.value === 'dark'
+                                            ? 'vs-dark'
+                                            : 'vs',
+                                }"
+                            />
+                            <div class="p-2 flex flex-col gap-4">
+                                <UInput
+                                    color="red"
+                                    :placeholder="confirmationPhrase"
+                                    v-model="confirmationPhraseInput"
+                                />
+                                <UButton
+                                    color="red"
+                                    :disabled="
+                                        confirmationPhrase !==
+                                        confirmationPhraseInput
+                                    "
+                                    @click="loadDBConfirmation"
+                                    >Confirm</UButton
+                                >
+                            </div>
+                        </div>
+                    </UCard>
+                </UModal>
             </div>
         </UCard>
     </div>
