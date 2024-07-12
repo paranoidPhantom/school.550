@@ -147,7 +147,7 @@ const loadDBConfirmation = async () => {
                                 @click="backedUp = true"
                             >
                                 <a
-                                    download="backup.json"
+                                    :download="`backup-${new Date().toISOString()}.json`"
                                     href="/api/devonly/snapshot"
                                     >Download DB</a
                                 >
