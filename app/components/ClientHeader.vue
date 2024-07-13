@@ -279,6 +279,7 @@ const heights = [450, 300, 350];
             @apply h-screen lg:h-[--section-height];
             padding: 0;
             header {
+                @apply border-none;
                 max-width: 100vw;
                 border-radius: 0;
                 padding: 1rem;
