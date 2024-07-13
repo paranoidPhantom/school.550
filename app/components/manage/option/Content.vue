@@ -171,14 +171,14 @@ const promptDelete = async () => {
             :animation="statusAnim.animation"
             :value="statusAnim.value"
         />
-        <UModal prevent-close v-model="loading">
+        <!-- <UModal prevent-close v-model="loading">
             <div
                 class="py-8 flex items-center justify-center flex-col gap-2 w-full"
             >
                 <UIcon name="svg-spinners:ring-resize" class="text-4xl" />
                 <h3 class="text-lg font-semibold">Обработка запроса</h3>
             </div>
-        </UModal>
+        </UModal> -->
         <div>
             <UButtonGroup class="w-full">
                 <UInputMenu
