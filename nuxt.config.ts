@@ -28,9 +28,6 @@ export default defineNuxtConfig({
             anchorLinks: false,
         },
     },
-    cookieControl: {
-        locales: ["ru"],
-    },
     modules: [
         "nuxt-aos",
         "@nuxt/ui",
@@ -41,7 +38,6 @@ export default defineNuxtConfig({
         "@nuxtjs/algolia",
         "nuxt-monaco-editor",
         "@nuxt/image",
-        "@dargmuesli/nuxt-cookie-control",
     ],
     routeRules: {
         "/manage/**": { robots: false },

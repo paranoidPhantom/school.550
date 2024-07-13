@@ -21,7 +21,6 @@ onMounted(async () => {
     <NuxtLayout>
         <NuxtPage />
     </NuxtLayout>
-    <CookieControl locale="ru" />
     <Search />
     <UNotifications />
     <SpeedInsights />
