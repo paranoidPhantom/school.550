@@ -50,7 +50,23 @@ defineShortcuts({
                 label: 'Ничего не найдено',
                 queryLabel: 'Мы не нашли ничего по вашему запросу.',
             }"
-        />
+        >
+            <template #empty-state>
+                <div
+                    class="flex flex-col items-center justify-center py-6 gap-3"
+                >
+                    <span class="text-sm"
+                        >Поиск реализован на основе
+                        <NuxtLink to="https://www.algolia.com/">
+                            <UIcon
+                                class="text-7xl ml-1"
+                                name="devicon:algolia-wordmark"
+                            />
+                        </NuxtLink>
+                    </span>
+                </div>
+            </template>
+        </UCommandPalette>
     </UModal>
 </template>
 
