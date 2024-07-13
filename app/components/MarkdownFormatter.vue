@@ -12,22 +12,25 @@
         @apply mb-4;
     }
     h1 {
-        @apply text-3xl font-bold;
+        @apply text-3xl font-bold opacity-100;
     }
     h2 {
-        @apply text-2xl font-semibold;
+        @apply text-2xl font-semibold opacity-100;
     }
     h3 {
-        @apply text-xl font-semibold;
+        @apply text-xl font-semibold opacity-90;
     }
     h4 {
-        @apply text-lg font-normal;
+        @apply text-lg font-normal opacity-90;
     }
     h5 {
-        @apply text-base font-normal;
+        @apply text-base font-normal opacity-80;
     }
     h6 {
-        @apply text-sm font-normal;
+        @apply text-sm font-normal opacity-80;
+    }
+    p {
+        @apply opacity-80;
     }
     ul {
         li {
@@ -40,7 +43,7 @@
         }
     }
     blockquote {
-        @apply border-l-4 border-gray-400 pl-4 text-gray-500;
+        @apply border-l-4 border-gray-400 pl-4 opacity-70;
     }
     table {
         thead {
@@ -56,7 +59,11 @@
         }
     }
     a {
-        @apply text-blue-500 underline;
+        @apply text-sky-500;
+        text-decoration: underline dotted;
+        &:hover {
+            @apply text-sky-600;
+        }
     }
     hr {
         @apply opacity-10;
