@@ -15,6 +15,10 @@ export default defineNuxtConfig({
         host: "0.0.0.0",
     },
     devtools: { enabled: true },
+    image: {
+        provider: "vercel",
+        formats: ["webp", "avif"],
+    },
     monacoEditor: {
         // These are default values:
         locale: "ru",
@@ -28,6 +32,7 @@ export default defineNuxtConfig({
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
         "nuxt-monaco-editor",
+        "@nuxt/image"
     ],
     routeRules: {
         "/manage/**": { robots: false },

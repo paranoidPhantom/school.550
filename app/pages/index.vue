@@ -19,19 +19,22 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
 <template>
     <div class="__home">
         <section class="hero flex items-center justify-center select-none">
-            <img
+            <NuxtImg
                 src="/images/gradient.png"
                 alt="Фон"
+                sizes="100vw"
                 class="absolute top-0 left-0 w-full h-screen object-cover blur-md -z-20"
             />
-            <img
+            <NuxtImg
                 src="/images/noise.png"
                 class="static-noise absolute top-0 left-0 w-full object-cover opacity-30 -z-10"
+                sizes="100vw"
                 style="height: calc(100vh + 5px)"
             />
-            <img
+            <NuxtImg
                 src="/images/noise.png"
                 class="dynamic-noise absolute top-0 left-0 w-full object-cover opacity-50 z-10 pointer-events-none"
+                sizes="100vw"
                 style="height: calc(100vh + 5px)"
                 :style="{ '--x': x + 'px', '--y': y + 'px' }"
             />
@@ -48,7 +51,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                     >
                         Школа
                     </h1>
-                    <img
+                    <NuxtImg
                         src="/images/school_compact.png"
                         alt="Школа"
                         class="rounded-full hidden sm:block sm:h-12 md:h-14 lg:h-[4.6rem]"
@@ -73,7 +76,11 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                     <div
                         class="sm:flex sm:h-12 md:h-14 lg:h-20 items-center justify-center bg-white py-2 px-4 rounded-full hidden"
                     >
-                        <img class="h-2/3" src="/images/ort.png" alt="ORT" />
+                        <NuxtImg
+                            class="h-2/3"
+                            src="/images/ort.png"
+                            alt="ORT"
+                        />
                     </div>
                     <h1
                         class="gradient text-6xl md:text-7xl lg:text-8xl"
@@ -86,7 +93,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
         </section>
         <section class="max-w-[1200px] w-full mx-auto" id="content">
             <div class="feedback-prompt overflow-hidden relative rounded-2xl">
-                <img
+                <NuxtImg
                     src="/images/banner-graphic.svg"
                     alt="Баннер"
                     class="w-full min-h-64 object-[80%] object-cover rounded-3xl opacity-50 sm:opacity-90"
@@ -94,7 +101,12 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                 <div
                     class="content absolute inset-0 p-8 flex flex-col justify-center gap-4 w-2/3 max-w-[400px] bg-gradient-to-r from-gray-100 dark:from-gray-900"
                 >
-                    <p class="w-3/4 text-sm">
+                    <NuxtImg
+                        src="https://pos.gosuslugi.ru/bin/banner-fluid/gosuslugi-logo-blue.svg"
+                        class="opacity-80 dark:brightness-125"
+                        width="200px"
+                    />
+                    <p class="sm:w-3/4 text-sm">
                         Есть предложения по организации учебного процесса или
                         знаете, как сделать школу лучше?
                     </p>

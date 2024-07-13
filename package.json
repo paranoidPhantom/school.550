@@ -2,6 +2,7 @@
   "name": "nuxt-app",
   "dependencies": {
     "@nuxt/fonts": "^0.7.0",
+    "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.16.0",
     "@nuxtjs/algolia": "^1.10.2",
     "@nuxtjs/mdc": "^0.8.3",

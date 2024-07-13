@@ -28,12 +28,12 @@ const displacement = computed(() => {
 <template>
     <div class="__error">
         <div class="creative-block">
-            <img
+            <NuxtImg
                 :style="`translate: ${displacement.x}% ${displacement.y}%;`"
                 class="a hidden sm:block"
                 src="/images/question_mark.svg"
             />
-            <img
+            <NuxtImg
                 :style="`translate: ${displacement.x}% ${displacement.y}%;`"
                 class="b"
                 src="/images/question_mark.svg"
