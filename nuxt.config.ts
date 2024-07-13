@@ -23,6 +23,14 @@ export default defineNuxtConfig({
         // These are default values:
         locale: "ru",
     },
+    mdc: {
+        headings: {
+            anchorLinks: false,
+        },
+    },
+    cookieControl: {
+        locales: ["ru"],
+    },
     modules: [
         "nuxt-aos",
         "@nuxt/ui",
@@ -32,7 +40,8 @@ export default defineNuxtConfig({
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
         "nuxt-monaco-editor",
-        "@nuxt/image"
+        "@nuxt/image",
+        "@dargmuesli/nuxt-cookie-control",
     ],
     routeRules: {
         "/manage/**": { robots: false },

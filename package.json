@@ -1,6 +1,7 @@
 {
   "name": "nuxt-app",
   "dependencies": {
+    "@dargmuesli/nuxt-cookie-control": "^8.4.5",
     "@nuxt/fonts": "^0.7.0",
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.16.0",
