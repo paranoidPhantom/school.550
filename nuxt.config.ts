@@ -58,7 +58,7 @@ export default defineNuxtConfig({
     site: {
         url: "https://portal.ort.spb.ru",
         name: "Школа №550",
-        description: "Оффициальный портал ГБОУ СОШ №550",
+        description: "Официальный портал ГБОУ СОШ №550",
         defaultLocale: "ru",
     },
     future: {
