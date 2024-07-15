@@ -18,7 +18,9 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
 
 <template>
     <div class="__home">
-        <section class="hero flex items-center justify-center select-none">
+        <section
+            class="hero flex items-center justify-center select-none overflow-hidden"
+        >
             <NuxtImg
                 src="/images/gradient.png"
                 alt="Фон"
@@ -90,9 +92,18 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                     </h1>
                 </div>
             </div>
+            <div class="flex items-center justify-center" v-show="isServer">
+                <UIcon
+                    name="svg-spinners:blocks-wave"
+                    class="text-4xl text-white opacity-70"
+                />
+            </div>
         </section>
         <section class="max-w-[1200px] w-full mx-auto" id="content">
-            <div class="feedback-prompt overflow-hidden relative rounded-2xl">
+            <div
+                class="feedback-prompt overflow-hidden relative rounded-2xl"
+                data-aos="fade-up"
+            >
                 <NuxtImg
                     src="/images/banner-graphic.svg"
                     alt="Баннер"
