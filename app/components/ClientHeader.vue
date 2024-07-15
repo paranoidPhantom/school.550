@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
+const isServer = import.meta.server;
+
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
 const mobile = breakpoints.smaller("lg");
@@ -12,11 +14,13 @@ const state = reactive<{
     currentGroup: keyof typeof links | undefined;
     animation: "left" | "right";
     lastEnteredIndex: number;
+    mobileDepth: number;
 }>({
     active: false,
     currentGroup: "Сведения об ОУ",
     animation: "left",
     lastEnteredIndex: 1,
+    mobileDepth: 0,
 });
 
 const links: {
@@ -160,6 +164,10 @@ const openHeader = (groupName: string, index: number) => {
 };
 
 const heights = [450, 300, 350];
+
+const router = useRouter();
+
+router.afterEach(() => (state.active = false));
 </script>
 
 <template>
@@ -200,45 +208,124 @@ const heights = [450, 300, 350];
                             class="hidden lg:block"
                         />
                         <ColorSwitcher />
+                        <!-- Mobile menu -->
+                        <UButton
+                            class="lg:hidden"
+                            color="white"
+                            variant="link"
+                            @click="state.active = !state.active"
+                            :key="state.active ? 'closed' : 'opened'"
+                            v-show="!isServer"
+                            :icon="
+                                state.active
+                                    ? 'line-md:menu-to-close-alt-transition'
+                                    : 'line-md:close-to-menu-alt-transition'
+                            "
+                        />
                     </div>
                 </div>
-                <Transition :name="state.animation" mode="out-in">
-                    <div class="mobile" v-if="mobile"></div>
-                    <div
-                        class="desktop flex gap-8 justify-center"
-                        :key="state.currentGroup"
-                        v-else-if="state.currentGroup"
-                    >
+                <ClientOnly>
+                    <Transition :name="state.animation" mode="out-in">
                         <div
-                            v-for="(subgroup, subgroupName) in links[
-                                state.currentGroup
-                            ]"
-                            class="flex flex-col gap-2 h-full flex-wrap"
+                            v-if="mobile"
+                            class="mobile flex flex-col gap-2 h-full"
+                            :key="`mobile_${state.mobileDepth}`"
                         >
-                            <TransitionGroup name="link">
-                                <p
-                                    class="text-sm opacity-60"
-                                    v-if="state.active"
+                            <template v-if="state.mobileDepth === 0">
+                                <UButton
+                                    v-for="(group, groupName, index) in links"
+                                    :label="(groupName as string)"
+                                    color="gray"
+                                    @click="
+                                        () => {
+                                            state.animation = 'right';
+                                            state.mobileDepth = 1;
+                                            state.currentGroup = groupName;
+                                        }
+                                    "
+                                    trailing-icon="material-symbols:arrow-right-alt-rounded"
+                                />
+                            </template>
+                            <template v-else>
+                                <UButton
+                                    label="Назад"
+                                    @click="
+                                        () => {
+                                            state.animation = 'left';
+                                            state.mobileDepth = 0;
+                                        }
+                                    "
+                                    color="gray"
+                                    variant="link"
+                                    :padded="false"
+                                    icon="material-symbols:arrow-left-alt-rounded"
+                                />
+                                <template
+                                    v-for="(subgroup, subgroupName) in links[
+                                        state.currentGroup
+                                    ]"
                                 >
-                                    {{ subgroupName }}
-                                </p>
-                                <NuxtLink
-                                    v-for="(link, index) in subgroup"
-                                    v-if="state.active"
-                                    @click="state.active = false"
-                                    v-bind="link"
-                                    class="hover:underline underline-offset-4 transition-all w-fit max-w-96"
-                                    :style="{
-                                        transitionDelay: `${
-                                            (link.customIndex ?? index) * 0.05
-                                        }s`,
-                                    }"
-                                    >{{ link.label }}</NuxtLink
-                                >
-                            </TransitionGroup>
+                                    <TransitionGroup name="link">
+                                        <p
+                                            class="text-md opacity-60"
+                                            v-if="state.active && subgroupName"
+                                        >
+                                            {{ subgroupName }}
+                                        </p>
+                                        <UButton
+                                            v-for="(link, index) in subgroup"
+                                            v-if="state.mobileDepth > 0"
+                                            v-bind="link"
+                                            class="transition-all"
+                                            :style="{
+                                                transitionDelay: `${
+                                                    (link.customIndex ??
+                                                        index) * 0.05
+                                                }s`,
+                                            }"
+                                            :label="link.label"
+                                            color="gray"
+                                        />
+                                    </TransitionGroup>
+                                </template>
+                            </template>
                         </div>
-                    </div>
-                </Transition>
+                        <div
+                            class="desktop flex gap-8 justify-center"
+                            :key="state.currentGroup"
+                            v-else-if="state.currentGroup"
+                        >
+                            <div
+                                v-for="(subgroup, subgroupName) in links[
+                                    state.currentGroup
+                                ]"
+                                class="flex flex-col gap-2 h-full flex-wrap"
+                            >
+                                <TransitionGroup name="link">
+                                    <p
+                                        class="text-sm opacity-60"
+                                        v-if="state.active"
+                                    >
+                                        {{ subgroupName }}
+                                    </p>
+                                    <NuxtLink
+                                        v-for="(link, index) in subgroup"
+                                        v-if="state.active"
+                                        v-bind="link"
+                                        class="hover:underline underline-offset-4 transition-all w-fit max-w-96"
+                                        :style="{
+                                            transitionDelay: `${
+                                                (link.customIndex ?? index) *
+                                                0.05
+                                            }s`,
+                                        }"
+                                        >{{ link.label }}</NuxtLink
+                                    >
+                                </TransitionGroup>
+                            </div>
+                        </div>
+                    </Transition>
+                </ClientOnly>
             </header>
         </div>
     </div>
