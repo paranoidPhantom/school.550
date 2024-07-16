@@ -95,7 +95,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
             <div class="flex items-center justify-center" v-show="isServer">
                 <UIcon
                     name="svg-spinners:blocks-wave"
-                    class="text-4xl text-white opacity-70"
+                    class="text-4xl text-white opacity-70 blur-[1px]"
                 />
             </div>
         </section>
