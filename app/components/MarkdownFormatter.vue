@@ -12,19 +12,19 @@
         @apply mb-4;
     }
     h1 {
-        @apply text-3xl font-bold opacity-100;
+        @apply text-2xl sm:text-3xl font-bold opacity-100;
     }
     h2 {
-        @apply text-2xl font-semibold opacity-100;
+        @apply text-xl sm:text-2xl font-semibold opacity-100;
     }
     h3 {
-        @apply text-xl font-semibold opacity-90;
+        @apply text-lg sm:text-xl font-semibold opacity-90;
     }
     h4 {
-        @apply text-lg font-normal opacity-90;
+        @apply text-base sm:text-lg font-normal opacity-90;
     }
     h5 {
-        @apply text-base font-normal opacity-80;
+        @apply text-sm sm:text-base font-normal opacity-80;
     }
     h6 {
         @apply text-sm font-normal opacity-80;
