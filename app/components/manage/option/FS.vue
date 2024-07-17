@@ -48,9 +48,30 @@ const uploadFiles = async (files: FileList) => {
             :color="useKeyToColor('fs')"
             variant="soft"
             icon="line-md:cloud-upload-outline-loop"
+            :class="sectionActive ? 'cursor-zoom-out' : 'cursor-zoom-in'"
+            @click="sectionActive = !sectionActive"
         />
-        <UInput type="file" multiple @change="uploadFiles" />
-        <pre>{{ currentPathFiles }}</pre>
+        <template v-if="sectionActive">
+            <div class="path">
+                <div class="node" @click="explorerState.pathFragments = []">
+                    <UIcon name="codicon:root-folder" />
+                </div>
+                <template v-for="(node, index) in explorerState.pathFragments">
+                    <UIcon name="codicon:arrow-right" />
+                    <div
+                        class="node"
+                        @click="
+                            explorerState.pathFragments =
+                                explorerState.pathFragments.splice(0, index + 1)
+                        "
+                    >
+                        <UIcon name="codicon:folder" />
+                        <p>{{ node }}</p>
+                    </div>
+                </template>
+            </div>
+            <UInput type="file" multiple @change="uploadFiles" />
+        </template>
     </div>
 </template>
 
