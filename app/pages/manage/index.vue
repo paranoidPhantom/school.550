@@ -68,6 +68,7 @@ const kvEditors = [5491328220];
             <div class="flex flex-col gap-4" v-else>
                 <ManageOptionRoot v-if="perms.includes('root')" />
                 <ManageOptionContent v-if="perms.includes('edit_content')" />
+                <ManageOptionFS v-if="perms.includes('fs')" />
             </div>
         </UCard>
     </div>
