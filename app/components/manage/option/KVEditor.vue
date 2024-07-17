@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useFileSystemAccess } from "@vueuse/core";
 
+const sectionActive = useCookie("admin_section_kv");
+
 const envs = ["development", "preview", "production"];
 
 const toast = useToast();
@@ -86,126 +88,134 @@ const loadDBConfirmation = async () => {
             color="rose"
             variant="soft"
             icon="maki:danger"
+            :class="sectionActive ? 'cursor-zoom-out' : 'cursor-zoom-in'"
+            @click="sectionActive = !sectionActive"
         />
-        <UCard>
-            <div class="flex flex-col">
-                <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
-                    KV Editor
+        <template v-if="sectionActive">
+            <UCard>
+                <div class="flex flex-col">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        KV Editor
 
-                    <UButton
-                        icon="mdi:github"
-                        color="gray"
-                        size="2xs"
-                        to="https://github.com/paranoidPhantom/school.550/tree/dev/server/api"
-                        target="_blank"
-                    />
-                    <UBadge variant="subtle" color="rose" v-if="!fetchedValue"
-                        >fetched value is undefined</UBadge
-                    >
-                </h3>
-                <UButtonGroup class="mb-4">
-                    <USelect
-                        :color="state.env === 'production' ? 'red' : 'gray'"
-                        v-model="state.env"
-                        :options="envs"
-                    />
-                    <UInput
-                        :color="state.env === 'production' ? 'red' : 'gray'"
-                        placeholder="Key"
-                        v-model="state.key"
-                    ></UInput>
+                        <UButton
+                            icon="mdi:github"
+                            color="gray"
+                            size="2xs"
+                            to="https://github.com/paranoidPhantom/school.550/tree/dev/server/api"
+                            target="_blank"
+                        />
+                        <UBadge
+                            variant="subtle"
+                            color="rose"
+                            v-if="!fetchedValue"
+                            >fetched value is undefined</UBadge
+                        >
+                    </h3>
+                    <UButtonGroup class="mb-4">
+                        <USelect
+                            :color="state.env === 'production' ? 'red' : 'gray'"
+                            v-model="state.env"
+                            :options="envs"
+                        />
+                        <UInput
+                            :color="state.env === 'production' ? 'red' : 'gray'"
+                            placeholder="Key"
+                            v-model="state.key"
+                        ></UInput>
 
-                    <UButton
-                        @click="write"
-                        icon="mdi:database-alert-outline"
-                        :disabled="
-                            json === JSON.stringify(fetchedValue, null, 4)
-                        "
-                        :color="state.env === 'production' ? 'red' : 'gray'"
-                    />
-                </UButtonGroup>
-                <MonacoEditor
-                    lang="json"
-                    v-model="json"
-                    class="h-96 mb-4"
-                    :options="{
-                        theme: colorMode.value === 'dark' ? 'vs-dark' : 'vs',
-                    }"
-                />
-                <hr class="opacity-20 mb-4" />
-                <UAlert
-                    color="red"
-                    variant="soft"
-                    icon="mdi:alert"
-                    title="Danger zone"
-                >
-                    <template #description>
-                        <div class="flex items-center gap-4 py-2">
-                            <UButton
-                                color="gray"
-                                icon="mdi:database-export"
-                                @click="backedUp = true"
-                            >
-                                <a
-                                    :download="`backup-${new Date().toISOString()}.json`"
-                                    href="/api/devonly/snapshot"
-                                    >Download DB</a
-                                >
-                            </UButton>
-                            <UButton
-                                icon="mdi:database-import"
-                                color="red"
-                                variant="outline"
-                                @click="loadDB"
-                                label="Replace DB"
-                            />
-                        </div>
-                    </template>
-                </UAlert>
-                <!-- Confirmation -->
-                <UModal v-model="loadConfirmation">
-                    <UCard
-                        :ui="{
-                            base: 'overflow-hidden',
-                            body: {
-                                base: 'h-[680px]',
-                                padding: '!p-0',
-                            },
+                        <UButton
+                            @click="write"
+                            icon="mdi:database-alert-outline"
+                            :disabled="
+                                json === JSON.stringify(fetchedValue, null, 4)
+                            "
+                            :color="state.env === 'production' ? 'red' : 'gray'"
+                        />
+                    </UButtonGroup>
+                    <MonacoEditor
+                        lang="json"
+                        v-model="json"
+                        class="h-96 mb-4"
+                        :options="{
+                            theme:
+                                colorMode.value === 'dark' ? 'vs-dark' : 'vs',
                         }"
+                    />
+                    <hr class="opacity-20 mb-4" />
+                    <UAlert
+                        color="red"
+                        variant="soft"
+                        icon="mdi:alert"
+                        title="Danger zone"
                     >
-                        <div class="flex flex-col gap-2 h-full">
-                            <MonacoEditor
-                                lang="json"
-                                v-model="data"
-                                class="h-[600px]"
-                                :options="{
-                                    theme:
-                                        colorMode.value === 'dark'
-                                            ? 'vs-dark'
-                                            : 'vs',
-                                }"
-                            />
-                            <div class="p-2 flex flex-col gap-4">
-                                <UInput
-                                    color="red"
-                                    :placeholder="confirmationPhrase"
-                                    v-model="confirmationPhraseInput"
-                                />
+                        <template #description>
+                            <div class="flex items-center gap-4 py-2">
                                 <UButton
-                                    color="red"
-                                    :disabled="
-                                        confirmationPhrase !==
-                                        confirmationPhraseInput
-                                    "
-                                    @click="loadDBConfirmation"
-                                    >Confirm</UButton
+                                    color="gray"
+                                    icon="mdi:database-export"
+                                    @click="backedUp = true"
                                 >
+                                    <a
+                                        :download="`backup-${new Date().toISOString()}.json`"
+                                        href="/api/devonly/snapshot"
+                                        >Download DB</a
+                                    >
+                                </UButton>
+                                <UButton
+                                    icon="mdi:database-import"
+                                    color="red"
+                                    variant="outline"
+                                    @click="loadDB"
+                                    label="Replace DB"
+                                />
                             </div>
-                        </div>
-                    </UCard>
-                </UModal>
-            </div>
-        </UCard>
+                        </template>
+                    </UAlert>
+                    <!-- Confirmation -->
+                    <UModal v-model="loadConfirmation">
+                        <UCard
+                            :ui="{
+                                base: 'overflow-hidden',
+                                body: {
+                                    base: 'h-[680px]',
+                                    padding: '!p-0',
+                                },
+                            }"
+                        >
+                            <div class="flex flex-col gap-2 h-full">
+                                <MonacoEditor
+                                    lang="json"
+                                    v-model="data"
+                                    class="h-[600px]"
+                                    :options="{
+                                        theme:
+                                            colorMode.value === 'dark'
+                                                ? 'vs-dark'
+                                                : 'vs',
+                                    }"
+                                />
+                                <div class="p-2 flex flex-col gap-4">
+                                    <UInput
+                                        color="red"
+                                        :placeholder="confirmationPhrase"
+                                        v-model="confirmationPhraseInput"
+                                    />
+                                    <UButton
+                                        color="red"
+                                        :disabled="
+                                            confirmationPhrase !==
+                                            confirmationPhraseInput
+                                        "
+                                        @click="loadDBConfirmation"
+                                        >Confirm</UButton
+                                    >
+                                </div>
+                            </div>
+                        </UCard>
+                    </UModal>
+                </div>
+            </UCard></template
+        >
     </div>
 </template>
 

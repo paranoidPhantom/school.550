@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computedAsync } from "@vueuse/core";
+const sectionActive = useCookie("admin_section_fs");
 
 const explorerState = reactive<{
     pathFragments: string[];
@@ -12,7 +12,7 @@ const currentPath = computed(() => `/${explorerState.pathFragments.join("/")}`);
 const { data: currentPathFiles, refresh: refreshCurrentPathFiles } =
     await useAsyncData(
         `${currentPath}_list`,
-        () => useFS(`/list/${currentPath}`, {}),
+        () => useFS(`/list${currentPath.value}`, {}),
         {
             server: false,
             watch: [currentPath],
