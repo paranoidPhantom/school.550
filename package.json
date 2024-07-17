@@ -8,13 +8,13 @@
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare"
 	},
+	"type": "module",
 	"trustedDependencies": [
 		"@fortawesome/fontawesome-common-types",
 		"@fortawesome/free-regular-svg-icons",
 		"@fortawesome/free-solid-svg-icons",
 		"json-editor-vue"
 	],
-	"type": "module",
 	"devDependencies": {
 		"@nuxt/fonts": "^0.7.0",
 		"@nuxt/image": "^1.7.0",
