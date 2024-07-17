@@ -39,7 +39,7 @@ const app = new Elysia()
             const { fstoken } = headers;
             await jwtVerify(fstoken, secret);
 
-            const folderPath = `storage${path.split("/llist")[1] ?? ""}`;
+            const folderPath = `storage${path.split("/list")[1] ?? ""}`;
             const files = readdirSync(join(import.meta.dir, "../", folderPath));
             return files.map((file) => {
                 const stats = statSync(
