@@ -30,7 +30,7 @@ const ytID = ({ url }: (typeof ytVids)[number]) =>
                 :ui="{ body: { padding: '!px-4 !py-4' } }"
             >
                 <div class="flex flex-col gap-4">
-                    <NuxtImg
+                    <img
                         style="aspect-ratio: 16/9"
                         class="w-full object-cover rounded"
                         :src="`https://i.ytimg.com/vi/${ytID(
