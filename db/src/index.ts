@@ -1,4 +1,4 @@
-import { unlinkSync, readdirSync, statSync } from "node:fs";
+import { unlinkSync, readdirSync, statSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { Elysia, t } from "elysia";
 import { cors } from "@elysiajs/cors";
@@ -124,6 +124,24 @@ const app = new Elysia()
             }),
             body: t.Object({
                 files: t.Files(),
+            }),
+        }
+    )
+    .onError(handleError)
+    .post(
+        "/directory/*",
+        async ({ path, headers }) => {
+            const { fstoken } = headers;
+            await jwtVerify(fstoken, secret);
+
+            const folderPath = `storage${path.split("/directory")[1] ?? ""}`;
+            mkdirSync(join(import.meta.dir, "../", `${folderPath}`), {
+                recursive: true,
+            });
+        },
+        {
+            headers: t.Object({
+                fstoken: t.String(),
             }),
         }
     )
