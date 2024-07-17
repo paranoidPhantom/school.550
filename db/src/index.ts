@@ -20,9 +20,17 @@ const handleError = ({ code, error }: { code: string; error: Error }) => {
 
 const app = new Elysia()
     .use(cors())
+    .onError(handleError)
     .get("/*", ({ path }) => {
         const filePath = `storage${path}`;
-        return Bun.file(filePath);
+        const file = Bun.file(filePath);
+        const stats = statSync(join(import.meta.dir, "../", filePath));
+        if (stats.isDirectory()) {
+            return new Response("Provided path points to a directory", {
+                status: 404,
+            });
+        }
+        return file;
     })
     .onError(handleError)
     .get(
