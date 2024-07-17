@@ -68,6 +68,7 @@ export default defineNuxtConfig({
         public: {
             tgbot: process.env.TG_BOT,
             environment: process.env.VERCEL_ENV ?? process.env.NODE_ENV,
+            file_server_url: process.env.FILE_SERVER_URL,
         },
     },
 });
