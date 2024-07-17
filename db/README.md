@@ -1,15 +1,11 @@
-# Elysia with Bun runtime
+# server@school.550
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+Dedicated file server for school.550
 
-## Development
-To start the development server run:
-```bash
-bun run dev
-```
+---
 
-Open http://localhost:3000/ with your browser to see the result.
+## Powered by:
+
+### [<img src="https://elysiajs.com/assets/elysia.svg" width="50" title="ElysiaJS">](https://elysiajs.com/)
+
+### [<img src="http://jwt.io/img/logo-asset.svg" width="100" title="JSON Web Tokens">](https://jwt.io/)
