@@ -28,8 +28,8 @@ watch(fetchedValue, () => {
     try {
         json.value = JSON.stringify(fetchedValue.value, null, 4);
     } catch (error) {
-		console.error(error)
-	}
+        console.error(error);
+    }
 });
 
 const write = async () => {
@@ -61,7 +61,7 @@ const confirmationPhraseInput = ref("");
 const loadDB = async () => {
     if (backedUp.value) {
         await open();
-		await data.value;
+        await data.value;
         loadConfirmation.value = true;
     } else {
         toast.add({
@@ -143,7 +143,7 @@ const loadDBConfirmation = async () => {
                                 colorMode.value === 'dark' ? 'vs-dark' : 'vs',
                         }"
                     />
-                    <hr class="opacity-20 mb-4" >
+                    <hr class="opacity-20 mb-4" />
                     <UAlert
                         color="red"
                         variant="soft"
