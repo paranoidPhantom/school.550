@@ -3,6 +3,8 @@ import { computedAsync } from "@vueuse/core";
 import type { Role } from "~~/server/types/role";
 const toast = useToast();
 
+const sectionActive = useCookie("admin_section_root");
+
 // ROLES
 const { data: roles, refresh: refreshRoles } = await useFetch("/api/roles");
 
@@ -161,7 +163,10 @@ watch(userRolePicked, (picked) => {
 			:color="useKeyToColor('root')"
 			variant="soft"
 			icon="ph:identification-badge-duotone"
+            :class="sectionActive ? 'cursor-zoom-out' : 'cursor-zoom-in'"
+            @click="sectionActive = !sectionActive"
 		/>
+        <template v-if="sectionActive">
 		<div class="flex gap-2">
 			<UPopover v-if="roles">
 				<UButton color="gray" label="Роли" />
@@ -337,7 +342,7 @@ watch(userRolePicked, (picked) => {
 					</div>
 				</UCard>
 			</UModal>
-		</div>
+		</div></template>
 	</div>
 </template>
 

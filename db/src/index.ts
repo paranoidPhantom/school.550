@@ -1,4 +1,4 @@
-import { unlinkSync, readdirSync, statSync } from "node:fs";
+import { unlinkSync, readdirSync, statSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { Elysia, t } from "elysia";
 import { cors } from "@elysiajs/cors";
@@ -20,9 +20,17 @@ const handleError = ({ code, error }: { code: string; error: Error }) => {
 
 const app = new Elysia()
     .use(cors())
+    .onError(handleError)
     .get("/*", ({ path }) => {
         const filePath = `storage${path}`;
-        return Bun.file(filePath);
+        const file = Bun.file(filePath);
+        const stats = statSync(join(import.meta.dir, "../", filePath));
+        if (stats.isDirectory()) {
+            return new Response("Provided path points to a directory", {
+                status: 404,
+            });
+        }
+        return file;
     })
     .onError(handleError)
     .get(
@@ -31,7 +39,7 @@ const app = new Elysia()
             const { fstoken } = headers;
             await jwtVerify(fstoken, secret);
 
-            const folderPath = `storage${path.split("/llist")[1] ?? ""}`;
+            const folderPath = `storage${path.split("/list")[1] ?? ""}`;
             const files = readdirSync(join(import.meta.dir, "../", folderPath));
             return files.map((file) => {
                 const stats = statSync(
@@ -116,6 +124,24 @@ const app = new Elysia()
             }),
             body: t.Object({
                 files: t.Files(),
+            }),
+        }
+    )
+    .onError(handleError)
+    .post(
+        "/directory/*",
+        async ({ path, headers }) => {
+            const { fstoken } = headers;
+            await jwtVerify(fstoken, secret);
+
+            const folderPath = `storage${path.split("/directory")[1] ?? ""}`;
+            mkdirSync(join(import.meta.dir, "../", `${folderPath}`), {
+                recursive: true,
+            });
+        },
+        {
+            headers: t.Object({
+                fstoken: t.String(),
             }),
         }
     )
