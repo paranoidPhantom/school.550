@@ -12,10 +12,11 @@ interface ASTData {
 
 const {
     meta: { md },
+    params: { slug },
 } = useRoute();
 
 const { data: ast } = await useAsyncData<{ data: ASTData; body: any }>(
-    "md",
+    `md_${slug}`,
     () => parseMarkdown(md)
 );
 
@@ -36,7 +37,7 @@ watch(ast, refreshSeo);
 </script>
 
 <template>
-    <div class="__dynamic">
+    <div :class="`__dynamic_${slug}`">
         <MarkdownFormatter>
             <MDCRenderer :body="ast.body" :data="ast.data" />
         </MarkdownFormatter>

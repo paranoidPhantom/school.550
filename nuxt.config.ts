@@ -15,9 +15,18 @@ export default defineNuxtConfig({
         host: "0.0.0.0",
     },
     devtools: { enabled: true },
+    image: {
+        provider: "vercel",
+        formats: ["webp", "avif"],
+    },
     monacoEditor: {
         // These are default values:
         locale: "ru",
+    },
+    mdc: {
+        headings: {
+            anchorLinks: false,
+        },
     },
     modules: [
         "nuxt-aos",
@@ -28,6 +37,7 @@ export default defineNuxtConfig({
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
         "nuxt-monaco-editor",
+        "@nuxt/image",
     ],
     routeRules: {
         "/manage/**": { robots: false },
@@ -48,7 +58,7 @@ export default defineNuxtConfig({
     site: {
         url: "https://portal.ort.spb.ru",
         name: "Школа №550",
-        description: "Оффициальный портал ГБОУ СОШ №550",
+        description: "Официальный портал ГБОУ СОШ №550",
         defaultLocale: "ru",
     },
     future: {
@@ -58,6 +68,7 @@ export default defineNuxtConfig({
         public: {
             tgbot: process.env.TG_BOT,
             environment: process.env.VERCEL_ENV ?? process.env.NODE_ENV,
+            file_server_url: process.env.FILE_SERVER_URL,
         },
     },
 });

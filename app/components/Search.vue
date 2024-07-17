@@ -9,19 +9,20 @@ const enabled = useState("search_palette", () => false);
 const results = [
     {
         key: "results",
-        label: (q) => q && `Результаты "${q}"`,
+        label: (q) => q && `Результаты поиска "${q}"`,
         search: async (q) => {
             if (!q) {
                 return [];
             }
 
             const { hits } = await search({ query: q });
-
-            return hits.map((hit: Record<string, any>) => ({
-                label: hit.title,
-                suffix: hit.description,
-                to: `/${hit.slug}`,
-            }));
+            return hits.map((hit: Record<string, any>) => {
+                return {
+                    label: hit.title,
+                    suffix: hit.description,
+                    to: `/${hit.slug}`,
+                };
+            });
         },
     },
 ];
@@ -50,7 +51,23 @@ defineShortcuts({
                 label: 'Ничего не найдено',
                 queryLabel: 'Мы не нашли ничего по вашему запросу.',
             }"
-        />
+        >
+            <template #empty-state>
+                <div
+                    class="flex flex-col items-center justify-center py-6 gap-3"
+                >
+                    <span class="text-sm"
+                        >Поиск реализован на основе
+                        <NuxtLink to="https://www.algolia.com/">
+                            <UIcon
+                                class="text-7xl ml-1"
+                                name="devicon:algolia-wordmark"
+                            />
+                        </NuxtLink>
+                    </span>
+                </div>
+            </template>
+        </UCommandPalette>
     </UModal>
 </template>
 

@@ -22,7 +22,7 @@ onMounted(() => {
     <UModal v-model="feedbackForm">
         <UCard
             :ui="{
-                base: 'overflow-hidden',
+                base: 'overflow-hidden bg-white',
                 body: { base: 'h-[600px]', padding: '!p-0' },
             }"
         >
