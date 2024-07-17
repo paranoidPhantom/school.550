@@ -2,13 +2,16 @@
 import { useMouse } from "@vueuse/core";
 
 const { error } = defineProps(["error"]);
-const suffix = ref();
 const comment = ref();
 
 switch (error.statusCode) {
     case 404: {
-        comment.value = `Страница, которую вы ищите, не существует.
-Возможно, она была перемещена или удалена`;
+        comment.value = `Страница, которую вы ищите, не существует. Возможно, она была перемещена или удалена.`;
+        break;
+    }
+    case 500: {
+        comment.value = `Возникла серверная ошибка (не гуд). Самое время настучать по голове Худалла Андрею...`;
+        break;
     }
 }
 
@@ -23,6 +26,8 @@ const displacement = computed(() => {
         y: (y.value - document.documentElement.clientHeight / 2) / sensetivity,
     };
 });
+
+const barcode = computed(() => `${error.statusCode} ${error.message}`);
 </script>
 
 <template>
@@ -41,9 +46,8 @@ const displacement = computed(() => {
         </div>
         <div class="error-wrapper">
             <h1 class="font-bold">
-                {{ error.statusCode }} {{ suffix ? `(${suffix})` : "" }}
+                <span v-for="c in barcode" :key="c">{{ c }}</span>
             </h1>
-            <h2>{{ error.message }}</h2>
             <p class="text-center opacity-50">{{ comment }}</p>
             <UButton size="lg" to="/" label="На главную" />
         </div>
@@ -56,15 +60,19 @@ const displacement = computed(() => {
     position: relative;
     h1 {
         font-size: 7rem;
-        font-weight: 700;
-        font-family: Nabla;
-        filter: hue-rotate(170deg);
+        font-weight: 200;
+        font-family: "Libre Barcode 128 Text";
         color: rgb(var(--color-primary-DEFAULT));
         user-select: none;
-    }
-    h2 {
-        font-size: 2rem;
-        font-weight: 500;
+
+        span {
+            &:hover {
+                font-weight: 900;
+            }
+            &:active {
+                @apply text-red-500;
+            }
+        }
     }
     .error-wrapper {
         position: absolute;
