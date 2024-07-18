@@ -3,7 +3,7 @@ import { useFileSystemAccess } from "@vueuse/core";
 
 const sectionActive = useCookie("admin_section_kv");
 
-const envs = ["development", "preview", "production"];
+const envs = ["development", "production"];
 
 const toast = useToast();
 
