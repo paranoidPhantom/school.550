@@ -268,11 +268,4 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
         }
     }
 }
-
-#location:target {
-    translate: 0 -10rem;
-    > * {
-        translate: 0 10rem;
-    }
-}
 </style>
