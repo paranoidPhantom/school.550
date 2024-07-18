@@ -94,6 +94,37 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                     class="text-4xl text-white opacity-70 blur-[1px]"
                 />
             </div>
+            <div
+                class="hero-links absolute max-w-[1200px] w-full bottom-0 flex justify-between p-4 sm:p-6 md:p-8 pb-8"
+            >
+                <div class="flex flex-wrap gap-y-2 gap-x-4">
+                    <UButton variant="solid" color="gray" to="#location"
+                        >Торговый переулок, 2А</UButton
+                    >
+                    <UButton
+                        variant="solid"
+                        color="gray"
+                        to="tel:+7 (812) 315-50-60"
+                        >+7 (812) 315-50-60</UButton
+                    >
+                </div>
+                <div class="flex flex-wrap gap-y-2 gap-x-4 ml-8 justify-end">
+                    <UButton
+                        variant="solid"
+                        color="gray"
+                        to="https://t.me/school550_spb"
+                    >
+                        <UIcon name="icon-park-outline:telegram" />
+                    </UButton>
+                    <UButton
+                        variant="solid"
+                        color="gray"
+                        to="https://vk.com/school_550_spb"
+                    >
+                        <UIcon name="entypo-social:vk" />
+                    </UButton>
+                </div>
+            </div>
         </section>
         <section class="max-w-[1200px] w-full mx-auto" id="content">
             <div
