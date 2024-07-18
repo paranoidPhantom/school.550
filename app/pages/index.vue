@@ -165,6 +165,10 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                     transparent 100%
                 ),
                 linear-gradient(to bottom, black, black 90%, transparent);
+            -webkit-mask-image: var(--image);
+            mask-image: var(--image);
+            -webkit-mask-composite: intersect;
+            mask-composite: intersect;
             @supports not (mask-composite: intersect) {
                 --image: radial-gradient(
                     circle 200px at var(--x) var(--y),
@@ -172,11 +176,14 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                     transparent 100%
                 );
             }
-            -webkit-mask-image: var(--image);
-            mask-image: var(--image);
-            -webkit-mask-composite: intersect;
-            mask-composite: intersect;
         }
+    }
+}
+
+#location:target {
+    translate: 0 -10rem;
+    > * {
+        translate: 0 10rem;
     }
 }
 </style>

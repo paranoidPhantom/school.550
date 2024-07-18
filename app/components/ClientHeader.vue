@@ -335,17 +335,16 @@ router.afterEach(() => (state.active = false));
 .__header {
     --header-height: 80px;
     height: var(--header-height);
-
     .wrapper {
         @apply flex justify-center z-20;
         @apply transition-all duration-300;
-
         height: var(--header-height);
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         padding: 0.8rem;
+        --section-height: 500px;
         header {
             @apply px-4 w-full h-full;
             @apply rounded-2xl backdrop-blur-xl bg-opacity-20 bg-gray-50;
@@ -361,7 +360,6 @@ router.afterEach(() => (state.active = false));
                 height: calc(var(--header-height) - 1.6rem - 2px);
             }
         }
-        --section-height: 500px;
         &.active {
             @apply h-screen lg:h-[--section-height];
             padding: 0;
