@@ -7,7 +7,7 @@ export default defineAppConfig({
         },
         commandPalette: {
             default: {
-                loadingIcon: "svg-spinners:ring-resize",
+                loadingIcon: "fluent:spinner-ios-16-filled",
             },
         },
     },
