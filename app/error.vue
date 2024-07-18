@@ -45,7 +45,7 @@ const barcode = computed(() => `${error.statusCode} ${error.message}`);
             />
         </div>
         <div class="error-wrapper">
-            <h1 class="font-bold">
+            <h1 class="text-center">
                 <span v-for="c in barcode" :key="c">{{ c }}</span>
             </h1>
             <p class="text-center opacity-50">{{ comment }}</p>
@@ -59,7 +59,7 @@ const barcode = computed(() => `${error.statusCode} ${error.message}`);
     height: 100vh;
     position: relative;
     h1 {
-        font-size: 7rem;
+        font-size: 5rem;
         font-weight: 200;
         font-family: "Libre Barcode 128 Text";
         color: rgb(var(--color-primary-DEFAULT));
