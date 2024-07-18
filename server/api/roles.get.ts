@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
             statusMessage: "Forbidden",
         });
     }
-    const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+    const environment = process.env.NODE_ENV;
     try {
         const roles =
             (await storage.getItem<Role[]>(`${environment}_roles`)) ?? [];

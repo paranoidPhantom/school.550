@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
         });
     }
     const { id } = getRouterParams(event);
-    const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+    const environment = process.env.NODE_ENV;
     try {
         const roles =
             (await storage.getItem<string[]>(

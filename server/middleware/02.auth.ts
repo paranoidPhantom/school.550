@@ -60,8 +60,7 @@ export default defineEventHandler(async (event) => {
                 if (valid) {
                     // If user is valid
                     event.context.user = authObject;
-                    const environment =
-                        process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+                    const environment = process.env.NODE_ENV;
                     // Get user permissions
                     const perms =
                         (await storage.getItem(

@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
             statusMessage: "Forbidden",
         });
     }
-    const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+    const environment = process.env.NODE_ENV;
     try {
         const previousUsers =
             (await storage.getItem<User[]>(`${environment}_users`)) ?? [];

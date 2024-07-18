@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     }
     try {
         const { slug } = getRouterParams(event);
-        const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+        const environment = process.env.NODE_ENV;
         await storage.removeItem(`${environment}_content_${slug}`);
         await useStorage("cache").removeItem(
             `nitro:handlers:content:${slug}.json`

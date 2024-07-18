@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
             statusMessage: "Can't delete content",
         });
     }
-    const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+    const environment = process.env.NODE_ENV;
     try {
         const previousContent =
             (await storage.getItem<Content[]>(`${environment}_content`)) ?? [];

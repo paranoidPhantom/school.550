@@ -3,7 +3,7 @@ import type { User } from "~~/server/types/user";
 export default defineEventHandler(async (event) => {
     const storage = useStorage(event.context.storage_driver);
     const { id } = getRouterParams(event);
-    const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+    const environment = process.env.NODE_ENV;
     try {
         const user = await storage.getItem<User>(
             `${environment}_auth_byid_${id}`

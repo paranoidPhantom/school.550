@@ -3,7 +3,7 @@ export default defineCachedEventHandler(
         try {
             const storage = useStorage(event.context.storage_driver);
             const { slug } = getRouterParams(event);
-            const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV;
+            const environment = process.env.NODE_ENV;
             const md = await storage.getItem<string>(
                 `${environment}_content_${slug}`
             );
