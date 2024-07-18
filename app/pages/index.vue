@@ -126,34 +126,39 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                 </div>
             </div>
         </section>
-        <section class="max-w-[1200px] w-full mx-auto" id="content">
-            <div
-                class="feedback-prompt overflow-hidden relative rounded-2xl"
-                data-aos="fade-up"
+        <div class="space-y-16">
+            <section
+                class="max-w-[1200px] w-full mx-auto space-y-4"
+                id="content"
             >
-                <img
-                    src="/images/banner-graphic.svg"
-                    alt="Баннер"
-                    class="w-full min-h-64 object-[80%] object-cover rounded-3xl opacity-50 sm:opacity-90"
-                />
+                <h3 class="text-2xl font-semibold">Сообщить о проблеме</h3>
                 <div
-                    class="content absolute inset-0 p-8 flex flex-col justify-center gap-4 w-2/3 max-w-[400px] bg-gradient-to-r from-gray-100 dark:from-gray-900"
+                    class="feedback-prompt overflow-hidden relative rounded-2xl"
+                    data-aos="fade-right"
                 >
                     <img
-                        src="https://pos.gosuslugi.ru/bin/banner-fluid/gosuslugi-logo-blue.svg"
-                        class="opacity-80 dark:brightness-125"
-                        width="200px"
+                        src="/images/banner-graphic.svg"
+                        alt="Баннер"
+                        class="w-full min-h-64 object-[80%] object-cover rounded-3xl opacity-50 sm:opacity-90"
                     />
-                    <p class="sm:w-3/4 text-sm">
-                        Есть предложения по организации учебного процесса или
-                        знаете, как сделать школу лучше?
-                    </p>
-                    <UButton @click="feedbackForm = true" class="w-fit"
-                        >Сообщить о проблеме</UButton
+                    <div
+                        class="content absolute inset-0 p-8 flex flex-col justify-center gap-4 w-2/3 max-w-[400px] bg-gradient-to-r from-gray-100 dark:from-gray-900"
                     >
+                        <img
+                            src="https://pos.gosuslugi.ru/bin/banner-fluid/gosuslugi-logo-blue.svg"
+                            class="opacity-80 dark:brightness-150 dark:contrast-125"
+                            width="200px"
+                        />
+                        <p class="sm:w-3/4 text-sm">
+                            Есть предложения по организации учебного процесса
+                            или знаете, как сделать школу лучше?
+                        </p>
+                        <UButton @click="feedbackForm = true" class="w-fit"
+                            >Сообщить о проблеме</UButton
+                        >
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
             <section
                 class="max-w-[1200px] w-full mx-auto space-y-4"
                 id="location"
