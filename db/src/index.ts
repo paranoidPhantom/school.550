@@ -22,6 +22,7 @@ const app = new Elysia()
     .use(cors())
     .onError(handleError)
     .get("/*", ({ path }) => {
+        path = decodeURI(path);
         const filePath = `storage${path}`;
         const file = Bun.file(filePath);
         const stats = statSync(join(import.meta.dir, "../", filePath));
@@ -33,35 +34,26 @@ const app = new Elysia()
         return file;
     })
     .onError(handleError)
-    .get(
-        "/list/*",
-        async ({ path, headers }) => {
-            const { fstoken } = headers;
-            await jwtVerify(fstoken, secret);
-
-            const folderPath = `storage${path.split("/list")[1] ?? ""}`;
-            const files = readdirSync(join(import.meta.dir, "../", folderPath));
-            return files.map((file) => {
-                const stats = statSync(
-                    join(import.meta.dir, "../", folderPath, file)
-                );
-                return {
-                    name: file,
-                    size: stats.size,
-                    isDirectory: stats.isDirectory(),
-                };
-            });
-        },
-        {
-            headers: t.Object({
-                fstoken: t.String(),
-            }),
-        }
-    )
+    .get("/list/*", async ({ path, headers }) => {
+        path = decodeURI(path);
+        const folderPath = `storage${path.split("/list")[1] ?? ""}`;
+        const files = readdirSync(join(import.meta.dir, "../", folderPath));
+        return files.map((file) => {
+            const stats = statSync(
+                join(import.meta.dir, "../", folderPath, file)
+            );
+            return {
+                name: file,
+                size: stats.size,
+                isDirectory: stats.isDirectory(),
+            };
+        });
+    })
     .onError(handleError)
     .put(
         "/rename",
         async ({ path, body, headers }) => {
+            path = decodeURI(path);
             const { fstoken } = headers;
             await jwtVerify(fstoken, secret);
 
@@ -85,6 +77,7 @@ const app = new Elysia()
     .delete(
         "/*",
         async ({ path, headers, body }) => {
+            path = decodeURI(path);
             const { fstoken } = headers;
             await jwtVerify(fstoken, secret);
 
@@ -109,6 +102,7 @@ const app = new Elysia()
     .post(
         "/*",
         async ({ path, body, headers }) => {
+            path = decodeURI(path);
             const { fstoken } = headers;
             await jwtVerify(fstoken, secret);
 
@@ -131,6 +125,7 @@ const app = new Elysia()
     .post(
         "/directory/*",
         async ({ path, headers }) => {
+            path = decodeURI(path);
             const { fstoken } = headers;
             await jwtVerify(fstoken, secret);
 
