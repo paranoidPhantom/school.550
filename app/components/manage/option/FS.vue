@@ -49,7 +49,7 @@ const uploadFiles = async (files: FileList) => {
             variant="soft"
             icon="line-md:cloud-upload-outline-loop"
             :class="sectionActive ? 'cursor-zoom-out' : 'cursor-zoom-in'"
-            @click="sectionActive = !sectionActive"
+            @click="sectionActive = sectionActive ? '' : 'true'"
         />
         <template v-if="sectionActive">
             <div class="path">

@@ -89,7 +89,7 @@ const loadDBConfirmation = async () => {
             variant="soft"
             icon="maki:danger"
             :class="sectionActive ? 'cursor-zoom-out' : 'cursor-zoom-in'"
-            @click="sectionActive = !sectionActive"
+            @click="sectionActive = sectionActive ? '' : 'true'"
         />
         <template v-if="sectionActive">
             <UCard>

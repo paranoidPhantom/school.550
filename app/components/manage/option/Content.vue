@@ -166,7 +166,7 @@ const promptDelete = async () => {
             variant="soft"
             icon="line-md:document-code-twotone"
             :class="sectionActive ? 'cursor-zoom-out' : 'cursor-zoom-in'"
-            @click="sectionActive = !sectionActive"
+            @click="sectionActive = sectionActive ? '' : 'true'"
         />
         <template v-if="sectionActive">
             <UProgress

@@ -164,7 +164,7 @@ watch(userRolePicked, (picked) => {
 			variant="soft"
 			icon="ph:identification-badge-duotone"
             :class="sectionActive ? 'cursor-zoom-out' : 'cursor-zoom-in'"
-            @click="sectionActive = !sectionActive"
+            @click="sectionActive = sectionActive ? '' : 'true'"
 		/>
         <template v-if="sectionActive">
 		<div class="flex gap-2">
