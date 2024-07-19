@@ -6,7 +6,8 @@
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
-		"postinstall": "nuxt prepare"
+		"postinstall": "nuxt prepare",
+		"lint": "eslint . --fix"
 	},
 	"type": "module",
 	"trustedDependencies": [
@@ -16,6 +17,7 @@
 		"json-editor-vue"
 	],
 	"devDependencies": {
+		"@nuxt/eslint": "^0.3.13",
 		"@nuxt/fonts": "^0.7.0",
 		"@nuxt/image": "^1.7.0",
 		"@nuxt/ui": "^2.16.0",
