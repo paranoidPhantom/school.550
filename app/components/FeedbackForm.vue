@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const feedbackForm = useState("feedback_form_enabled", () => false);
 
-let msgListener: EventListener | undefined | void = undefined;
+let msgListener: EventListener | undefined = undefined;
 onMounted(() => {
     if (msgListener) {
         return;
@@ -27,8 +27,8 @@ onMounted(() => {
             }"
         >
             <iframe
-                class="w-full h-full"
                 ref="iframe"
+                class="w-full h-full"
                 src="https://pos.gosuslugi.ru/form/?opaId=268828&fz59=false"
                 frameborder="0"
             />

@@ -1,4 +1,4 @@
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async (to) => {
     if (to.path.startsWith("/manage/auth")) {
         const { user } = useTelegramUser();
         const { data: valid } = await useFetch("/api/auth/validate");

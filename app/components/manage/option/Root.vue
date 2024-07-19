@@ -174,9 +174,9 @@ watch(userRolePicked, (picked) => {
 					<UCard>
 						<div class="flex flex-col gap-2 divide-y divide-gray-800">
 							<div
-								class="role flex gap-2 w-80 items-center pt-2"
 								v-for="role in roles"
 								:key="role.key"
+								class="role flex gap-2 w-80 items-center pt-2"
 							>
 								<UBadge
 									variant="soft"
@@ -205,13 +205,13 @@ watch(userRolePicked, (picked) => {
 									<UButton
 										icon="mdi:plus"
 										size="xs"
+										color="gray"
 										@click="
 											createRole(
 												newRoleState.key,
 												newRoleState.description
 											)
 										"
-										color="gray"
 									/>
 								</UButtonGroup>
 							</div>
@@ -223,7 +223,7 @@ watch(userRolePicked, (picked) => {
 				<UButton color="gray" label="Пользователи" />
 				<template #panel>
 					<UCard>
-						<div class="flex flex-col gap-2" v-if="users">
+						<div v-if="users" class="flex flex-col gap-2">
 							<UButtonGroup>
 								<UInputMenu
 									v-model="userActionState.uid"
@@ -233,12 +233,12 @@ watch(userRolePicked, (picked) => {
 								/>
 								<UButton
 									icon="line-md:edit-twotone-full"
+									:disabled="!userFromId"
+									color="gray"
 									@click="
 										userActionState.edit = true;
 										popoverActive = false;
 									"
-									:disabled="!userFromId"
-									color="gray"
 								/>
 							</UButtonGroup>
 							<UButton
@@ -262,7 +262,7 @@ watch(userRolePicked, (picked) => {
 						<h3 class="text-lg font-bold">Добавить пользователя</h3>
 					</template>
 					<UAlert class="mb-4" variant="subtle" color="yellow" title="Пользователь появиться только если он ранее входил" icon="mdi:alert" />
-					<div class="flex gap-2 items-center mb-4" v-if="userFromId">
+					<div v-if="userFromId" class="flex gap-2 items-center mb-4">
 						<UAvatar :src="userFromId.photo_url" size="lg" />
 						<div class="flex flex-col">
 							<h3 class="text-lg font-bold">
@@ -282,8 +282,8 @@ watch(userRolePicked, (picked) => {
 					</div>
 					<UButtonGroup class="w-full">
 						<UInput
-							class="w-full"
 							v-model="userActionState.uid"
+							class="w-full"
 							placeholder="ID пользователя"
 						/>
 						<UButton
@@ -299,7 +299,7 @@ watch(userRolePicked, (picked) => {
 			<UModal v-model="userActionState.edit">
 				<UCard>
 					<template #header>
-						<div class="flex gap-2">
+						<div v-if="userFromId" class="flex gap-2">
 							<UAvatar :src="userFromId.photo_url" size="lg" />
 							<div class="info">
 								<h3 class="text-lg font-bold">
@@ -325,17 +325,18 @@ watch(userRolePicked, (picked) => {
 							:key="role"
 							variant="soft"
 							:color="useKeyToColor(role)"
-							>{{ role }} <UButton v-if="role !== 'root'" class="ml-2" color="white" size="xs" variant="link" :padded="false" icon="mdi:close" @click="revokeUserRole(role)" /></UBadge
-						/>
+							>{{ role }} <UButton v-if="role !== 'root'" class="ml-2" color="white" size="xs" variant="link" :padded="false" icon="mdi:close" @click="revokeUserRole(role)" />
+						</UBadge>
 						<UButtonGroup size="xs">
 							<UInputMenu
+								v-if="roles"
+								v-model="userRolePicked"
 								:options="
 									roles.map((role: Role) => ({
 										label: role.key,
 									}))
 								"
 								value-attribute="label"
-								v-model="userRolePicked"
 								placeholder="Добавить роль"
 							/>
 						</UButtonGroup>

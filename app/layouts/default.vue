@@ -30,7 +30,7 @@ useHead({
             <slot />
         </main>
         <ClientFooter />
-        <Feedback />
+        <FeedbackForm />
     </div>
 </template>
 

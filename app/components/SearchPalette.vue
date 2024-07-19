@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { SearchResponse } from "@nuxtjs/algolia";
+
 const {
     public: { environment },
 } = useRuntimeConfig();
@@ -9,14 +11,19 @@ const enabled = useState("search_palette", () => false);
 const results = [
     {
         key: "results",
-        label: (q) => q && `Результаты поиска "${q}"`,
-        search: async (q) => {
+        label: (q: string) => q && `Результаты поиска "${q}"`,
+        search: async (q: string) => {
             if (!q) {
                 return [];
             }
 
-            const { hits } = await search({ query: q });
-            return hits.map((hit: Record<string, any>) => {
+            const { hits } = await search({ query: q }) as SearchResponse<{
+				title: string;
+				description: string;
+				slug: string;
+				content: string;
+			}>;
+            return hits.map((hit) => {
                 return {
                     label: hit.title,
                     suffix: hit.description,
@@ -42,7 +49,6 @@ defineShortcuts({
 <template>
     <UModal v-model="enabled">
         <UCommandPalette
-            @update:model-value="(option) => onNavigate(option.to)"
             :groups="results"
             :autoselect="false"
             placeholder="Поиск..."
@@ -51,6 +57,7 @@ defineShortcuts({
                 label: 'Ничего не найдено',
                 queryLabel: 'Мы не нашли ничего по вашему запросу.',
             }"
+            @update:model-value="(option) => onNavigate(option.to)"
         >
             <template #empty-state>
                 <div

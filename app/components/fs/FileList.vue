@@ -13,7 +13,7 @@ const emit = defineEmits<{
 const selectedFiles = defineModel<Set<string>>("selected");
 if (!selectedFiles.value) selectedFiles.value = new Set();
 
-watch(props.files, () => {
+watch(() => props.files, () => {
     if (selectedFiles.value) selectedFiles.value.clear();
 });
 
@@ -59,8 +59,9 @@ const handleFileUpload = (event: DragEvent) => {
         @dragover="enterdragAndDrop"
         @drop="handleFileUpload"
     >
-        <Transition name="dnd-overlay" v-if="uploadOverlay">
+        <Transition name="dnd-overlay">
             <div
+				v-if="uploadOverlay"
                 class="absolute inset-0 pointer-events-none bg-opacity-50 bg-white dark:bg-opacity-50 dark:bg-black flex items-center flex-col gap-2 rounded-md p-4"
             >
                 <UIcon class="text-3xl" name="line-md:uploading-loop" />
@@ -78,13 +79,13 @@ const handleFileUpload = (event: DragEvent) => {
             <div
                 v-for="file in files"
                 :key="file.name"
-                @click="onClick(file)"
-                @dblclick="$emit('fileAction', file)"
                 :class="{
                     'bg-gray-200 dark:bg-gray-700':
                         selectedFiles && selectedFiles.has(file.name),
                 }"
                 class="flex items-center gap-4 justify-between p-1 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                @click="onClick(file)"
+                @dblclick="$emit('fileAction', file)"
             >
                 <!-- Left -->
                 <div class="flex items-center gap-2">

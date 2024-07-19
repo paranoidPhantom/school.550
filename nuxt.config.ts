@@ -38,6 +38,7 @@ export default defineNuxtConfig({
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
         "nuxt-monaco-editor",
+        "@nuxt/eslint"
     ],
 
     routeRules: {

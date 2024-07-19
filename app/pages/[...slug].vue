@@ -5,17 +5,12 @@ definePageMeta({
     middleware: ["content"],
 });
 
-interface ASTData {
-    title: string;
-    description: string;
-}
-
 const {
     meta: { md },
     params: { slug },
 } = useRoute();
 
-const { data: ast } = await useAsyncData<{ data: ASTData; body: any }>(
+const { data: ast } = await useAsyncData<typeof parseMarkdown>(
     `md_${slug}`,
     () => parseMarkdown(md)
 );
@@ -37,7 +32,7 @@ watch(ast, refreshSeo);
 </script>
 
 <template>
-    <div :class="`__dynamic_${slug}`">
+    <div v-if="ast" :class="`__dynamic_${slug}`" >
         <MarkdownFormatter>
             <MDCRenderer :body="ast.body" :data="ast.data" />
         </MarkdownFormatter>

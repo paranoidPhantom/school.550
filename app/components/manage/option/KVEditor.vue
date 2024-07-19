@@ -27,7 +27,9 @@ watch(state, () => refreshValue());
 watch(fetchedValue, () => {
     try {
         json.value = JSON.stringify(fetchedValue.value, null, 4);
-    } catch (error) {}
+    } catch (error) {
+		console.error(error)
+	}
 });
 
 const write = async () => {
@@ -59,7 +61,7 @@ const confirmationPhraseInput = ref("");
 const loadDB = async () => {
     if (backedUp.value) {
         await open();
-        const newDB = await data.value;
+		await data.value;
         loadConfirmation.value = true;
     } else {
         toast.add({
@@ -105,43 +107,43 @@ const loadDBConfirmation = async () => {
                             target="_blank"
                         />
                         <UBadge
+                            v-if="!fetchedValue"
                             variant="subtle"
                             color="rose"
-                            v-if="!fetchedValue"
                             >fetched value is undefined</UBadge
                         >
                     </h3>
                     <UButtonGroup class="mb-4">
                         <USelect
-                            :color="state.env === 'production' ? 'red' : 'gray'"
                             v-model="state.env"
+                            :color="state.env === 'production' ? 'red' : 'gray'"
                             :options="envs"
                         />
                         <UInput
+                            v-model="state.key"
                             :color="state.env === 'production' ? 'red' : 'gray'"
                             placeholder="Key"
-                            v-model="state.key"
-                        ></UInput>
+                        />
 
                         <UButton
-                            @click="write"
                             icon="mdi:database-alert-outline"
                             :disabled="
                                 json === JSON.stringify(fetchedValue, null, 4)
                             "
                             :color="state.env === 'production' ? 'red' : 'gray'"
+                            @click="write"
                         />
                     </UButtonGroup>
                     <MonacoEditor
-                        lang="json"
                         v-model="json"
+                        lang="json"
                         class="h-96 mb-4"
                         :options="{
                             theme:
                                 colorMode.value === 'dark' ? 'vs-dark' : 'vs',
                         }"
                     />
-                    <hr class="opacity-20 mb-4" />
+                    <hr class="opacity-20 mb-4" >
                     <UAlert
                         color="red"
                         variant="soft"
@@ -165,8 +167,8 @@ const loadDBConfirmation = async () => {
                                     icon="mdi:database-import"
                                     color="red"
                                     variant="outline"
-                                    @click="loadDB"
                                     label="Replace DB"
+                                    @click="loadDB"
                                 />
                             </div>
                         </template>
@@ -184,8 +186,8 @@ const loadDBConfirmation = async () => {
                         >
                             <div class="flex flex-col gap-2 h-full">
                                 <MonacoEditor
-                                    lang="json"
                                     v-model="data"
+                                    lang="json"
                                     class="h-[600px]"
                                     :options="{
                                         theme:
@@ -196,9 +198,9 @@ const loadDBConfirmation = async () => {
                                 />
                                 <div class="p-2 flex flex-col gap-4">
                                     <UInput
+                                        v-model="confirmationPhraseInput"
                                         color="red"
                                         :placeholder="confirmationPhrase"
-                                        v-model="confirmationPhraseInput"
                                     />
                                     <UButton
                                         color="red"

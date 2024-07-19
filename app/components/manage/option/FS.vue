@@ -19,7 +19,7 @@ const currentPath = computed(() => `/${explorerState.pathFragments.join("/")}`);
 
 const { data: currentPathFiles, refresh: refreshCurrentPathFiles } =
     await useAsyncData(
-        `${currentPath}_list`,
+        `${currentPath.value}_list`,
         () => useFS(`/list${currentPath.value}`, {}) as Promise<File[]>,
         {
             server: false,
@@ -82,6 +82,7 @@ const handleFileAction = (file: File) => {
                 </template>
                 <div
                     v-for="file in operationState.files"
+					:key="file.name"
                     class="flex items-center justify-between"
                 >
                     <div class="flex items-center gap-2">
@@ -104,6 +105,7 @@ const handleFileAction = (file: File) => {
                         </UButton>
                         <template
                             v-for="(node, index) in explorerState.pathFragments"
+							:key="node"
                         >
                             <UIcon name="codicon:arrow-right" />
                             <UButton
@@ -124,11 +126,11 @@ const handleFileAction = (file: File) => {
                     </div>
                 </template>
                 <FsFileList
+                    v-model:selected="explorerState.selectedFiles"
                     :files="currentPathFiles"
                     selectable
                     @file-action="handleFileAction"
                     @file-upload="uploadFiles"
-                    v-model:selected="explorerState.selectedFiles"
                 />
                 <template #footer>
                     <div class="flex items-center gap-4">

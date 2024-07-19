@@ -187,12 +187,12 @@ const promptDelete = async () => {
             <div>
                 <UButtonGroup class="w-full">
                     <UInputMenu
+                        v-model="editContentState.slug"
+                        v-model:query="newPageSlug"
                         class="w-full"
                         :options="content"
                         value-attribute="label"
                         placeholder="URL страницы"
-                        v-model="editContentState.slug"
-                        v-model:query="newPageSlug"
                         name="content-slug"
                     >
                         <template #option-empty="{ query }">
@@ -204,35 +204,35 @@ const promptDelete = async () => {
                     </UInputMenu>
 
                     <UButton
+                        v-show="newPageSlug !== editContentState.slug"
                         color="gray"
                         icon="line-md:plus"
-                        v-show="newPageSlug !== editContentState.slug"
                         @click="createNewPage"
                     />
                     <UButton
+                        v-show="gotSomeMD"
                         color="gray"
                         icon="material-symbols:eye-tracking-outline-rounded"
-                        v-show="gotSomeMD"
                         :to="editContentState.slug"
                         target="_blank"
                     />
                     <UButton
                         color="gray"
                         icon="akar-icons:save"
-                        @click="savePage"
                         :disabled="
                             fetchedMD === editContentState.md || !gotSomeMD
                         "
+                        @click="savePage"
                     />
                     <UButton
                         color="red"
                         icon="material-symbols:delete-outline"
-                        @click="promptDelete"
                         :disabled="!gotSomeMD"
+                        @click="promptDelete"
                     />
                 </UButtonGroup>
             </div>
-            <div class="flex flex-wrap" v-if="gotSomeMD">
+            <div v-if="gotSomeMD" class="flex flex-wrap">
                 <ClientOnly>
                     <MDEditor
                         v-if="typeof editContentState.md === 'string'"
@@ -242,10 +242,10 @@ const promptDelete = async () => {
                         }"
                         class="w-full xl:!w-1/2 rounded-t-xl xl:rounded-l-xl xl:rounded-r-none"
                         language="ru"
-                        codeTheme="github"
-                        previewTheme="github"
-                        editorId="md-editor-manage"
-                        :onUploadImg="async () => 'url'"
+                        code-theme="github"
+                        preview-theme="github"
+                        editor-id="md-editor-manage"
+                        :on-upload-img="async () => 'url'"
                         :toolbars="[
                             'bold',
                             'underline',

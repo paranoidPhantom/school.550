@@ -20,14 +20,14 @@ const ytID = ({ url }: (typeof ytVids)[number]) =>
 <template>
     <div class="__learn p-4 flex flex-col gap-4">
         <h1 class="text-2xl font-semibold">Ресурсы</h1>
-        <hr class="opacity-10" />
+        <hr class="opacity-10" >
         <div class="flex flex-wrap gap-2">
             <UCard
                 v-for="vid in ytVids"
                 :key="vid.url"
                 class="cursor-pointer w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
-                @click="navigateTo(vid.url, { external: true })"
                 :ui="{ body: { padding: '!px-4 !py-4' } }"
+                @click="navigateTo(vid.url, { external: true })"
             >
                 <div class="flex flex-col gap-4">
                     <img
@@ -37,8 +37,8 @@ const ytID = ({ url }: (typeof ytVids)[number]) =>
                             vid
                         )}/sddefault.jpg`"
                         :alt="vid.title"
-                    />
-                    <hr class="opacity-10" />
+                    >
+                    <hr class="opacity-10" >
                     <h3 class="text-lg font-semibold">{{ vid.title }}</h3>
                 </div>
             </UCard>

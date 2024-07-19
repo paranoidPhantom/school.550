@@ -34,7 +34,7 @@ const app = new Elysia()
         return file;
     })
     .onError(handleError)
-    .get("/list/*", async ({ path, headers }) => {
+    .get("/list/*", async ({ path }) => {
         path = decodeURI(path);
         const folderPath = `storage${path.split("/list")[1] ?? ""}`;
         const files = readdirSync(join(import.meta.dir, "../", folderPath));
@@ -52,8 +52,7 @@ const app = new Elysia()
     .onError(handleError)
     .put(
         "/rename",
-        async ({ path, body, headers }) => {
-            path = decodeURI(path);
+        async ({ body, headers }) => {
             const { fstoken } = headers;
             await jwtVerify(fstoken, secret);
 

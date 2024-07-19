@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import type { NuxtError } from "#app";
 import { useMouse } from "@vueuse/core";
 
-const { error } = defineProps(["error"]);
+const { error } = defineProps<{
+	error: NuxtError
+}>();
 const comment = ref();
 
 switch (error.statusCode) {
@@ -37,12 +40,12 @@ const barcode = computed(() => `${error.statusCode} ${error.message}`);
                 :style="`translate: ${displacement.x}% ${displacement.y}%;`"
                 class="a hidden sm:block"
                 src="/images/question_mark.svg"
-            />
+            >
             <img
                 :style="`translate: ${displacement.x}% ${displacement.y}%;`"
                 class="b"
                 src="/images/question_mark.svg"
-            />
+            >
         </div>
         <div class="error-wrapper">
             <h1 class="text-center">

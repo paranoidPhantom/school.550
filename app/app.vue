@@ -21,7 +21,7 @@ onMounted(async () => {
     <NuxtLayout>
         <NuxtPage />
     </NuxtLayout>
-    <Search />
+    <SearchPalette />
     <UNotifications />
     <SpeedInsights />
 </template>

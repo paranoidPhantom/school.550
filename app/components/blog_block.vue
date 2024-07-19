@@ -1,13 +1,13 @@
 <template>
 <div class="w-[378px] max-[1670px]:w-[448px] max-[500px]:w-[300px]">
     <div class="relative"> 
-        <img src="/images/hand.svg" class="max-[1670px]:w-[448px]"/>
+        <img src="/images/hand.svg" class="max-[1670px]:w-[448px]">
         <div class="absolute top-4 left-[50%] -translate-x-1/2 bg-white rounded-3xl p-2 flex space-x-4"> 
-            <img src="/images/kalendar_ison.svg"/>
+            <img src="/images/kalendar_ison.svg">
             <p>05.12.2023</p>
         </div>
         <div class="absolute bottom-2 left-[50%] bg-white rounded-3xl p-2 flex place-items-center -translate-x-1/2"> 
-            <img src="/images/author_photo.svg"/>
+            <img src="/images/author_photo.svg">
             <p>{{ name.second_name }}</p>
         </div>
     </div>

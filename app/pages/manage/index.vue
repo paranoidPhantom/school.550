@@ -49,11 +49,11 @@ const kvEditors = [5491328220];
                 <ManageOptionKVEditor />
             </DevOnly>
             <UAlert
+                v-if="perms.length === 0"
                 title="У вас пока нет доступа ни к одной части сайта"
                 color="yellow"
                 variant="subtle"
                 icon="line-md:alert-loop"
-                v-if="perms.length === 0"
             >
                 <template #description>
                     <p class="text-sm">
@@ -65,7 +65,7 @@ const kvEditors = [5491328220];
                     </p>
                 </template>
             </UAlert>
-            <div class="flex flex-col gap-4" v-else>
+            <div v-else class="flex flex-col gap-4">
                 <ManageOptionRoot v-if="perms.includes('root')" />
                 <ManageOptionContent v-if="perms.includes('edit_content')" />
                 <ManageOptionFS v-if="perms.includes('fs')" />

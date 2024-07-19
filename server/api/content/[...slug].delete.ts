@@ -18,9 +18,8 @@ export default defineEventHandler(async (event) => {
         );
 
         const algolia = algoliasearch(
-            // @ts-expect-error
-            process.env.ALGOLIA_APPLICATION_ID,
-            process.env.ALGOLIA_API_KEY
+            process.env.ALGOLIA_APPLICATION_ID as string,
+            process.env.ALGOLIA_API_KEY as string
         );
         const index = algolia.initIndex(`pages_${environment}`);
 

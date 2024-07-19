@@ -1,5 +1,3 @@
-import type { Role } from "../../../types/role";
-
 export default defineEventHandler(async (event) => {
     // ROOT ONLY
     const storage = useStorage(event.context.storage_driver);

@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
                     return createHmac("sha256", key).update(value).digest();
                 };
 
-                const hex = (bytes: any) => {
+                const hex = (bytes: Buffer) => {
                     return bytes.toString("hex");
                 };
 

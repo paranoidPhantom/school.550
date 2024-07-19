@@ -1,6 +1,6 @@
 export default (fileSizeInBytes: number) => {
-    var i = -1;
-    var byteUnits = [" КБ", " МБ", " ГБ", " ТБ", "ПБ", "ЭБ", "ЗБ", "ЙБ"];
+    let i = -1;
+    const byteUnits = [" КБ", " МБ", " ГБ", " ТБ", "ПБ", "ЭБ", "ЗБ", "ЙБ"];
     do {
         fileSizeInBytes /= 1024;
         i++;
