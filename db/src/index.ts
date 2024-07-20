@@ -3,6 +3,30 @@ import { join } from "node:path";
 import { Elysia, t } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { jwtVerify } from "jose";
+import { FtpSrv } from "ftp-srv";
+
+const port = 9876;
+const server = new FtpSrv({
+    url: "ftp://0.0.0.0:" + port,
+    anonymous: true,
+    greeting: [
+        "-".repeat(20),
+        "Welcome to school.550 storage server",
+        "-".repeat(20),
+    ],
+});
+
+server.on("login", ({ username, password }, resolve, reject) => {
+    console.log("User requesting login:", username);
+    if (username === "anonymous" && password === "anonymous") {
+        return resolve({ root: join(import.meta.dir, "../", "storage") });
+    }
+    return reject();
+});
+
+server.listen().then(() => {
+    console.log("Ftp server is starting...");
+});
 
 const secret = new TextEncoder().encode(Bun.env.FILE_SERVER_SIGNATURE);
 
