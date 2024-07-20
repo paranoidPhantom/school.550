@@ -5,13 +5,13 @@ import { cors } from "@elysiajs/cors";
 import { jwtVerify } from "jose";
 import { FtpSrv } from "ftp-srv";
 
-const port = 9876;
+const port = 21;
 const server = new FtpSrv({
-    url: "ftp://0.0.0.0:" + port,
+    url: "ftp://127.0.0.1:" + port,
     anonymous: true,
     greeting: [
         "-".repeat(20),
-        "Welcome to school.550 storage server",
+        "Добро пожаловать в файловый сервер школы 550",
         "-".repeat(20),
     ],
 });
