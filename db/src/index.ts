@@ -58,9 +58,15 @@ const app = new Elysia()
 
             const { from, to } = body;
 
-            const renamingFile = Bun.file(`storage${from}`);
-            Bun.write(`storage${to}`, renamingFile);
-            unlinkSync(join(import.meta.dir, "../", `storage${from}`));
+            try {
+                const renamingFile = await Bun.file(`storage${from}`);
+                await Bun.write(`storage${to}`, renamingFile);
+                unlinkSync(join(import.meta.dir, "../", `storage${from}`));
+            } catch (error) {
+                return new Response((error as Error).message, {
+                    status: 400,
+                });
+            }
         },
         {
             body: t.Object({
@@ -104,12 +110,19 @@ const app = new Elysia()
             path = decodeURI(path);
             const { fstoken } = headers;
             await jwtVerify(fstoken, secret);
-
-            const folderPath = `storage${path}`;
-            const { files } = body;
-            files.forEach((file) =>
-                Bun.write(`${folderPath}/${file.name}`, file)
-            );
+            try {
+                const folderPath = `storage${path}`;
+                const { files } = body;
+                await Promise.all(
+                    files.map((file) =>
+                        Bun.write(`${folderPath}/${file.name}`, file)
+                    )
+                );
+            } catch (error) {
+                return new Response((error as Error).message, {
+                    status: 500,
+                });
+            }
         },
         {
             headers: t.Object({
