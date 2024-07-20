@@ -7,17 +7,21 @@ const {
 
 const sectionActive = useCookie("admin_section_fs");
 
+const toast = useToast();
+
 const explorerState = reactive<{
     pathFragments: string[];
     selectedFiles: Set<string>;
+    rightClickedFile: File | undefined;
 }>({
     pathFragments: [],
     selectedFiles: new Set(),
+    rightClickedFile: undefined,
 });
 
 const currentPath = computed(() => `/${explorerState.pathFragments.join("/")}`);
 
-const { data: currentPathFiles, refresh: refreshCurrentPathFiles } =
+const { data: currentPathFiles, refresh: refreshCurrentPathFilesNow } =
     await useAsyncData(
         `${currentPath.value}_list`,
         () => useFS(`/list${currentPath.value}`, {}) as Promise<File[]>,
@@ -27,10 +31,13 @@ const { data: currentPathFiles, refresh: refreshCurrentPathFiles } =
         }
     );
 
+const refreshCurrentPathFiles = () =>
+    setTimeout(refreshCurrentPathFilesNow, 100);
+
 const operationState = reactive<{
     active: boolean;
     opeartion: string | null;
-    files?: FileList;
+    files?: FileList | string[];
 }>({
     active: false,
     opeartion: null,
@@ -42,6 +49,7 @@ const uploadFiles = async (files: FileList) => {
     for (const file of files) {
         formData.append("files", file, file.name);
     }
+    if (files.length === 0) return;
     try {
         operationState.active = true;
         operationState.opeartion = "Загрузка файлов...";
@@ -60,6 +68,63 @@ const uploadFiles = async (files: FileList) => {
 const handleFileAction = (file: File) => {
     if (file.isDirectory) explorerState.pathFragments.push(file.name);
     else window.open(`${file_server_url}${currentPath.value}/${file.name}`);
+};
+
+const deleteFiles = async (fileNames: string[]) => {
+    try {
+        operationState.active = true;
+        operationState.opeartion = "Удаление...";
+        operationState.files = fileNames;
+        await useFS(`${currentPath.value}`, {
+            method: "DELETE",
+            body: { files: fileNames },
+        });
+    } catch (error) {
+        toast.add({
+            title: "Ошибка удаления",
+            description: (error as Error).message,
+        });
+    }
+    operationState.active = false;
+    refreshCurrentPathFiles();
+};
+
+const renameState = reactive<{
+    name: string;
+    active: boolean;
+    newName: string;
+}>({
+    name: "",
+    active: false,
+    newName: "",
+});
+
+const renameFile = async () => {
+    try {
+        operationState.active = true;
+        operationState.opeartion = "Переименование...";
+        operationState.files = [renameState.name];
+        await useFS(`/rename`, {
+            method: "PUT",
+            body: {
+                from: `${explorerState.pathFragments.join("/")}/${
+                    renameState.name
+                }`,
+                to: `${explorerState.pathFragments.join("/")}/${
+                    renameState.newName
+                }`,
+            },
+        });
+        refreshCurrentPathFiles();
+        renameState.newName = "";
+    } catch (error) {
+        toast.add({
+            title: "Ошибка переименования",
+            description: (error as Error).message,
+        });
+    }
+    operationState.active = false;
+    renameState.active = false;
 };
 </script>
 
@@ -82,15 +147,39 @@ const handleFileAction = (file: File) => {
                 </template>
                 <div
                     v-for="file in operationState.files"
-					:key="file.name"
+                    :key="typeof file === 'string' ? file : file.name"
                     class="flex items-center justify-between"
                 >
                     <div class="flex items-center gap-2">
                         <UIcon name="svg-spinners:ring-resize" />
-                        <p class="text-truncate">{{ file.name }}</p>
+                        <p class="text-truncate">
+                            {{ typeof file === "string" ? file : file.name }}
+                        </p>
                     </div>
-                    <p>{{ useFormattedFileSize(file.size) }}</p>
+                    <p v-if="typeof file !== 'string'">
+                        {{ useFormattedFileSize(file.size) }}
+                    </p>
                 </div>
+            </UCard>
+        </UModal>
+        <UModal v-model="renameState.active">
+            <UCard>
+                <template #header>
+                    <h3 class="text-xl font-semibold">
+                        Переименовать файл - {{ renameState.name }}
+                    </h3>
+                </template>
+                <UInput
+                    v-model="renameState.newName"
+                    placeholder="Новое название"
+                    class="mb-4"
+                />
+                <UButton
+                    label="Переименовать"
+                    color="gray"
+                    :disabled="!renameState.newName"
+                    @click="renameFile"
+                />
             </UCard>
         </UModal>
         <template v-if="sectionActive">
@@ -105,7 +194,7 @@ const handleFileAction = (file: File) => {
                         </UButton>
                         <template
                             v-for="(node, index) in explorerState.pathFragments"
-							:key="node"
+                            :key="node"
                         >
                             <UIcon name="codicon:arrow-right" />
                             <UButton
@@ -127,11 +216,58 @@ const handleFileAction = (file: File) => {
                 </template>
                 <FsFileList
                     v-model:selected="explorerState.selectedFiles"
+                    v-model:right-clicked-file="explorerState.rightClickedFile"
                     :files="currentPathFiles"
                     selectable
                     @file-action="handleFileAction"
                     @file-upload="uploadFiles"
-                />
+                >
+                    <template #file-options>
+                        <UButtonGroup orientation="vertical">
+                            <UButton
+                                label="Переименовать"
+                                color="gray"
+                                @click="
+                                    () => {
+                                        if (explorerState.rightClickedFile) {
+                                            renameState.active = true;
+                                            renameState.name =
+                                                explorerState.rightClickedFile?.name;
+                                            renameState.newName =
+                                                explorerState.rightClickedFile?.name;
+                                        }
+                                    }
+                                "
+                            />
+                            <UButton
+                                label="Удалить"
+                                color="gray"
+                                @click="
+                                    () => {
+                                        if (explorerState.rightClickedFile)
+                                            deleteFiles([
+                                                explorerState.rightClickedFile
+                                                    .name,
+                                            ]);
+                                    }
+                                "
+                            />
+                            <UButton
+                                v-if="
+                                    explorerState.selectedFiles &&
+                                    explorerState.selectedFiles.size > 1
+                                "
+                                :label="`Удалить выбранные - ${explorerState.selectedFiles.size}`"
+                                color="gray"
+                                @click="
+                                    deleteFiles(
+                                        Array.from(explorerState.selectedFiles)
+                                    )
+                                "
+                            />
+                        </UButtonGroup>
+                    </template>
+                </FsFileList>
                 <template #footer>
                     <div class="flex items-center gap-4">
                         <UTooltip text="Загрузить файлы в выбранную папку">
