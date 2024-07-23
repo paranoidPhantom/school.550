@@ -126,6 +126,30 @@ const renameFile = async () => {
     operationState.active = false;
     renameState.active = false;
 };
+
+const newFolderState = reactive<{
+    name: string;
+}>({
+    name: "",
+});
+
+const createFolder = async () => {
+    try {
+        operationState.opeartion = "Создание папки...";
+        operationState.files = [newFolderState.name];
+        await useFS(`/directory${currentPath.value}/${newFolderState.name}`, {
+            method: "POST",
+        });
+        refreshCurrentPathFiles();
+        newFolderState.name = "";
+    } catch (error) {
+        toast.add({
+            title: "Ошибка создания папки",
+            description: (error as Error).message,
+        });
+    }
+    operationState.active = false;
+};
 </script>
 
 <template>
@@ -156,7 +180,7 @@ const renameFile = async () => {
                             {{ typeof file === "string" ? file : file.name }}
                         </p>
                     </div>
-                    <p v-if="typeof file !== 'string'">
+                    <p v-if="typeof file !== 'string' && !file.isDirectory">
                         {{ useFormattedFileSize(file.size) }}
                     </p>
                 </div>
@@ -227,6 +251,9 @@ const renameFile = async () => {
                             <UButton
                                 label="Переименовать"
                                 color="gray"
+                                v-if="
+                                    !explorerState.rightClickedFile.isDirectory
+                                "
                                 @click="
                                     () => {
                                         if (explorerState.rightClickedFile) {
@@ -279,6 +306,22 @@ const renameFile = async () => {
                                 multiple
                                 @change="uploadFiles"
                             />
+                        </UTooltip>
+                        <UTooltip text="Создать папку">
+                            <UButtonGroup>
+                                <UInput
+                                    v-model="newFolderState.name"
+                                    placeholder="Название папки"
+                                    size="xs"
+                                    class="w-fit"
+                                />
+                                <UButton
+                                    size="xs"
+                                    icon="mdi:plus"
+                                    color="gray"
+                                    @click="createFolder"
+                                />
+                            </UButtonGroup>
                         </UTooltip>
                         <p v-show="explorerState.selectedFiles.size > 0">
                             Выбран(о)
