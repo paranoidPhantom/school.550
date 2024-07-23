@@ -1,4 +1,10 @@
-import { unlinkSync, readdirSync, statSync, mkdirSync } from "node:fs";
+import {
+    unlinkSync,
+    readdirSync,
+    statSync,
+    mkdirSync,
+    rmdirSync,
+} from "node:fs";
 import { join } from "node:path";
 import { Elysia, t } from "elysia";
 import { cors } from "@elysiajs/cors";
@@ -60,6 +66,7 @@ const app = new Elysia()
 
             try {
                 const renamingFile = await Bun.file(`storage${from}`);
+
                 await Bun.write(`storage${to}`, renamingFile);
                 unlinkSync(join(import.meta.dir, "../", `storage${from}`));
             } catch (error) {
@@ -88,11 +95,20 @@ const app = new Elysia()
 
             const folderPath = `storage${path}`;
             const { files } = body;
-            files.forEach((file) =>
-                unlinkSync(
+            files.forEach((file) => {
+                const fileInfo = statSync(
                     join(import.meta.dir, "../", `${folderPath}/${file}`)
-                )
-            );
+                );
+                if (fileInfo.isDirectory()) {
+                    rmdirSync(
+                        join(import.meta.dir, "../", `${folderPath}/${file}`)
+                    );
+                } else {
+                    unlinkSync(
+                        join(import.meta.dir, "../", `${folderPath}/${file}`)
+                    );
+                }
+            });
         },
         {
             body: t.Object({
