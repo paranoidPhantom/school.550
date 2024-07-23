@@ -38,7 +38,7 @@ export default defineNuxtConfig({
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
         "nuxt-monaco-editor",
-        "@nuxt/eslint"
+        "@nuxt/eslint",
     ],
 
     routeRules: {
@@ -65,7 +65,7 @@ export default defineNuxtConfig({
     site: {
         url: "https://portal.ort.spb.ru",
         name: "Школа №550",
-        description: "Официальный портал ГБОУ СОШ №550",
+        description: "Официальный портал школы №550",
         defaultLocale: "ru",
     },
 
