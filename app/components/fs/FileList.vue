@@ -22,7 +22,7 @@ watch(
 );
 
 const onClick = (file: File) => {
-    if (file.isDirectory || !props.selectable || !selectedFiles.value) return;
+    if (!props.selectable || !selectedFiles.value) return;
 
     if (selectedFiles.value.has(file.name)) {
         selectedFiles.value.delete(file.name);
@@ -140,7 +140,7 @@ function onContextMenu(file: File) {
                     <span>{{ file.name }}</span>
                 </div>
                 <!-- Right -->
-                <div class="text-sm text-gray-500">
+                <div v-if="!file.isDirectory" class="text-sm text-gray-500">
                     {{ useFormattedFileSize(file.size) }}
                 </div>
             </div>
