@@ -24,7 +24,7 @@ useHead({
 </script>
 
 <template>
-    <div class="__layout-default pb-32">
+    <div class="__layout-default">
         <ClientHeader />
         <main class="px-4 mt-4 md:px-8 pb-4">
             <slot />
