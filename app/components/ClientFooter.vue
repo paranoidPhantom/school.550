@@ -9,7 +9,7 @@ onMounted(() => {
 <template>
     <footer class="w-full mt-4">
         <UDivider class="w-full" />
-        <section class="h-40 md:h-64"></section>
+        <section class="h-40 md:h-64"/>
         <UDivider class="w-full">
             <div class="flex items-center gap-4">
                 <UBadge size="lg" color="gray" class="flex items-center gap-2">

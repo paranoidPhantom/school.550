@@ -249,11 +249,11 @@ const createFolder = async () => {
                     <template #file-options>
                         <UButtonGroup orientation="vertical">
                             <UButton
-                                label="Переименовать"
-                                color="gray"
                                 v-if="
                                     !explorerState.rightClickedFile.isDirectory
                                 "
+                                label="Переименовать"
+                                color="gray"
                                 @click="
                                     () => {
                                         if (explorerState.rightClickedFile) {
