@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computedAsync } from "@vueuse/core";
+import type * as Monaco from "monaco-editor";
 
 const sectionActive = useCookie("admin_section_content");
 
@@ -141,6 +142,79 @@ const promptDelete = async () => {
 };
 
 const colorMode = useColorMode();
+
+const editor = ref<Monaco.editor.ICodeEditor | null>(null);
+
+const getSelection = () => {
+    if (editor.value) {
+        const model = editor.value.getModel();
+        const selection = editor.value.getSelection();
+
+        if (model && selection) {
+            const start = model.getOffsetAt(selection.getStartPosition());
+            const end = model.getOffsetAt(selection.getEndPosition());
+            return { start, end };
+        }
+    }
+    return { start: 0, end: 0 };
+};
+
+const initialSetupEditor = (editorPassed: Monaco.editor.ICodeEditor) => {
+    editor.value = editorPassed;
+};
+
+const monaco = useMonaco();
+onMounted(() => {
+    setTimeout(() => {
+        if (monaco && import.meta.client) {
+            const { editor } = monaco;
+            const editors = editor.getEditors();
+            editors.map(initialSetupEditor);
+        }
+    }, 100);
+});
+
+// const wrapSelection = (wrapper: string) => {
+//     const { start, end } = getSelection();
+//     const wrapperLength = wrapper.length;
+//     const checkString = state.md;
+//     if (editor.value) {
+//         if (
+//             checkString.slice(start - wrapperLength, start) === wrapper &&
+//             checkString.slice(end, end + wrapperLength) === wrapper
+//         ) {
+//             console.log("Already wrapped");
+//             // Unwrap if already wrapped
+//             editor.value.pushEditOperations([
+//                 {
+//                     range: new Range(
+//                         start - wrapperLength,
+//                         start,
+//                         end + wrapperLength,
+//                         end
+//                     ),
+//                     text: checkString.slice(start, end),
+//                 },
+//             ]);
+//         } else {
+//             // Wrap
+//             editor.value.pushEditOperations([
+//                 {
+//                     range: new Range(start, start),
+//                     text: wrapper,
+//                 },
+//                 {
+//                     range: new Range(end, end),
+//                     text: wrapper,
+//                 },
+//             ]);
+//         }
+//     }
+// };
+
+// defineShortcuts({
+//     meta_b: { handler: () => wrapSelection("**"), usingInput: true },
+// });
 </script>
 
 <template>
@@ -207,29 +281,25 @@ const colorMode = useColorMode();
                     />
                 </UButtonGroup>
             </div>
-            <div v-if="gotSomeMD" class="flex flex-wrap">
-                <ClientOnly>
-                    <div
-                        class="w-full xl:!w-1/2 rounded-t-xl xl:rounded-l-xl xl:rounded-r-none"
-                    >
-                        <MonacoEditor
-                            v-model="state.md"
-                            lang="markdown"
-                            class="h-full"
-                            :options="{
-                                theme:
-                                    colorMode.value === 'dark'
-                                        ? 'vs-dark'
-                                        : 'vs',
-                            }"
-                        />
-                    </div>
-                    <MarkdownFormatter
-                        class="border border-gray-200 dark:border-gray-800 w-full xl:w-1/2 rounded-b-xl xl:rounded-r-xl xl:rounded-l-none px-4 min-h-96"
-                    >
-                        <MDC v-if="state.md" class="mt-4" :value="state.md" />
-                    </MarkdownFormatter>
-                </ClientOnly>
+            <div v-if="gotSomeMD" class="flex flex-wrap max-h-screen">
+                <div
+                    class="w-full xl:!w-1/2 overflow-hidden min-h-96 max-h-screen flex flex-col xl:flex-1"
+                >
+                    <MonacoEditor
+                        v-model="state.md"
+                        lang="markdown"
+                        class="h-full flex-grow"
+                        :options="{
+                            theme:
+                                colorMode.value === 'dark' ? 'vs-dark' : 'vs',
+                        }"
+                    />
+                </div>
+                <MarkdownFormatter
+                    class="border border-gray-200 dark:border-gray-800 w-full xl:w-1/2 px-4 max-h-screen overflow-auto"
+                >
+                    <MDC v-if="state.md" class="mt-4" :value="state.md" />
+                </MarkdownFormatter>
             </div>
         </template>
     </div>
