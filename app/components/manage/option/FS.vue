@@ -28,6 +28,7 @@ const { data: currentPathFiles, refresh: refreshCurrentPathFilesNow } =
         {
             server: false,
             watch: [currentPath],
+            transform: (data) => data ?? [],
         }
     );
 
