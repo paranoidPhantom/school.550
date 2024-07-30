@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { computedAsync } from "@vueuse/core";
-import { config } from "md-editor-v3";
-import RU from "@vavt/cm-extension/dist/locale/ru";
-import "md-editor-v3/lib/style.css";
+import type * as Monaco from "monaco-editor";
 
 const sectionActive = useCookie("admin_section_content");
 
@@ -12,23 +10,11 @@ const toast = useToast();
 
 const loading = ref(false);
 
-const editContentState = reactive<{
+const state = reactive<{
     slug: string;
     open: boolean;
     md: string;
 }>({ slug: pageSlugCookie.value ?? "", md: "", open: true });
-
-const colorMode = useColorMode();
-
-onMounted(() => {
-    config({
-        editorConfig: {
-            languageUserDefined: {
-                ru: RU,
-            },
-        },
-    });
-});
 
 const { data: content, refresh: refreshContent } = await useFetch(
     "/api/content",
@@ -44,9 +30,7 @@ const mdRefresher = ref(1);
 const fetchedMD = computedAsync(async () => {
     if (mdRefresher.value) {
         loading.value = true;
-        const md = (await $fetch(
-            `/api/content${editContentState.slug}`
-        )) as string;
+        const md = (await $fetch(`/api/content${state.slug}`)) as string;
         loading.value = false;
         return (
             md ||
@@ -56,9 +40,9 @@ const fetchedMD = computedAsync(async () => {
 }, null);
 
 watch(fetchedMD, (md) => {
-    if (md && editContentState.slug) {
-        pageSlugCookie.value = editContentState.slug;
-        return (editContentState.md = md);
+    if (md && state.slug) {
+        pageSlugCookie.value = state.slug;
+        return (state.md = md);
     }
 });
 
@@ -67,7 +51,7 @@ const gotSomeMD = computed(() => fetchedMD.value || fetchedMD.value === "");
 const newPageSlug = ref("");
 
 const createNewPage = async () => {
-    if (newPageSlug.value === editContentState.slug) return;
+    if (newPageSlug.value === state.slug) return;
     const slug = newPageSlug.value;
     if (!slug || !slug.startsWith("/")) return;
     loading.value = true;
@@ -79,34 +63,34 @@ const createNewPage = async () => {
     });
     await refreshContent();
     loading.value = false;
-    editContentState.slug = slug;
+    state.slug = slug;
 };
 
 const savePage = async () => {
-    if (editContentState.md === fetchedMD.value) return;
-    const slug = editContentState.slug;
+    if (state.md === fetchedMD.value) return;
+    const slug = state.slug;
     if (!slug || !slug.startsWith("/")) return;
     loading.value = true;
 
-    const ast = await parseMarkdown(editContentState.md);
+    const ast = await parseMarkdown(state.md);
     const { title, description } = ast.data;
 
     await $fetch(`/api/content${slug}`, {
         method: "PUT",
-        body: { title, description, md: editContentState.md },
+        body: { title, description, md: state.md },
     });
     loading.value = false;
     mdRefresher.value++;
 };
 
 const statusAnim = computed(() => {
-    if (newPageSlug.value && newPageSlug.value !== editContentState.slug) {
+    if (newPageSlug.value && newPageSlug.value !== state.slug) {
         return {
             value: null,
             animation: "swing",
         };
     }
-    if (fetchedMD.value !== editContentState.md) {
+    if (fetchedMD.value !== state.md) {
         return {
             value: null,
             animation: "elastic",
@@ -137,12 +121,12 @@ const promptDelete = async () => {
                 label: "Удалить",
                 color: "red",
                 click: async () => {
-                    await $fetch(`/api/content${editContentState.slug}`, {
+                    await $fetch(`/api/content${state.slug}`, {
                         method: "DELETE",
                     });
                     await $fetch(`/api/content`, {
                         body: {
-                            firefoslug: editContentState.slug,
+                            firefoslug: state.slug,
                         },
                         method: "DELETE",
                     });
@@ -156,6 +140,81 @@ const promptDelete = async () => {
         ],
     });
 };
+
+const colorMode = useColorMode();
+
+const editor = ref<Monaco.editor.ICodeEditor | null>(null);
+
+const getSelection = () => {
+    if (editor.value) {
+        const model = editor.value.getModel();
+        const selection = editor.value.getSelection();
+
+        if (model && selection) {
+            const start = model.getOffsetAt(selection.getStartPosition());
+            const end = model.getOffsetAt(selection.getEndPosition());
+            return { start, end };
+        }
+    }
+    return { start: 0, end: 0 };
+};
+
+const initialSetupEditor = (editorPassed: Monaco.editor.ICodeEditor) => {
+    editor.value = editorPassed;
+};
+
+const monaco = useMonaco();
+onMounted(() => {
+    setTimeout(() => {
+        if (monaco && import.meta.client) {
+            const { editor } = monaco;
+            const editors = editor.getEditors();
+            editors.map(initialSetupEditor);
+        }
+    }, 100);
+});
+
+// const wrapSelection = (wrapper: string) => {
+//     const { start, end } = getSelection();
+//     const wrapperLength = wrapper.length;
+//     const checkString = state.md;
+//     if (editor.value) {
+//         if (
+//             checkString.slice(start - wrapperLength, start) === wrapper &&
+//             checkString.slice(end, end + wrapperLength) === wrapper
+//         ) {
+//             console.log("Already wrapped");
+//             // Unwrap if already wrapped
+//             editor.value.pushEditOperations([
+//                 {
+//                     range: new Range(
+//                         start - wrapperLength,
+//                         start,
+//                         end + wrapperLength,
+//                         end
+//                     ),
+//                     text: checkString.slice(start, end),
+//                 },
+//             ]);
+//         } else {
+//             // Wrap
+//             editor.value.pushEditOperations([
+//                 {
+//                     range: new Range(start, start),
+//                     text: wrapper,
+//                 },
+//                 {
+//                     range: new Range(end, end),
+//                     text: wrapper,
+//                 },
+//             ]);
+//         }
+//     }
+// };
+
+// defineShortcuts({
+//     meta_b: { handler: () => wrapSelection("**"), usingInput: true },
+// });
 </script>
 
 <template>
@@ -176,18 +235,10 @@ const promptDelete = async () => {
                 :animation="statusAnim.animation"
                 :value="statusAnim.value"
             />
-            <!-- <UModal prevent-close v-model="loading">
-				<div
-					class="py-8 flex items-center justify-center flex-col gap-2 w-full"
-				>
-					<UIcon name="svg-spinners:ring-resize" class="text-4xl" />
-					<h3 class="text-lg font-semibold">Обработка запроса</h3>
-				</div>
-			</UModal> -->
             <div>
                 <UButtonGroup class="w-full">
                     <UInputMenu
-                        v-model="editContentState.slug"
+                        v-model="state.slug"
                         v-model:query="newPageSlug"
                         class="w-full"
                         :options="content"
@@ -204,7 +255,7 @@ const promptDelete = async () => {
                     </UInputMenu>
 
                     <UButton
-                        v-show="newPageSlug !== editContentState.slug"
+                        v-show="newPageSlug !== state.slug"
                         color="gray"
                         icon="line-md:plus"
                         @click="createNewPage"
@@ -213,15 +264,13 @@ const promptDelete = async () => {
                         v-show="gotSomeMD"
                         color="gray"
                         icon="material-symbols:eye-tracking-outline-rounded"
-                        :to="editContentState.slug"
+                        :to="state.slug"
                         target="_blank"
                     />
                     <UButton
                         color="gray"
                         icon="akar-icons:save"
-                        :disabled="
-                            fetchedMD === editContentState.md || !gotSomeMD
-                        "
+                        :disabled="fetchedMD === state.md || !gotSomeMD"
                         @click="savePage"
                     />
                     <UButton
@@ -232,55 +281,25 @@ const promptDelete = async () => {
                     />
                 </UButtonGroup>
             </div>
-            <div v-if="gotSomeMD" class="flex flex-wrap">
-                <ClientOnly>
-                    <MDEditor
-                        v-if="typeof editContentState.md === 'string'"
-                        v-model="editContentState.md"
-                        :class="{
-                            'md-editor-dark': colorMode.value === 'dark',
+            <div v-if="gotSomeMD" class="flex flex-wrap max-h-screen">
+                <div
+                    class="w-full xl:!w-1/2 overflow-hidden min-h-96 max-h-screen flex flex-col xl:flex-1"
+                >
+                    <MonacoEditor
+                        v-model="state.md"
+                        lang="markdown"
+                        class="h-full flex-grow"
+                        :options="{
+                            theme:
+                                colorMode.value === 'dark' ? 'vs-dark' : 'vs',
                         }"
-                        class="w-full xl:!w-1/2 rounded-t-xl xl:rounded-l-xl xl:rounded-r-none"
-                        language="ru"
-                        code-theme="github"
-                        preview-theme="github"
-                        editor-id="md-editor-manage"
-                        :on-upload-img="async () => 'url'"
-                        :toolbars="[
-                            'bold',
-                            'underline',
-                            'italic',
-                            '-',
-                            'title',
-                            'strikeThrough',
-                            'sub',
-                            'sup',
-                            'quote',
-                            'unorderedList',
-                            'orderedList',
-                            'task',
-                            '-',
-                            'link',
-                            'image',
-                            'table',
-                            '-',
-                            'revoke',
-                            'next',
-                        ]"
-                        :preview="false"
-                        style="--md-bk-color: var(--color-gray-900)"
                     />
-
-                    <MarkdownFormatter
-                        class="border border-gray-200 dark:border-gray-800 w-full xl:w-1/2 rounded-b-xl xl:rounded-r-xl xl:rounded-l-none px-4 min-h-96"
-                    >
-                        <MDC
-                            v-if="editContentState.md"
-                            class="mt-4"
-                            :value="editContentState.md"
-                        />
-                    </MarkdownFormatter>
-                </ClientOnly>
+                </div>
+                <MarkdownFormatter
+                    class="border border-gray-200 dark:border-gray-800 w-full xl:w-1/2 px-4 max-h-screen overflow-auto"
+                >
+                    <MDC v-if="state.md" class="mt-4" :value="state.md" />
+                </MarkdownFormatter>
             </div>
         </template>
     </div>

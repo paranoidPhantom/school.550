@@ -7,7 +7,6 @@ export default defineCachedEventHandler(
             const md = await storage.getItem<string>(
                 `${environment}_content_${slug}`
             );
-
             return md;
         } catch (error) {
             console.error("Error content/[....get:", error);
@@ -17,6 +16,15 @@ export default defineCachedEventHandler(
     {
         name: "content",
         maxAge: 28800,
-        getKey: (event) => getRouterParams(event).slug.replaceAll("/", "_"),
+        getKey: (event) => {
+            let hash = 0;
+            const keyUnhashed = getRouterParams(event).slug;
+            for (let i = 0; i < keyUnhashed.length; i++) {
+                const chr = keyUnhashed.charCodeAt(i);
+                hash = (hash << 5) - hash + chr;
+                hash |= 0;
+            }
+            return `${Math.abs(hash)}`;
+        },
     }
 );

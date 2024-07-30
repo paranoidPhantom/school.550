@@ -9,35 +9,21 @@ onMounted(() => {
 <template>
     <footer class="w-full mt-4">
         <UDivider class="w-full" />
-        <section class="h-40 md:h-64"></section>
+        <section class="h-40 md:h-64" />
         <UDivider class="w-full">
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 justify-center">
                 <UBadge size="lg" color="gray" class="flex items-center gap-2">
-                    <p>Наши socials</p>
+                    <p>Мы в соцсетях</p>
+                    <p class="opacity-30">|</p>
                     <UTooltip text="VK">
                         <NuxtLink to="https://vk.com/school_550_spb">
-                            <UIcon name="mdi:vk" /> </NuxtLink
+                            <UIcon name="mdi:vk" class="h-5" /> </NuxtLink
                     ></UTooltip>
                     <UTooltip text="Telegram">
                         <NuxtLink to="https://t.me/school550_spb">
-                            <UIcon name="mdi:telegram" /> </NuxtLink
+                            <UIcon name="mdi:telegram" class="h-5" /> </NuxtLink
                     ></UTooltip>
                 </UBadge>
-                <p>&bull;</p>
-                <NuxtLink
-                    to="https://github.com/paranoidPhantom/school.550/issues/new"
-                >
-                    <UBadge
-                        size="lg"
-                        color="gray"
-                        class="flex items-center gap-2"
-                    >
-                        <p>Создать issue на</p>
-                        <UTooltip text="GitHub">
-                            <UIcon name="mdi:github" />
-                        </UTooltip>
-                    </UBadge>
-                </NuxtLink>
             </div>
         </UDivider>
         <section
@@ -45,7 +31,7 @@ onMounted(() => {
         >
             <p>
                 &copy; {{ new Date().getFullYear() }} Школа №550. Все права
-                защищены.
+                защищены. Совпадения не случайны.
             </p>
         </section>
     </footer>

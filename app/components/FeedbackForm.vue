@@ -36,11 +36,11 @@ const hideSpinner = () => (spinner.value = false);
             />
 
             <iframe
-                @load="hideSpinner"
                 ref="iframe"
                 class="w-full h-full"
                 src="https://pos.gosuslugi.ru/form/?opaId=268828&fz59=false"
                 frameborder="0"
+                @load="hideSpinner"
             />
         </UCard>
     </UModal>

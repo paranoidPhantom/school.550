@@ -18,8 +18,16 @@ export default defineEventHandler(async (event) => {
             md: string;
         };
         await storage.setItem(`${environment}_content_${slug}`, md);
+
+        let hash = 0;
+        const keyUnhashed = getRouterParams(event).slug;
+        for (let i = 0; i < keyUnhashed.length; i++) {
+            const chr = keyUnhashed.charCodeAt(i);
+            hash = (hash << 5) - hash + chr;
+            hash |= 0;
+        }
         await useStorage("cache").removeItem(
-            `nitro:handlers:content:${slug.replaceAll("/", "_")}.json`
+            `nitro:handlers:content:${Math.abs(hash)}.json`
         );
         const algolia = algoliasearch(
             process.env.ALGOLIA_APPLICATION_ID as string,

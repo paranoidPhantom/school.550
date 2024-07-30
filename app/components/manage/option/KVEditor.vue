@@ -143,7 +143,7 @@ const loadDBConfirmation = async () => {
                                 colorMode.value === 'dark' ? 'vs-dark' : 'vs',
                         }"
                     />
-                    <hr class="opacity-20 mb-4" />
+                    <hr class="opacity-20 mb-4" >
                     <UAlert
                         color="red"
                         variant="soft"
