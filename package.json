@@ -1,23 +1,7 @@
 {
 	"name": "nuxt-app",
-	"private": true,
-	"scripts": {
-		"build": "nuxt build",
-		"dev": "nuxt dev",
-		"generate": "nuxt generate",
-		"preview": "nuxt preview",
-		"postinstall": "nuxt prepare",
-		"lint": "eslint . --fix"
-	},
-	"type": "module",
-	"trustedDependencies": [
-		"@fortawesome/fontawesome-common-types",
-		"@fortawesome/free-regular-svg-icons",
-		"@fortawesome/free-solid-svg-icons",
-		"json-editor-vue"
-	],
 	"devDependencies": {
-		"@nuxt/eslint": "^0.3.0",
+		"@nuxt/eslint": "^0.4.0",
 		"@nuxt/fonts": "^0.7.1",
 		"@nuxt/image": "^1.7.0",
 		"@nuxt/ui": "^2.18.3",
@@ -29,11 +13,28 @@
 		"@vercel/speed-insights": "^1.0.12",
 		"algoliasearch": "^4.24.0",
 		"jose": "^5.6.3",
+		"monaco-editor": "^0.50.0",
 		"nuxt": "^3.12.4",
 		"nuxt-aos": "1.2.5",
 		"nuxt-monaco-editor": "^1.2.9",
 		"sass": "1.77.8",
 		"vue": "^3.4.35",
 		"vue-router": "^4.4.1"
-	}
+	},
+	"private": true,
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"lint": "eslint . --fix"
+	},
+	"trustedDependencies": [
+		"@fortawesome/fontawesome-common-types",
+		"@fortawesome/free-regular-svg-icons",
+		"@fortawesome/free-solid-svg-icons",
+		"json-editor-vue"
+	],
+	"type": "module"
 }
