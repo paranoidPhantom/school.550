@@ -173,6 +173,7 @@ router.afterEach(() => (state.active = false));
 <template>
     <div class="__header">
         <h1 class="hidden">Школа 550</h1>
+        <div class="bg-blur" :class="{ active: state.active }" />
         <div
             class="wrapper"
             :class="{ active: state.active }"
@@ -387,6 +388,14 @@ router.afterEach(() => (state.active = false));
                 }
             }
         }
+    }
+}
+
+.bg-blur {
+    @apply fixed z-20 inset-0 pointer-events-none transition-all duration-700;
+    &.active {
+        @apply bg-gray-50 bg-opacity-20 backdrop-blur-sm;
+        @apply dark:bg-gray-800 dark:bg-opacity-50;
     }
 }
 
