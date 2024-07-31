@@ -15,7 +15,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                 src="https://pos.gosuslugi.ru/bin/banner-fluid/gosuslugi-logo-blue.svg"
                 class="opacity-80 dark:brightness-150 dark:contrast-125 my-4"
                 width="150px"
-            />
+            >
         </template>
         <template #description>
             <div class="flex flex-col gap-4">
@@ -25,8 +25,8 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
                 </p>
                 <UButton
                     class="w-fit"
-                    @click="feedbackForm = true"
                     icon="line-md:bell-twotone-alert-loop"
+                    @click="feedbackForm = true"
                     >Сообщить о проблеме</UButton
                 >
             </div>

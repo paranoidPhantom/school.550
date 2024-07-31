@@ -11,7 +11,7 @@
             <UBadge color="green" variant="subtle">Гостиный Двор</UBadge>,
             <UBadge color="red" variant="subtle">Владимирская</UBadge>,
             <UBadge color="orange" variant="subtle">Достоевская</UBadge>.
-            <br />
+            <br >
             <NuxtLink to="">
                 (Посмотреть схему безопасного подхода к школе)
             </NuxtLink>
