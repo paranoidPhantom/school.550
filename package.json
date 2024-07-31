@@ -17,7 +17,7 @@
 		"json-editor-vue"
 	],
 	"devDependencies": {
-		"@nuxt/eslint": "^0.4.0",
+		"@nuxt/eslint": "^0.3.0",
 		"@nuxt/fonts": "^0.7.1",
 		"@nuxt/image": "^1.7.0",
 		"@nuxt/ui": "^2.18.3",
