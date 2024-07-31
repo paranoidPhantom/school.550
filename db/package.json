@@ -2,8 +2,9 @@
 	"name": "db",
 	"version": "1.0.50",
 	"scripts": {
-		"start": "bun run src/index.ts",
-		"dev": "bun run --watch src/index.ts"
+		"start": "bun src/index.ts",
+		"dev": "bun --watch src/index.ts",
+		"build": "docker compose build && docker compose push"
 	},
 	"dependencies": {
 		"@elysiajs/cors": "^1.1.0",
