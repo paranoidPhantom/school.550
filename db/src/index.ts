@@ -1,14 +1,29 @@
+// File system imports
 import {
     unlinkSync,
     readdirSync,
     statSync,
     mkdirSync,
     rmdirSync,
+    existsSync,
+    createWriteStream,
 } from "node:fs";
+import { readdir } from "node:fs/promises";
+import { pipeline } from "node:stream/promises";
 import { join } from "node:path";
+
+// Elysia imports
 import { Elysia, t } from "elysia";
 import { cors } from "@elysiajs/cors";
+
+// Other imports
 import { jwtVerify } from "jose";
+import archiver from "archiver";
+
+if (!existsSync(join(import.meta.dir, "../", "storage")))
+    mkdirSync(join(import.meta.dir, "../", "storage"));
+if (!existsSync(join(import.meta.dir, "../", "temp")))
+    mkdirSync(join(import.meta.dir, "../", "temp"));
 
 const secret = new TextEncoder().encode(Bun.env.FILE_SERVER_SIGNATURE);
 
@@ -38,6 +53,49 @@ const app = new Elysia()
             });
         }
         return file;
+    })
+    .onError(handleError)
+    .get("/download/*", async ({ path }) => {
+        path = decodeURI(path);
+        const filePath = `storage${path.split("/download")[1] ?? ""}`;
+        const file = Bun.file(filePath);
+        const stats = statSync(join(import.meta.dir, "../", filePath));
+        if (stats.isDirectory()) {
+            // Cleanup other zips
+            const zips = await readdir(join(import.meta.dir, "../", "temp"));
+            zips.forEach((file) => {
+                if (file.endsWith(".zip")) {
+                    unlinkSync(join(import.meta.dir, "../", "temp", file));
+                }
+            });
+
+            // Create the write stream
+            const outputPath = `temp/${Date.now()}.zip`;
+
+            // read all the files in the current directory
+            const archiveOutput = createWriteStream(
+                join(import.meta.dir, "../", outputPath)
+            );
+            // Create the archive
+            const archive = archiver("zip", {
+                zlib: { level: 9 }, // Sets the compression level.
+            });
+            const pipeProcess = pipeline(archive, archiveOutput);
+            archive.directory(join(import.meta.dir, "../", filePath), false);
+            archive.finalize();
+            await pipeProcess;
+            return new Response(Bun.file(outputPath), {
+                headers: {
+                    "Content-Type": "application/zip",
+                },
+            });
+        } else {
+            return new Response(file, {
+                headers: {
+                    "Content-Type": "application/octet-stream",
+                },
+            });
+        }
     })
     .onError(handleError)
     .get("/list/*", async ({ path }) => {
