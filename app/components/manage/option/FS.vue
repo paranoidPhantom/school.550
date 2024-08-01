@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useClipboard } from "@vueuse/core";
 import type { File } from "~/types/file";
 
 const {
@@ -265,6 +266,16 @@ const createFolder = async () => {
                                                 explorerState.rightClickedFile?.name;
                                         }
                                     }
+                                "
+                            />
+                            <UButton
+                                v-if="state.rightClickedFile.isDirectory"
+                                label="Копировать компонент Markdown"
+                                color="gray"
+                                @click="
+                                    useClipboard({
+                                        source: `:docs{base='${currentPath}${state.rightClickedFile.name}'}`,
+                                    }).copy()
                                 "
                             />
                             <UButton
