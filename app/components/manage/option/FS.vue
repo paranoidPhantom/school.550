@@ -10,7 +10,7 @@ const sectionActive = useCookie("admin_section_fs");
 
 const toast = useToast();
 
-const explorerState = reactive<{
+const state = reactive<{
     pathFragments: string[];
     selectedFiles: Set<string>;
     rightClickedFile: File | undefined;
@@ -20,7 +20,7 @@ const explorerState = reactive<{
     rightClickedFile: undefined,
 });
 
-const currentPath = computed(() => `/${explorerState.pathFragments.join("/")}`);
+const currentPath = computed(() => `/${state.pathFragments.join("/")}`);
 
 const { data: currentPathFiles, refresh: refreshCurrentPathFilesNow } =
     await useAsyncData(
@@ -68,7 +68,7 @@ const uploadFiles = async (files: FileList) => {
 };
 
 const handleFileAction = (file: File) => {
-    if (file.isDirectory) explorerState.pathFragments.push(file.name);
+    if (file.isDirectory) state.pathFragments.push(file.name);
     else window.open(`${file_server_url}${currentPath.value}/${file.name}`);
 };
 
@@ -109,12 +109,8 @@ const renameFile = async () => {
         await useFS(`/rename`, {
             method: "PUT",
             body: {
-                from: `${explorerState.pathFragments.join("/")}/${
-                    renameState.name
-                }`,
-                to: `${explorerState.pathFragments.join("/")}/${
-                    renameState.newName
-                }`,
+                from: `${state.pathFragments.join("/")}/${renameState.name}`,
+                to: `${state.pathFragments.join("/")}/${renameState.newName}`,
             },
         });
         refreshCurrentPathFiles();
@@ -212,14 +208,11 @@ const createFolder = async () => {
             <UCard>
                 <template #header>
                     <div class="flex gap-4 items-center">
-                        <UButton
-                            color="gray"
-                            @click="explorerState.pathFragments = []"
-                        >
+                        <UButton color="gray" @click="state.pathFragments = []">
                             <UIcon name="codicon:root-folder" />
                         </UButton>
                         <template
-                            v-for="(node, index) in explorerState.pathFragments"
+                            v-for="(node, index) in state.pathFragments"
                             :key="node"
                         >
                             <UIcon name="codicon:arrow-right" />
@@ -227,11 +220,8 @@ const createFolder = async () => {
                                 class="flex items-center gap-2"
                                 color="gray"
                                 @click="
-                                    explorerState.pathFragments =
-                                        explorerState.pathFragments.splice(
-                                            0,
-                                            index + 1
-                                        )
+                                    state.pathFragments =
+                                        state.pathFragments.splice(0, index + 1)
                                 "
                             >
                                 <UIcon name="codicon:folder" />
@@ -241,29 +231,30 @@ const createFolder = async () => {
                     </div>
                 </template>
                 <FsFileList
-                    v-model:selected="explorerState.selectedFiles"
-                    v-model:right-clicked-file="explorerState.rightClickedFile"
+                    v-model:selected="state.selectedFiles"
+                    v-model:right-clicked-file="state.rightClickedFile"
                     :files="currentPathFiles"
                     selectable
                     @file-action="handleFileAction"
                     @file-upload="uploadFiles"
                 >
                     <template #file-options>
-                        <UButtonGroup orientation="vertical">
+                        <UButtonGroup
+                            v-if="state.rightClickedFile"
+                            orientation="vertical"
+                        >
                             <UButton
-                                v-if="
-                                    !explorerState.rightClickedFile.isDirectory
-                                "
+                                v-if="!state.rightClickedFile.isDirectory"
                                 label="Переименовать"
                                 color="gray"
                                 @click="
                                     () => {
-                                        if (explorerState.rightClickedFile) {
+                                        if (state.rightClickedFile) {
                                             renameState.active = true;
                                             renameState.name =
-                                                explorerState.rightClickedFile?.name;
+                                                state.rightClickedFile?.name;
                                             renameState.newName =
-                                                explorerState.rightClickedFile?.name;
+                                                state.rightClickedFile?.name;
                                         }
                                     }
                                 "
@@ -283,25 +274,22 @@ const createFolder = async () => {
                                 color="gray"
                                 @click="
                                     () => {
-                                        if (explorerState.rightClickedFile)
+                                        if (state.rightClickedFile)
                                             deleteFiles([
-                                                explorerState.rightClickedFile
-                                                    .name,
+                                                state.rightClickedFile.name,
                                             ]);
                                     }
                                 "
                             />
                             <UButton
                                 v-if="
-                                    explorerState.selectedFiles &&
-                                    explorerState.selectedFiles.size > 1
+                                    state.selectedFiles &&
+                                    state.selectedFiles.size > 1
                                 "
-                                :label="`Удалить выбранные - ${explorerState.selectedFiles.size}`"
+                                :label="`Удалить выбранные - ${state.selectedFiles.size}`"
                                 color="gray"
                                 @click="
-                                    deleteFiles(
-                                        Array.from(explorerState.selectedFiles)
-                                    )
+                                    deleteFiles(Array.from(state.selectedFiles))
                                 "
                             />
                         </UButtonGroup>
@@ -335,9 +323,9 @@ const createFolder = async () => {
                                 />
                             </UButtonGroup>
                         </UTooltip>
-                        <p v-show="explorerState.selectedFiles.size > 0">
+                        <p v-show="state.selectedFiles.size > 0">
                             Выбран(о)
-                            {{ explorerState.selectedFiles.size }} файл(а)
+                            {{ state.selectedFiles.size }} файл(а)
                         </p>
                     </div>
                 </template>
