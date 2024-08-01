@@ -66,7 +66,7 @@
         }
     }
     hr {
-        @apply opacity-10;
+        @apply dark:opacity-10;
     }
 }
 </style>
