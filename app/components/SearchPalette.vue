@@ -17,12 +17,12 @@ const results = [
                 return [];
             }
 
-            const { hits } = await search({ query: q }) as SearchResponse<{
-				title: string;
-				description: string;
-				slug: string;
-				content: string;
-			}>;
+            const { hits } = (await search({ query: q })) as SearchResponse<{
+                title: string;
+                description: string;
+                slug: string;
+                content: string;
+            }>;
             return hits.map((hit) => {
                 return {
                     label: hit.title,
@@ -47,7 +47,13 @@ defineShortcuts({
 </script>
 
 <template>
-    <UModal v-model="enabled">
+    <UModal
+        v-model="enabled"
+        :ui="{
+            container:
+                'flex min-h-full items-center justify-center text-center',
+        }"
+    >
         <UCommandPalette
             :groups="results"
             :autoselect="false"
@@ -63,11 +69,11 @@ defineShortcuts({
                 <div
                     class="flex flex-col items-center justify-center py-6 gap-3"
                 >
-                    <span class="text-sm"
+                    <span class="text-sm flex items-center gap-2"
                         >Поиск реализован на основе
                         <NuxtLink to="https://www.algolia.com/">
                             <UIcon
-                                class="text-7xl ml-1"
+                                class="text-6xl h-4 bg-cover bg-center"
                                 name="devicon:algolia-wordmark"
                             />
                         </NuxtLink>
