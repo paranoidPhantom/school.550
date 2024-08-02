@@ -23,11 +23,25 @@ const state = reactive<{
     mobileDepth: 0,
 });
 
+type NormalLink = {
+    label: string;
+    to: string;
+    customIndex?: number;
+};
+
 const links: {
     [key: string]: {
-        [key: string]: { label: string; to: string; customIndex?: number }[];
+        [key: string]: NormalLink[];
     };
 } = {
+    Новости: {
+        "": [
+            {
+                to: "special",
+                label: "news",
+            },
+        ],
+    },
     "Сведения об ОУ": {
         "Сведения об оброзовательном учреждении": [
             {
@@ -163,7 +177,7 @@ const openHeader = (groupName: string, index: number) => {
     state.lastEnteredIndex = index;
 };
 
-const heights = [450, 300, 350];
+const heights = [100, 450, 300, 350];
 
 const router = useRouter();
 
@@ -198,7 +212,8 @@ router.afterEach(() => (state.active = false));
                             :label="(groupName as string)"
                             variant="link"
                             color="white"
-                            @mouseenter="openHeader(groupName as string, index)"
+                            :to="groupName === 'Новости' ? '/news' : undefined"
+                            @mouseenter="() => {if(groupName !== 'Новости') openHeader(groupName as string, index)}"
                         />
                     </nav>
                     <div class="right flex items-center gap-2">
@@ -240,11 +255,18 @@ router.afterEach(() => (state.active = false));
                                     :label="(groupName as string)"
                                     color="gray"
                                     trailing-icon="material-symbols:arrow-right-alt-rounded"
+                                    :to="
+                                        groupName === 'Новости'
+                                            ? '/news'
+                                            : undefined
+                                    "
                                     @click="
                                         () => {
-                                            state.animation = 'right';
-                                            state.mobileDepth = 1;
-                                            state.currentGroup = groupName;
+                                            if (groupName !== 'Новости') {
+                                                state.animation = 'right';
+                                                state.mobileDepth = 1;
+                                                state.currentGroup = groupName;
+                                            }
                                         }
                                     "
                                 />
