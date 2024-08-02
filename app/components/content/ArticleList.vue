@@ -37,6 +37,8 @@ const articleRows = computed(() => {
     });
     return arrayOfArrays;
 });
+
+const entryStaggerMs = 50;
 </script>
 
 <template>
@@ -47,7 +49,7 @@ const articleRows = computed(() => {
                     v-for="article in articleRows[0]"
                     :key="article.title"
                     v-bind="article"
-                    :data-aos-delay="article.globalIndex * 100"
+                    :data-aos-delay="article.globalIndex * entryStaggerMs"
                 />
             </div>
             <div class="hidden md:flex">
@@ -55,7 +57,7 @@ const articleRows = computed(() => {
                     v-for="article in articleRows[1]"
                     :key="article.title"
                     v-bind="article"
-                    :data-aos-delay="article.globalIndex * 100"
+                    :data-aos-delay="article.globalIndex * entryStaggerMs"
                 />
             </div>
             <div class="hidden lg:flex">
@@ -63,7 +65,7 @@ const articleRows = computed(() => {
                     v-for="article in articleRows[2]"
                     :key="article.title"
                     v-bind="article"
-                    :data-aos-delay="article.globalIndex * 100"
+                    :data-aos-delay="article.globalIndex * entryStaggerMs"
                 />
             </div>
             <div class="hidden xl:flex">
@@ -71,7 +73,7 @@ const articleRows = computed(() => {
                     v-for="article in articleRows[3]"
                     :key="article.title"
                     v-bind="article"
-                    :data-aos-delay="article.globalIndex * 100"
+                    :data-aos-delay="article.globalIndex * entryStaggerMs"
                 />
             </div>
             <template #fallback>
