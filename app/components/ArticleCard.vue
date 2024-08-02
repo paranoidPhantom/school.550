@@ -26,12 +26,12 @@ const route = useRoute();
             <div class="flex flex-col justify-between absolute inset-3 z-10">
                 <div class="flex justify-between gap-8">
                     <p
-                        class="px-6 py-3 rounded-full bg-white bg-opacity-25 backdrop-blur-md text-white border-white border border-opacity-30"
+                        class="surface px-6 py-3 rounded-full bg-white bg-opacity-25 backdrop-blur-md text-white border-white border border-opacity-30"
                     >
                         {{ date }}
                     </p>
                     <div
-                        class="rounded-full bg-white w-auto h-full aspect-1 flex items-center justify-center"
+                        class="surface rounded-full bg-white w-auto h-full aspect-1 flex items-center justify-center"
                     >
                         <UIcon
                             class="text-black text-3xl shadow shadow-black"
@@ -40,7 +40,7 @@ const route = useRoute();
                     </div>
                 </div>
                 <h3
-                    class="px-6 py-3 rounded-[2rem] bg-white bg-opacity-25 backdrop-blur-md text-white border-white border border-opacity-30"
+                    class="surface px-6 py-3 rounded-[2rem] bg-white bg-opacity-25 backdrop-blur-md text-white border-white border border-opacity-30"
                 >
                     {{ title }}
                 </h3>
@@ -49,4 +49,13 @@ const route = useRoute();
     </NuxtLink>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+article {
+    .surface {
+        background-image: url(/images/noise.png);
+        background-repeat: no-repeat;
+        background-size: 300% 300%;
+        background-position: center;
+    }
+}
+</style>
