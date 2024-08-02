@@ -43,3 +43,4 @@ package-lock.json
 
 # file storage folder
 storage
+temp
