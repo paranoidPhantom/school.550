@@ -1,6 +1,16 @@
 {
 	"name": "nuxt-app",
 	"devDependencies": {
+		"@iconify-json/akar-icons": "^1.1.24",
+		"@iconify-json/entypo-social": "^1.1.8",
+		"@iconify-json/icon-park-outline": "^1.1.15",
+		"@iconify-json/line-md": "^1.1.38",
+		"@iconify-json/maki": "^1.1.24",
+		"@iconify-json/material-symbols": "^1.1.85",
+		"@iconify-json/material-symbols-light": "^1.1.25",
+		"@iconify-json/mdi": "^1.1.67",
+		"@iconify-json/ph": "^1.1.13",
+		"@iconify-json/svg-spinners": "^1.1.2",
 		"@nuxt/content": "^2.13.2",
 		"@nuxt/eslint": "^0.4.0",
 		"@nuxt/fonts": "^0.7.1",
