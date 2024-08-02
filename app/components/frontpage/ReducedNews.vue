@@ -18,7 +18,15 @@ const { data: ast } = await useAsyncData<typeof parseMarkdown>(
 
 <template>
     <section v-if="ast" class="__news max-w-[1200px] w-full mx-auto space-y-4">
-        <h2 class="text-2xl font-bold">Новости</h2>
+        <div class="flex justify-between">
+            <h2 class="text-2xl font-bold">Новости</h2>
+            <UButton
+                label="Все новости"
+                to="/news"
+                trailing-icon="mdi:arrow-right"
+                variant="link"
+            />
+        </div>
         <MarkdownFormatter>
             <MDCRenderer :body="ast.body" :data="ast.data" />
         </MarkdownFormatter>
