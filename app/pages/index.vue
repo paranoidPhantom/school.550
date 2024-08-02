@@ -5,6 +5,7 @@
         <FrontpageHero />
         <div class="space-y-16">
             <FrontpageFederalFeedback />
+            <FrontpageReducedNews />
             <FrontpageLocation />
         </div>
     </div>
