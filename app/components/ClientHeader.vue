@@ -204,7 +204,7 @@ router.afterEach(() => (state.active = false));
                         class="lg:hidden"
                         @click="searchEnabled = true"
                     />
-                    <NuxtLink to="/" class="left">Logo</NuxtLink>
+                    <AppLogo />
                     <nav class="hidden lg:flex items-center gap-2">
                         <UButton
                             v-for="(group, groupName, index) in links"
