@@ -3,6 +3,7 @@
 	"devDependencies": {
 		"@iconify-json/akar-icons": "^1.1.24",
 		"@iconify-json/entypo-social": "^1.1.8",
+		"@iconify-json/fluent": "^1.1.60",
 		"@iconify-json/icon-park-outline": "^1.1.15",
 		"@iconify-json/line-md": "^1.1.38",
 		"@iconify-json/maki": "^1.1.24",
