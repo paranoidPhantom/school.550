@@ -22,16 +22,19 @@ const state = reactive<{
 
 const currentPath = computed(() => `/${state.pathFragments.join("/")}`);
 
-const { data: currentPathFiles, refresh: refreshCurrentPathFilesNow } =
-    await useAsyncData(
-        `${currentPath.value}_list`,
-        () => useFS(`/list${currentPath.value}`, {}) as Promise<File[]>,
-        {
-            server: false,
-            watch: [currentPath],
-            transform: (data) => data ?? [],
-        }
-    );
+const {
+    data: currentPathFiles,
+    status: fileFetchStatus,
+    refresh: refreshCurrentPathFilesNow,
+} = await useAsyncData(
+    `${currentPath.value}_list`,
+    () => useFS(`/list${currentPath.value}`, {}) as Promise<File[]>,
+    {
+        server: false,
+        watch: [currentPath],
+        transform: (data) => data ?? [],
+    }
+);
 
 const refreshCurrentPathFiles = () =>
     setTimeout(refreshCurrentPathFilesNow, 100);
@@ -233,7 +236,9 @@ const createFolder = async () => {
                 <FsFileList
                     v-model:selected="state.selectedFiles"
                     v-model:right-clicked-file="state.rightClickedFile"
-                    :files="currentPathFiles"
+                    :files="
+                        fileFetchStatus === 'success' ? currentPathFiles : null
+                    "
                     selectable
                     @file-action="handleFileAction"
                     @file-upload="uploadFiles"
