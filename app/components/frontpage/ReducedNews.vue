@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
-definePageMeta({
-    middleware: ["content"],
-});
-
 const { data: md } = await useFetch(`/api/content/news`);
 
 const { data: ast } = await useAsyncData<typeof parseMarkdown>(
