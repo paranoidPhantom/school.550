@@ -60,7 +60,6 @@
     }
     a {
         @apply text-sky-500;
-        text-decoration: underline dotted;
         &:hover {
             @apply text-sky-600;
         }
