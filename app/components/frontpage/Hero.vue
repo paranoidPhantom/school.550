@@ -65,11 +65,11 @@ const { x, y } = useMouse();
                 >
                     Школа
                 </h1>
-                <NuxtPicture
+                <img
                     src="/images/school_compact.png"
                     alt="Школа"
                     sizes="sm:75 md:90 lg:120"
-                    class="rounded-full hidden sm:block"
+                    class="rounded-full hidden sm:block sm:h-12 md:h-14 lg:h-20"
                 />
             </div>
             <!-- Line 2 -->
@@ -91,7 +91,7 @@ const { x, y } = useMouse();
                 <div
                     class="sm:flex sm:h-12 md:h-14 lg:h-20 items-center justify-center bg-white py-2 px-4 rounded-full hidden"
                 >
-                    <NuxtPicture
+                    <img
                         class="h-2/3"
                         src="/images/ort.png"
                         sizes="sm:65 md:80 lg:130"

@@ -21,6 +21,9 @@ const route = useRoute();
             <NuxtImg
                 :src="image"
                 :alt="title"
+                width="100%"
+                height="100%"
+                fit="cover"
                 class="absolute inset-0 w-full h-full object-cover z-0"
             />
             <div class="flex flex-col justify-between absolute inset-3 z-10">
