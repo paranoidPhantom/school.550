@@ -162,10 +162,6 @@ const links: {
                 label: "Функциональная грамотность",
                 to: "/funclit",
             },
-            {
-                label: "Школьный спортивный клуб",
-                to: "/sportclub",
-            },
         ],
     },
 };
@@ -177,7 +173,7 @@ const openHeader = (groupName: string, index: number) => {
     state.lastEnteredIndex = index;
 };
 
-const heights = [100, 450, 300, 350];
+const heights = [100, 450, 300, 290];
 
 const router = useRouter();
 
