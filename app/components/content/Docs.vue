@@ -59,9 +59,9 @@ onMounted(() => refreshFiles());
                 <UButton
                     label="Помотреть"
                     color="gray"
-                    @click="state.modal = true"
                     size="xs"
                     class="mt-2"
+                    @click="state.modal = true"
                 />
             </template>
         </UAlert>
@@ -105,7 +105,7 @@ onMounted(() => refreshFiles());
                 />
             </div>
         </USlideover>
-        <hr class="my-4" />
+        <hr class="my-4" >
     </div>
 </template>
 

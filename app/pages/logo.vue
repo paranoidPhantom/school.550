@@ -5,9 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-    <div class="__logo">
-		
-	</div>
+    <div class="__logo"/>
 </template>
 
 <style lang="scss" scoped></style>

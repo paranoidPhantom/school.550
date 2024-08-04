@@ -18,7 +18,7 @@ const route = useRoute();
             }"
         >
             <USkeleton class="absolute inset-0 w-full h-full" />
-            <img
+            <NuxtImg
                 :src="image"
                 :alt="title"
                 class="absolute inset-0 w-full h-full object-cover z-0"

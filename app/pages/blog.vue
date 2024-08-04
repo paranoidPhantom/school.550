@@ -11,8 +11,7 @@
 						class=" placeholder:text-slate-400 block bg-[#EDEBF0] w-[25%] border border-slate-300 rounded-xl py-2 pl-[1%] pr-3 shadow-sm"
 						placeholder="Поиск" type="text">
 					<span class="absolute inset-y-0 left-[20%] flex items-center pl-2 max-[1200px]:left-[15%]">
-						<img src="/images/search_icon.svg">
-					</span>
+						<NuxtImg src="/images/search_icon.svg"/></span>
 				</label>
 			</div>
 	
