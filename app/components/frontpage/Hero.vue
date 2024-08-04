@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useMouse } from "@vueuse/core";
+import { useMouse, useWindowSize } from "@vueuse/core";
 const isServer = import.meta.server;
 
 const suffix = "|";
@@ -18,22 +18,40 @@ const { x, y } = useMouse();
     <section
         class="hero flex items-center justify-center select-none overflow-hidden"
     >
-        <NuxtImg
+        <NuxtPicture
             src="/images/gradient.png"
             alt="Фон"
-            sizes="100vw"
+            width="1920"
+            sizes="sm:100vw md:100vw lg:100vw"
+            quality="10"
+            fit="contain"
+            :img-attrs="{ class: 'h-screen object-cover' }"
             class="absolute top-0 left-0 w-full h-screen object-cover blur-md -z-20"
         />
-        <NuxtImg
+        <NuxtPicture
             src="/images/noise.png"
             class="static-noise absolute top-0 left-0 w-full object-cover opacity-30 -z-10"
-            sizes="100vw"
+            width="1920"
+            sizes="sm:100vw md:100vw lg:100vw"
+            quality="10"
+            fit="cover"
+            :img-attrs="{
+                style: 'height: calc(100vh + 5px)',
+                class: 'object-cover',
+            }"
             style="height: calc(100vh + 5px)"
         />
-        <NuxtImg
+        <NuxtPicture
             src="/images/noise.png"
             class="dynamic-noise absolute top-0 left-0 w-full object-cover opacity-50 z-10 pointer-events-none"
-            sizes="100vw"
+            width="1920"
+            sizes="sm:100vw md:100vw lg:100vw"
+            quality="10"
+            fit="cover"
+            :img-attrs="{
+                style: 'height: calc(100vh + 5px)',
+                class: 'object-cover',
+            }"
             style="height: calc(100vh + 5px)"
             :style="{ '--x': x + 'px', '--y': y + 'px' }"
         />
@@ -47,10 +65,11 @@ const { x, y } = useMouse();
                 >
                     Школа
                 </h1>
-                <NuxtImg
+                <NuxtPicture
                     src="/images/school_compact.png"
                     alt="Школа"
-                    class="rounded-full hidden sm:block sm:h-12 md:h-14 lg:h-[4.6rem]"
+                    sizes="sm:75 md:90 lg:120"
+                    class="rounded-full hidden sm:block"
                 />
             </div>
             <!-- Line 2 -->
@@ -72,7 +91,12 @@ const { x, y } = useMouse();
                 <div
                     class="sm:flex sm:h-12 md:h-14 lg:h-20 items-center justify-center bg-white py-2 px-4 rounded-full hidden"
                 >
-                    <NuxtImg class="h-2/3" src="/images/ort.png" alt="ORT" />
+                    <NuxtPicture
+                        class="h-2/3"
+                        src="/images/ort.png"
+                        sizes="sm:65 md:80 lg:130"
+                        alt="ORT"
+                    />
                 </div>
                 <h1
                     class="gradient text-6xl md:text-7xl lg:text-8xl"

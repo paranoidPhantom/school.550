@@ -44,7 +44,9 @@ export default defineNuxtConfig({
     ],
 
     image: {
-        format: ["avif", "webp"],
+        // TODO: fix this domain
+        domains: ["db.portaltest.ort.spb.ru"],
+        formats: ["avif", "webp"],
     },
 
     routeRules: {
