@@ -5,157 +5,110 @@ onMounted(() => {
     isServer.value = false;
 });
 
-
-const SolutionsLinks = [ 
-    {
-        name: "Explainable AI",
-        link: "/solutions/ExplainableAI"
-    },
-    {
-        name: "ML Monitoring",
-        link: "/solutions/MLMonitoring"
-    }
-]
-
-const Use_CasesLinks = [
-    {
-        name: "Fraud",
-        link: "/Use_Cases/Fraud"
-    },
-    {
-        name: "Churn detection",
-        link: "/Use_Cases/Churn_detection"
-    },
-    {
-        name: "Underwriting",
-        link: "/Use_Cases/Underwriting"
-    }
-]
-
-const ResourcesLinks = [
-    {
-        name: "Resource Hub",
-        link: "/Resources/Resource_Hub"
-    },
-    {
-        name: "Blog",
-        link: "/Resources/Blog"
-    },
-    {
-        name: "Learn More",
-        link: "/Resources/Learn_More"
-    },
-
-]
-
-const CompanyLinks = [
-    {
-        name: "About Us",
-        link: "/company/About_Us"
-    },
-    {
-        name: "Carrers",
-        link: "/company/Carrers"
-    },
-    {
-        name: "Events",
-        link: "/company/Events"
-    },
-    {
-        name: "Contact Us",
-        link: "/company/Contact_Us"
-    },
-    {
-        name: "Privacy Policy",
-        link: "/company/Privacy_Policy"
-    }
-
-]
-
+const sections: {
+    [key: string]: {
+        name: string;
+        route: string;
+    }[];
+} = {
+    Solutions: [
+        {
+            name: "Explainable AI",
+            route: "/solutions/ExplainableAI",
+        },
+        {
+            name: "ML Monitoring",
+            route: "/solutions/MLMonitoring",
+        },
+    ],
+    "Use cases": [
+        {
+            name: "Fraud",
+            route: "/Use_Cases/Fraud",
+        },
+        {
+            name: "Churn detection",
+            route: "/Use_Cases/Churn_detection",
+        },
+        {
+            name: "Underwriting",
+            route: "/Use_Cases/Underwriting",
+        },
+    ],
+    Resources: [
+        {
+            name: "Resource Hub",
+            route: "/Resources/Resource_Hub",
+        },
+        {
+            name: "Blog",
+            route: "/Resources/Blog",
+        },
+        {
+            name: "Learn More",
+            route: "/Resources/Learn_More",
+        },
+    ],
+    Company: [
+        {
+            name: "About Us",
+            route: "/company/About_Us",
+        },
+        {
+            name: "Carrers",
+            route: "/company/Carrers",
+        },
+        {
+            name: "Events",
+            route: "/company/Events",
+        },
+        {
+            name: "Contact Us",
+            route: "/company/Contact_Us",
+        },
+        {
+            name: "Privacy Policy",
+            route: "/company/Privacy_Policy",
+        },
+    ],
+};
 </script>
 
 <template>
     <footer class="w-full mt-4">
         <UDivider class="w-full" />
 
-        <section class="flex w-full mx-auto justify-center gap-[5%] pr-[10%] mt-[5%] max-[790px]:flex max-[790px]:flex-col max-[790px]:ml-4">
-
-            <Logo class="mr-[5%]" />
-
-            <UDivider orientation="horizontal" class="hidden max-[790px]:block my-4"/>
-
-            <div>
-                <p class="mb-6 font-bold text-gray-400">SOLUTIONS</p>
-                <div class="flex flex-col space-y-2">
-                    <UButton
-                        class="px-0"
-                        variant="link"
-                        v-for="name in SolutionsLinks"
-                        :key = "name"
-                        color="white"
-                        :to = name.link> 
-                    <p>{{ name.name }}</p>
-                    </UButton>
+        <section
+            class="flex w-full mx-auto justify-center gap-[5%] pr-[10%] max-[790px]:flex-col max-[790px]:ml-4 p-8"
+        >
+            <template
+                v-for="(links, section, index) in sections"
+                :key="section"
+            >
+                <div>
+                    <p class="mb-6 font-bold text-gray-400">{{ section }}</p>
+                    <div class="flex flex-col space-y-2">
+                        <UButton
+                            v-for="link in links"
+                            :key="link.name"
+                            class="px-0"
+                            variant="link"
+                            color="white"
+                            :to="link.route"
+                        >
+                            <p>{{ link.name }}</p>
+                        </UButton>
+                    </div>
                 </div>
-            </div>
-
-            <UDivider orientation="vertical" />
-            <UDivider orientation="horizontal" class="hidden max-[790px]:block my-4"/>
-
-            <div>
-                <p class="mb-6 font-bold text-gray-400">USE CASES</p>
-                <div class="flex flex-col space-y-2">
-                    <UButton 
-                        class="px-0"
-                        variant="link"
-                        v-for="name in Use_CasesLinks"
-                        :key = "name"
-                        color="white"
-                        :to = name.link> 
-                    <p>{{ name.name }}</p>
-                    </UButton>
-                </div>
-            </div>
-
-            <UDivider orientation="vertical" />
-            <UDivider orientation="horizontal" class="hidden max-[790px]:block my-4"/>
-
-            <div>
-                <p class="mb-6 font-bold text-gray-400">RESOURCE</p>
-                <div class="flex flex-col space-y-2">
-                    <UButton 
-                        class="px-0"
-                        variant="link"
-                        v-for="name in ResourcesLinks"
-                        :key = "name"
-                        color="white"
-                        :to = name.link> 
-                    <p>{{ name.name }}</p>
-                    </UButton>
-                </div>
-            </div>
-
-            <UDivider orientation="vertical" />
-            <UDivider orientation="horizontal" class="hidden max-[790px]:block my-4"/>
-
-
-            <div>
-                <p class="mb-6 font-bold text-gray-400">COMPANY</p>
-                <div class="flex flex-col space-y-2">
-                    <UButton 
-                        class="px-0"
-                        variant="link"
-                        v-for="name in CompanyLinks"
-                        :key = "name"
-                        color="white"
-                        :to = name.link> 
-                    <p>{{ name.name }}</p>
-                    </UButton>
-                </div>
-            </div>
-
+                <template v-if="index !== Object.keys(sections).length - 1">
+                    <UDivider orientation="vertical" />
+                    <UDivider
+                        orientation="horizontal"
+                        class="hidden max-[790px]:block my-4"
+                    />
+                </template>
+            </template>
         </section>
-        <section class="h-40 md:h-64" />
         <UDivider class="w-full">
             <div class="flex items-center gap-4 justify-center">
                 <UBadge size="lg" color="gray" class="flex items-center gap-2">
