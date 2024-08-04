@@ -31,16 +31,21 @@ export default defineNuxtConfig({
 
     modules: [
         "nuxt-aos",
-        "@nuxt/ui",
-        "@nuxtjs/seo",
-        "@nuxt/fonts",
         "@paranoidphantom/tgauth",
+        "nuxt-monaco-editor",
+        "@nuxt/ui",
+        "@nuxt/fonts",
+        "@nuxt/image",
+        "@nuxt/content",
+        "@nuxt/eslint",
+        "@nuxtjs/seo",
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
-        "nuxt-monaco-editor",
-        "@nuxt/eslint",
-        "@nuxt/content"
     ],
+
+    image: {
+        format: ["avif", "webp"],
+    },
 
     routeRules: {
         "/manage/**": { robots: false },
