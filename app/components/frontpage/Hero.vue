@@ -23,20 +23,20 @@ const { x, y } = useMouse();
             alt="Фон"
             sizes="100vw"
             class="absolute top-0 left-0 w-full h-screen object-cover blur-md -z-20"
-        >
+        />
         <NuxtImg
             src="/images/noise.png"
             class="static-noise absolute top-0 left-0 w-full object-cover opacity-30 -z-10"
             sizes="100vw"
             style="height: calc(100vh + 5px)"
-        >
+        />
         <NuxtImg
             src="/images/noise.png"
             class="dynamic-noise absolute top-0 left-0 w-full object-cover opacity-50 z-10 pointer-events-none"
             sizes="100vw"
             style="height: calc(100vh + 5px)"
             :style="{ '--x': x + 'px', '--y': y + 'px' }"
-        >
+        />
         <!-- Hero -->
         <div v-show="!isServer" class="flex flex-col items-center gap-2">
             <!-- Line 1 -->
@@ -51,7 +51,8 @@ const { x, y } = useMouse();
                     src="/images/school_compact.png"
                     alt="Школа"
                     class="rounded-full hidden sm:block sm:h-12 md:h-14 lg:h-[4.6rem]"
-                /></div>
+                />
+            </div>
             <!-- Line 2 -->
             <div class="flex gap-5 flex-wrap" data-aos="fade-left">
                 <h1
@@ -71,7 +72,8 @@ const { x, y } = useMouse();
                 <div
                     class="sm:flex sm:h-12 md:h-14 lg:h-20 items-center justify-center bg-white py-2 px-4 rounded-full hidden"
                 >
-                    <NuxtImg class="h-2/3" src="/images/ort.png" alt="ORT" /></div>
+                    <NuxtImg class="h-2/3" src="/images/ort.png" alt="ORT" />
+                </div>
                 <h1
                     class="gradient text-6xl md:text-7xl lg:text-8xl"
                     style="animation-delay: 0.67s"
@@ -117,7 +119,7 @@ const { x, y } = useMouse();
                 </UButton>
             </div>
         </div>
-    </nuxtimg></nuxtimg></nuxtimg></section>
+    </section>
 </template>
 
 <style lang="scss" scoped>

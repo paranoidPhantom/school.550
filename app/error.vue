@@ -40,12 +40,13 @@ const barcode = computed(() => `${error.statusCode} ${error.message}`);
                 :style="`translate: ${displacement.x}% ${displacement.y}%;`"
                 class="a hidden sm:block transition-all"
                 src="/images/question_mark.svg"
-            >
+            />
             <NuxtImg
                 :style="`translate: ${displacement.x}% ${displacement.y}%;`"
                 class="b transition-all"
                 src="/images/question_mark.svg"
-            /></nuxtimg></div>
+            />
+        </div>
         <div class="error-wrapper">
             <h1 class="text-center">
                 <span v-for="c in barcode" :key="c">{{ c }}</span>
