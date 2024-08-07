@@ -22,7 +22,7 @@
     "@nuxtjs/algolia": "^1.10.2",
     "@nuxtjs/mdc": "^0.8.3",
     "@nuxtjs/seo": "2.0.0-rc.15",
-    "@paranoidphantom/tgauth": "^1.1.0",
+    "@paranoidphantom/tgauth": "^1.2.1",
     "@vercel/kv": "^2.0.0",
     "@vercel/speed-insights": "^1.0.12",
     "algoliasearch": "^4.24.0",
@@ -45,12 +45,8 @@
     "lint": "eslint . --fix"
   },
   "trustedDependencies": [
-    "@fortawesome/fontawesome-common-types",
-    "@fortawesome/free-regular-svg-icons",
-    "@fortawesome/free-solid-svg-icons",
     "@vercel/speed-insights",
     "esbuild",
-    "json-editor-vue",
     "sharp",
     "vue-demi"
   ],
