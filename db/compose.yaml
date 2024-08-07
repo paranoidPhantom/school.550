@@ -7,28 +7,16 @@ services:
     volumes:
       - .env:/usr/src/app/.env
       - storage:/usr/src/app/storage
+  nginx:
+    image: nginx:latest
+    restart: always
     depends_on:
-      - traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`db.portaltest.ort.spb.ru`)"
-      - "traefik.http.services.app.loadbalancer.server.port=3000"
-  traefik:
-    image: traefik:v3.1
-    command:
-      - --providers.docker=true
-      - --providers.file.filename=/traefik.yml
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
+      - app
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080" # Traefik dashboard
+      - 80:80
+      - 443:443
     volumes:
-      - ./traefik/traefik.yml:/traefik.yml
-      - ./letsencrypt:/letsencrypt
-      - /var/run/docker.sock:/var/run/docker.sock
-    
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
   watchtower:
     image: containrrr/watchtower
     volumes:
