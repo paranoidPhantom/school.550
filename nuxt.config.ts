@@ -31,18 +31,28 @@ export default defineNuxtConfig({
 
     modules: [
         "nuxt-aos",
-        "@nuxt/ui",
-        "@nuxtjs/seo",
-        "@nuxt/fonts",
         "@paranoidphantom/tgauth",
+        "nuxt-monaco-editor",
+        "@nuxt/ui",
+        "@nuxt/fonts",
+        "@nuxt/image",
+        "@nuxt/content",
+        "@nuxt/eslint",
+        "@nuxtjs/seo",
         "@nuxtjs/mdc",
         "@nuxtjs/algolia",
-        "nuxt-monaco-editor",
-        "@nuxt/eslint",
     ],
 
+    image: {
+        // TODO: fix this domain
+        domains: ["db.portaltest.ort.spb.ru"],
+        formats: ["avif", "webp"],
+    },
+
     routeRules: {
-        "/manage/**": { robots: false },
+        "/": { isr: 600 },
+        "/**": { isr: 600 },
+        "/manage/**": { robots: false, isr: false, swr: true },
     },
 
     sitemap: {

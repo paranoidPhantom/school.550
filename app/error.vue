@@ -3,7 +3,7 @@ import type { NuxtError } from "#app";
 import { useMouse } from "@vueuse/core";
 
 const { error } = defineProps<{
-	error: NuxtError
+    error: NuxtError;
 }>();
 const comment = ref();
 
@@ -13,7 +13,7 @@ switch (error.statusCode) {
         break;
     }
     case 500: {
-        comment.value = `Возникла серверная ошибка (не гуд). Самое время настучать по голове Худалла Андрею...`;
+        comment.value = `Возникла серверная ошибка (не гуд). Самое время настучать по голове Андрею...`;
         break;
     }
 }
@@ -36,16 +36,16 @@ const barcode = computed(() => `${error.statusCode} ${error.message}`);
 <template>
     <div class="__error">
         <div class="creative-block">
-            <img
+            <NuxtImg
                 :style="`translate: ${displacement.x}% ${displacement.y}%;`"
-                class="a hidden sm:block"
+                class="a hidden sm:block transition-all"
                 src="/images/question_mark.svg"
-            >
-            <img
+            />
+            <NuxtImg
                 :style="`translate: ${displacement.x}% ${displacement.y}%;`"
-                class="b"
+                class="b transition-all"
                 src="/images/question_mark.svg"
-            >
+            />
         </div>
         <div class="error-wrapper">
             <h1 class="text-center">

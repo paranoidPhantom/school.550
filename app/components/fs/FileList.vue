@@ -4,8 +4,8 @@ import type { File } from "~/types/file";
 const props = defineProps<{
     files?: File[];
     selectable: boolean;
+    downloadable?: boolean;
 }>();
-
 const emit = defineEmits<{
     (e: "fileUpload", files: FileList): void;
     (e: "fileAction", file: File): void;
@@ -14,6 +14,7 @@ const emit = defineEmits<{
 const selectedFiles = defineModel<Set<string>>("selected");
 if (!selectedFiles.value) selectedFiles.value = new Set();
 
+const path = defineModel<string>("path");
 watch(
     () => props.files,
     () => {
@@ -140,8 +141,19 @@ function onContextMenu(file: File) {
                     <span>{{ file.name }}</span>
                 </div>
                 <!-- Right -->
-                <div v-if="!file.isDirectory" class="text-sm text-gray-500">
-                    {{ useFormattedFileSize(file.size) }}
+                <div class="flex items-center gap-2">
+                    <UButton
+                        v-if="downloadable"
+                        icon="mdi:download"
+                        color="gray"
+                        size="xs"
+                        @click="
+                            $emit('fileAction', { ...file, download: true })
+                        "
+                    />
+                    <div v-if="!file.isDirectory" class="text-sm text-gray-500">
+                        {{ useFormattedFileSize(file.size) }}
+                    </div>
                 </div>
             </div>
         </template>

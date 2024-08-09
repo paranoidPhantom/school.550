@@ -60,13 +60,12 @@
     }
     a {
         @apply text-sky-500;
-        text-decoration: underline dotted;
         &:hover {
             @apply text-sky-600;
         }
     }
     hr {
-        @apply opacity-10;
+        @apply dark:opacity-10;
     }
 }
 </style>

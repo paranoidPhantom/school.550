@@ -2,13 +2,15 @@
 	"name": "db",
 	"version": "1.0.50",
 	"scripts": {
-		"start": "bun run src/index.ts",
-		"dev": "bun run --watch src/index.ts"
+		"start": "bun src/index.ts",
+		"dev": "bun --watch src/index.ts",
+		"build": "docker compose build && docker compose push"
 	},
 	"dependencies": {
 		"@elysiajs/cors": "^1.1.0",
+		"@types/archiver": "^6.0.2",
+		"archiver": "^7.0.1",
 		"elysia": "latest",
-		"ftp-srv": "^4.6.3",
 		"jose": "^5.6.3"
 	},
 	"devDependencies": {

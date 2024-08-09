@@ -23,11 +23,25 @@ const state = reactive<{
     mobileDepth: 0,
 });
 
+type NormalLink = {
+    label: string;
+    to: string;
+    customIndex?: number;
+};
+
 const links: {
     [key: string]: {
-        [key: string]: { label: string; to: string; customIndex?: number }[];
+        [key: string]: NormalLink[];
     };
 } = {
+    Новости: {
+        "": [
+            {
+                to: "special",
+                label: "news",
+            },
+        ],
+    },
     "Сведения об ОУ": {
         "Сведения об оброзовательном учреждении": [
             {
@@ -148,10 +162,6 @@ const links: {
                 label: "Функциональная грамотность",
                 to: "/funclit",
             },
-            {
-                label: "Школьный спортивный клуб",
-                to: "/sportclub",
-            },
         ],
     },
 };
@@ -163,7 +173,7 @@ const openHeader = (groupName: string, index: number) => {
     state.lastEnteredIndex = index;
 };
 
-const heights = [450, 300, 350];
+const heights = [100, 450, 300, 290];
 
 const router = useRouter();
 
@@ -173,6 +183,7 @@ router.afterEach(() => (state.active = false));
 <template>
     <div class="__header">
         <h1 class="hidden">Школа 550</h1>
+        <div class="bg-blur" :class="{ active: state.active }" />
         <div
             class="wrapper"
             :class="{ active: state.active }"
@@ -189,7 +200,7 @@ router.afterEach(() => (state.active = false));
                         class="lg:hidden"
                         @click="searchEnabled = true"
                     />
-                    <NuxtLink to="/" class="left">Logo</NuxtLink>
+                    <AppLogo />
                     <nav class="hidden lg:flex items-center gap-2">
                         <UButton
                             v-for="(group, groupName, index) in links"
@@ -197,7 +208,8 @@ router.afterEach(() => (state.active = false));
                             :label="(groupName as string)"
                             variant="link"
                             color="white"
-                            @mouseenter="openHeader(groupName as string, index)"
+                            :to="groupName === 'Новости' ? '/news' : undefined"
+                            @mouseenter="() => {if(groupName !== 'Новости') openHeader(groupName as string, index)}"
                         />
                     </nav>
                     <div class="right flex items-center gap-2">
@@ -239,11 +251,18 @@ router.afterEach(() => (state.active = false));
                                     :label="(groupName as string)"
                                     color="gray"
                                     trailing-icon="material-symbols:arrow-right-alt-rounded"
+                                    :to="
+                                        groupName === 'Новости'
+                                            ? '/news'
+                                            : undefined
+                                    "
                                     @click="
                                         () => {
-                                            state.animation = 'right';
-                                            state.mobileDepth = 1;
-                                            state.currentGroup = groupName;
+                                            if (groupName !== 'Новости') {
+                                                state.animation = 'right';
+                                                state.mobileDepth = 1;
+                                                state.currentGroup = groupName;
+                                            }
                                         }
                                     "
                                 />
@@ -387,6 +406,14 @@ router.afterEach(() => (state.active = false));
                 }
             }
         }
+    }
+}
+
+.bg-blur {
+    @apply fixed z-20 inset-0 pointer-events-none transition-all duration-700;
+    &.active {
+        @apply bg-gray-50 bg-opacity-20 backdrop-blur-sm;
+        @apply dark:bg-gray-800 dark:bg-opacity-50;
     }
 }
 
