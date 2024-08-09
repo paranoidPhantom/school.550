@@ -14,6 +14,23 @@ onMounted(async () => {
         navigateTo("/manage/auth");
     }
 });
+
+useSeoMeta({
+    ogImage: "/images/exterior.png",
+});
+
+useHead({
+    htmlAttrs: {
+        lang: "ru",
+    },
+    link: [
+        {
+            rel: "icon",
+            type: "image/png",
+            href: "/favicon.png",
+        },
+    ],
+});
 </script>
 
 <template>
