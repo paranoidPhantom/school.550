@@ -145,19 +145,19 @@ const colorMode = useColorMode();
 
 const editor = ref<Monaco.editor.ICodeEditor | null>(null);
 
-const getSelection = () => {
-	if (editor.value) {
-		const model = editor.value.getModel();
-		const selection = editor.value.getSelection();
+// const getSelection = () => {
+// 	if (editor.value) {
+// 		const model = editor.value.getModel();
+// 		const selection = editor.value.getSelection();
 
-		if (model && selection) {
-			const start = model.getOffsetAt(selection.getStartPosition());
-			const end = model.getOffsetAt(selection.getEndPosition());
-			return { start, end };
-		}
-	}
-	return { start: 0, end: 0 };
-};
+// 		if (model && selection) {
+// 			const start = model.getOffsetAt(selection.getStartPosition());
+// 			const end = model.getOffsetAt(selection.getEndPosition());
+// 			return { start, end };
+// 		}
+// 	}
+// 	return { start: 0, end: 0 };
+// };
 
 const initialSetupEditor = (editorPassed: Monaco.editor.ICodeEditor) => {
 	editor.value = editorPassed;
