@@ -78,15 +78,12 @@ const sections: {
 									>
 										<template
 											v-if="link.popover === 'dev_andrei'"
-										>
-										
-										</template>
+										/>
 										<template
 											v-else-if="
 												link.popover === 'dev_kirill'
 											"
-										>
-										</template>
+										/>
 									</UCard>
 								</template>
 							</UPopover>
