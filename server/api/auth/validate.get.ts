@@ -1,3 +1,3 @@
 export default defineEventHandler(async (event) => {
-    return event.context.valid;
+	return event.context.valid;
 });

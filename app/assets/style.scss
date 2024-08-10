@@ -1,25 +1,27 @@
 :root {
-    font-family: Raleway, sans-serif;
-    scroll-behavior: smooth;
+	font-family: Raleway, sans-serif;
+	scroll-behavior: smooth;
 }
 
 .page-enter-from,
 .page-leave-to {
-    opacity: 0;
+	opacity: 0;
 }
 
 .page-enter-active,
 .page-leave-active {
-    transition: opacity 0.5s;
+	transition: opacity 0.5s;
 }
 
 .layout-enter-from,
 .layout-leave-to {
-    opacity: 0;
-    transform: translateY(-50px);
+	opacity: 0;
+	transform: translateY(-50px);
 }
 
 .layout-enter-active,
 .layout-leave-active {
-    transition: opacity 0.5s, transform 0.5s;
+	transition:
+		opacity 0.5s,
+		transform 0.5s;
 }

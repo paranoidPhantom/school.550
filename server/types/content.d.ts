@@ -1,4 +1,4 @@
 export interface Content {
-    slug: string;
-    created_by: number;
+	slug: string;
+	created_by: number;
 }

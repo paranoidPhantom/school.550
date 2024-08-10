@@ -1,3 +1,3 @@
 export default defineEventHandler(async (event) => {
-    event.context.storage_driver = "default";
+	event.context.storage_driver = "default";
 });

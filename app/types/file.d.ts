@@ -1,6 +1,6 @@
 export interface File {
-    name: string;
-    size: number;
-    isDirectory: boolean;
-    download?: boolean;
+	name: string;
+	size: number;
+	isDirectory: boolean;
+	download?: boolean;
 }

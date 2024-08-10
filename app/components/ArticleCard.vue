@@ -7,58 +7,58 @@ const route = useRoute();
 </script>
 
 <template>
-    <NuxtLink :to="to" class="w-full" data-aos="fade-up">
-        <article
-            class="flex flex-col gap-2 relative rounded-[2rem] overflow-hidden"
-            :style="{
-                height:
-                    props['customHeight'] && route.path !== '/'
-                        ? props['customHeight']
-                        : '24rem',
-            }"
-        >
-            <USkeleton class="absolute inset-0 w-full h-full" />
-            <NuxtImg
-                :src="image"
-                :alt="title"
-                width="100%"
-                height="100%"
-                fit="cover"
-                class="absolute inset-0 w-full h-full object-cover z-0"
-            />
-            <div class="flex flex-col justify-between absolute inset-3 z-10">
-                <div class="flex justify-between gap-8">
-                    <p
-                        class="surface px-6 py-3 rounded-full bg-white bg-opacity-25 backdrop-blur-md text-white border-white border border-opacity-30"
-                    >
-                        {{ date }}
-                    </p>
-                    <div
-                        class="surface rounded-full bg-white w-auto h-full aspect-1 flex items-center justify-center"
-                    >
-                        <UIcon
-                            class="text-black text-3xl shadow shadow-black"
-                            name="material-symbols-light:arrow-outward-rounded"
-                        />
-                    </div>
-                </div>
-                <h3
-                    class="surface px-6 py-3 rounded-[2rem] bg-white bg-opacity-25 backdrop-blur-md text-white border-white border border-opacity-30"
-                >
-                    {{ title }}
-                </h3>
-            </div>
-        </article>
-    </NuxtLink>
+	<NuxtLink :to="to" class="w-full" data-aos="fade-up">
+		<article
+			class="relative flex flex-col gap-2 overflow-hidden rounded-[2rem]"
+			:style="{
+				height:
+					props['customHeight'] && route.path !== '/'
+						? props['customHeight']
+						: '24rem',
+			}"
+		>
+			<USkeleton class="absolute inset-0 h-full w-full" />
+			<NuxtImg
+				:src="image"
+				:alt="title"
+				width="100%"
+				height="100%"
+				fit="cover"
+				class="absolute inset-0 z-0 h-full w-full object-cover"
+			/>
+			<div class="absolute inset-3 z-10 flex flex-col justify-between">
+				<div class="flex justify-between gap-8">
+					<p
+						class="surface rounded-full border border-white border-opacity-30 bg-white bg-opacity-25 px-6 py-3 text-white backdrop-blur-md"
+					>
+						{{ date }}
+					</p>
+					<div
+						class="surface aspect-1 flex h-full w-auto items-center justify-center rounded-full bg-white"
+					>
+						<UIcon
+							class="text-3xl text-black shadow shadow-black"
+							name="material-symbols-light:arrow-outward-rounded"
+						/>
+					</div>
+				</div>
+				<h3
+					class="surface rounded-[2rem] border border-white border-opacity-30 bg-white bg-opacity-25 px-6 py-3 text-white backdrop-blur-md"
+				>
+					{{ title }}
+				</h3>
+			</div>
+		</article>
+	</NuxtLink>
 </template>
 
 <style lang="scss" scoped>
 article {
-    .surface {
-        background-image: url(/images/noise.png);
-        background-repeat: no-repeat;
-        background-size: 300% 300%;
-        background-position: center;
-    }
+	.surface {
+		background-image: url(/images/noise.png);
+		background-repeat: no-repeat;
+		background-size: 300% 300%;
+		background-position: center;
+	}
 }
 </style>

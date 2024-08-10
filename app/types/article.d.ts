@@ -1,7 +1,7 @@
 export interface Article {
-    title: string;
-    image: string;
-    to: string;
-    date: string;
-    customHeight: string;
+	title: string;
+	image: string;
+	to: string;
+	date: string;
+	customHeight: string;
 }
