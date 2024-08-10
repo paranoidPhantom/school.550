@@ -3,6 +3,7 @@
 	"devDependencies": {
 		"@iconify-json/akar-icons": "^1.1.26",
 		"@iconify-json/codicon": "^1.1.51",
+		"@iconify-json/devicon": "^1.1.50",
 		"@iconify-json/entypo-social": "^1.1.9",
 		"@iconify-json/fluent": "^1.1.61",
 		"@iconify-json/heroicons-outline": "^1.1.11",
