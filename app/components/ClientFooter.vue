@@ -6,69 +6,35 @@ onMounted(() => {
 });
 
 const sections: {
-	[key: string]: {
-		name: string;
-		route: string;
-	}[];
+	[key: string]: (
+		| {
+				name: string;
+				route: string;
+		  }
+		| {
+				name: string;
+				popover: string;
+		  }
+	)[];
 } = {
-	Solutions: [
+	"Помочь разработке": [
 		{
-			name: "Explainable AI",
-			route: "/solutions/ExplainableAI",
+			name: "Исходный код проекта",
+			route: "https://github.com/paranoidPhantom/school.550",
 		},
 		{
-			name: "ML Monitoring",
-			route: "/solutions/MLMonitoring",
-		},
-	],
-	"Use cases": [
-		{
-			name: "Fraud",
-			route: "/Use_Cases/Fraud",
-		},
-		{
-			name: "Churn detection",
-			route: "/Use_Cases/Churn_detection",
-		},
-		{
-			name: "Underwriting",
-			route: "/Use_Cases/Underwriting",
+			name: "Упомянуть ошибку на GitHub",
+			route: "https://github.com/paranoidPhantom/school.550/issues/new",
 		},
 	],
-	Resources: [
+	"Над проектом работали": [
 		{
-			name: "Resource Hub",
-			route: "/Resources/Resource_Hub",
+			name: "Худалла Андрей",
+			popover: "dev_andrei",
 		},
 		{
-			name: "Blog",
-			route: "/Resources/Blog",
-		},
-		{
-			name: "Learn More",
-			route: "/Resources/Learn_More",
-		},
-	],
-	Company: [
-		{
-			name: "About Us",
-			route: "/company/About_Us",
-		},
-		{
-			name: "Carrers",
-			route: "/company/Carrers",
-		},
-		{
-			name: "Events",
-			route: "/company/Events",
-		},
-		{
-			name: "Contact Us",
-			route: "/company/Contact_Us",
-		},
-		{
-			name: "Privacy Policy",
-			route: "/company/Privacy_Policy",
+			name: "Филлипов Кирилл",
+			popover: "dev_kirill",
 		},
 	],
 };
@@ -79,7 +45,7 @@ const sections: {
 		<UDivider class="w-full" />
 
 		<section
-			class="mx-auto flex w-full justify-center gap-[5%] p-8 pr-[10%] max-[790px]:ml-4 max-[790px]:flex-col"
+			class="mx-auto flex w-full justify-center gap-[5%] p-8 max-[790px]:ml-4 max-[790px]:flex-col"
 		>
 			<template
 				v-for="(links, section, index) in sections"
@@ -88,16 +54,52 @@ const sections: {
 				<div>
 					<p class="mb-6 font-bold text-gray-400">{{ section }}</p>
 					<div class="flex flex-col space-y-2">
-						<UButton
-							v-for="link in links"
-							:key="link.name"
-							class="px-0"
-							variant="link"
-							color="white"
-							:to="link.route"
-						>
-							<p>{{ link.name }}</p>
-						</UButton>
+						<template v-for="link in links" :key="link.name">
+							<UPopover
+								v-if="link.popover"
+								class="w-fit"
+								:popper="{ placement: 'right' }"
+							>
+								<UButton
+									class="pl-0 pr-2"
+									variant="link"
+									color="white"
+									:to="link.route"
+								>
+									<p>{{ link.name }}</p>
+								</UButton>
+								<template #panel>
+									<UCard
+										:ui="{
+											body: {
+												padding: 'p-2 sm:p-3 md:p-4',
+											},
+										}"
+									>
+										<template
+											v-if="link.popover === 'dev_andrei'"
+										>
+										
+										</template>
+										<template
+											v-else-if="
+												link.popover === 'dev_kirill'
+											"
+										>
+										</template>
+									</UCard>
+								</template>
+							</UPopover>
+							<UButton
+								v-else
+								class="px-0"
+								variant="link"
+								color="white"
+								:to="link.route"
+							>
+								<p>{{ link.name }}</p>
+							</UButton>
+						</template>
 					</div>
 				</div>
 				<template v-if="index !== Object.keys(sections).length - 1">
@@ -115,12 +117,18 @@ const sections: {
 					<p>Мы в соцсетях</p>
 					<p class="opacity-30">|</p>
 					<UTooltip text="VK">
-						<NuxtLink to="https://vk.com/school_550_spb">
+						<NuxtLink
+							to="https://vk.com/school_550_spb"
+							class="flex items-center"
+						>
 							<UIcon name="mdi:vk" class="h-5" /> </NuxtLink
 					></UTooltip>
 					<UTooltip text="Telegram">
-						<NuxtLink to="https://t.me/school550_spb">
-							<UIcon name="mdi:telegram" class="h-5" /> </NuxtLink
+						<NuxtLink
+							to="https://t.me/school550_spb"
+							class="flex items-center"
+						>
+							<UIcon name="mdi:telegram" /> </NuxtLink
 					></UTooltip>
 				</UBadge>
 			</div>
