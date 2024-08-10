@@ -34,10 +34,10 @@ const route = useRoute();
 						{{ date }}
 					</p>
 					<div
-						class="surface aspect-1 flex h-full w-auto items-center justify-center rounded-full bg-white"
+						class="surface aspect-1 shadow-gray flex h-full w-auto items-center justify-center rounded-full bg-white bg-opacity-70"
 					>
 						<UIcon
-							class="text-3xl text-black shadow shadow-black"
+							class="text-3xl text-black"
 							name="material-symbols-light:arrow-outward-rounded"
 						/>
 					</div>
