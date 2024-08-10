@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+import {
+	breakpointsTailwind,
+	useBreakpoints,
+	useWindowScroll,
+} from "@vueuse/core";
 
 const isServer = import.meta.server;
 
@@ -178,6 +182,8 @@ const heights = [100, 450, 300, 290];
 const router = useRouter();
 
 router.afterEach(() => (state.active = false));
+
+const { y } = useWindowScroll();
 </script>
 
 <template>
@@ -191,7 +197,10 @@ router.afterEach(() => (state.active = false));
 				'--section-height': `${heights[state.lastEnteredIndex]}px`,
 			}"
 		>
-			<header @mouseleave="state.active = false">
+			<header
+				:class="{ scrolled: y > 100 }"
+				@mouseleave="state.active = false"
+			>
 				<div class="base">
 					<UButton
 						color="white"
@@ -386,7 +395,7 @@ router.afterEach(() => (state.active = false));
 		header {
 			@apply h-full w-full px-4;
 			@apply rounded-2xl bg-gray-50 bg-opacity-20 backdrop-blur-xl;
-			@apply dark:border-2 dark:border-gray-600 dark:bg-gray-800 dark:bg-opacity-50;
+			@apply dark:border dark:border-gray-900 dark:border-opacity-0 dark:bg-gray-800 dark:bg-opacity-50;
 			@apply overflow-hidden transition-all duration-300;
 			max-width: 1200px;
 			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -396,6 +405,9 @@ router.afterEach(() => (state.active = false));
 				@apply border-b border-b-gray-900 border-opacity-0 dark:border-b-gray-100 dark:border-opacity-0;
 				max-width: 100%;
 				height: calc(var(--header-height) - 1.6rem - 2px);
+			}
+			&.scrolled {
+				@apply dark:border-opacity-50;
 			}
 		}
 		&.active {
