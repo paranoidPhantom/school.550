@@ -43,7 +43,7 @@ const { x, y } = useMouse();
 		/>
 		<NuxtPicture
 			src="/images/noise.png"
-			class="dynamic-noise pointer-events-none absolute left-0 top-0 z-10 w-full object-cover opacity-50"
+			class="dynamic-noise pointer-events-none absolute left-0 top-0 z-10 w-full object-cover opacity-60"
 			width="1920"
 			sizes="sm:100vw md:100vw lg:100vw"
 			quality="10"
@@ -113,7 +113,7 @@ const { x, y } = useMouse();
 			/>
 		</div>
 		<div
-			class="hero-links absolute bottom-0 flex w-full max-w-[1200px] justify-between p-4 pb-8 sm:p-6 md:p-8"
+			class="hero-links absolute bottom-0 flex w-full max-w-[1200px] justify-between p-4 pb-8 opacity-80 sm:p-6 md:p-8"
 		>
 			<div class="flex flex-wrap gap-x-4 gap-y-2">
 				<UButton variant="solid" color="gray" to="#location"
