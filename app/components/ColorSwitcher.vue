@@ -28,18 +28,15 @@ const toggleMode = () => {
 </script>
 
 <template>
-	<div class="color-switcher">
-		<ClientOnly>
-			<UButton
-				:key="currentMode.key"
-				:icon="currentMode.icon"
-				size="lg"
-				color="white"
-				variant="link"
-				@click="toggleMode"
-			/>
-		</ClientOnly>
-	</div>
+	<ClientOnly>
+		<UButton
+			:key="currentMode.key"
+			:icon="currentMode.icon"
+			color="white"
+			variant="link"
+			@click="toggleMode"
+		/>
+	</ClientOnly>
 </template>
 
 <style lang="scss" scoped></style>
