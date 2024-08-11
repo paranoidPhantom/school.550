@@ -36,6 +36,10 @@ const sections: {
 			name: "Филлипов Кирилл",
 			popover: "dev_kirill",
 		},
+		{
+			name: "Каменик Леонид",
+			popover: "dev_leonid",
+		},
 	],
 };
 </script>
@@ -78,12 +82,73 @@ const sections: {
 									>
 										<template
 											v-if="link.popover === 'dev_andrei'"
-										/>
+										>
+											<div class="flex flex-col gap-2">
+												<h3
+													class="text-md font-semibold"
+												>
+													{{ link.name }}
+												</h3>
+												<p class="text-xs opacity-50">
+													Тим лид
+												</p>
+												<p class="max-w-64 text-xs">
+													Нёс ответственность за
+													полный цикл разработки, от
+													базы данных до файлового
+													сервера.
+												</p>
+											</div>
+										</template>
 										<template
 											v-else-if="
 												link.popover === 'dev_kirill'
 											"
-										/>
+										>
+											<div class="flex flex-col gap-2">
+												<h3
+													class="text-md font-semibold"
+												>
+													{{ link.name }}
+												</h3>
+												<p class="text-xs opacity-50">
+													Разработчик
+												</p>
+												<p class="max-w-64 text-xs">
+													Сделал подвал сайта, создал
+													страницы сайта, которые
+													требуются к структуре сайта
+													в
+													информационно-телекоммуникационной
+													сети «Интернет» и формату
+													представления информации
+												</p>
+											</div>
+										</template>
+										<template
+											v-else-if="
+												link.popover === 'dev_leonid'
+											"
+										>
+											<div class="flex flex-col gap-2">
+												<h3
+													class="text-md font-semibold"
+												>
+													{{ link.name }}
+												</h3>
+												<p class="text-xs opacity-50">
+													UX/UI дизайнер
+												</p>
+												<p class="max-w-64 text-xs">
+													Отвечал за исследование
+													продукта и его конкурентов.
+													Спроектировал концепт сайта
+													и нарисовал все элементы
+													дизайна: от кнопок до
+													анимаций
+												</p>
+											</div>
+										</template>
 									</UCard>
 								</template>
 							</UPopover>
