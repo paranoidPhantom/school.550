@@ -52,13 +52,4 @@ const route = useRoute();
 	</NuxtLink>
 </template>
 
-<style lang="scss" scoped>
-article {
-	.surface {
-		background-image: url(/images/noise.png);
-		background-repeat: no-repeat;
-		background-size: 300% 300%;
-		background-position: center;
-	}
-}
-</style>
+<style lang="scss" scoped></style>
