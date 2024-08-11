@@ -30,7 +30,7 @@ const { x, y } = useMouse();
 		/>
 		<NuxtPicture
 			src="/images/noise.png"
-			class="static-noise absolute left-0 top-0 -z-10 w-full object-cover opacity-30"
+			class="static-noise absolute left-0 top-0 -z-10 w-full object-cover opacity-20"
 			width="1920"
 			sizes="sm:100vw md:100vw lg:100vw"
 			quality="10"
@@ -43,7 +43,7 @@ const { x, y } = useMouse();
 		/>
 		<NuxtPicture
 			src="/images/noise.png"
-			class="dynamic-noise pointer-events-none absolute left-0 top-0 z-10 w-full object-cover opacity-60"
+			class="dynamic-noise pointer-events-none absolute left-0 top-0 z-10 w-full object-cover opacity-20"
 			width="1920"
 			sizes="sm:100vw md:100vw lg:100vw"
 			quality="10"
