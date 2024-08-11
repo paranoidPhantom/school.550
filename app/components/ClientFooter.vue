@@ -33,7 +33,7 @@ const sections: {
 			popover: "dev_andrei",
 		},
 		{
-			name: "Филлипов Кирилл",
+			name: "Филиппов Кирилл",
 			popover: "dev_kirill",
 		},
 		{
