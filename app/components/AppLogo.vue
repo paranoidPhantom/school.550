@@ -1,9 +1,7 @@
-<script lang="ts" setup>
-const route = useRoute();
-</script>
+<script lang="ts" setup></script>
 
 <template>
-	<NuxtLink :to="route.path === '/' ? '/logo' : '/'">
+	<NuxtLink to="/">
 		<UIcon name="fluent:draw-image-24-regular" class="text-2xl" />
 	</NuxtLink>
 </template>
