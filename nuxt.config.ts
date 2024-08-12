@@ -88,6 +88,10 @@ export default defineNuxtConfig({
 		compatibilityVersion: 4,
 	},
 
+	tgauth: {
+		auth_expiration: 0,
+	},
+
 	runtimeConfig: {
 		public: {
 			tgbot: process.env.TG_BOT,
