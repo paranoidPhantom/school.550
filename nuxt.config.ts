@@ -28,6 +28,11 @@ export default defineNuxtConfig({
 			anchorLinks: false,
 		},
 	},
+	content: {
+		markdown: {
+			anchorLinks: false,
+		},
+	},
 
 	modules: [
 		"nuxt-aos",
