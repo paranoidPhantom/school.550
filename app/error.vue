@@ -64,18 +64,9 @@ const barcode = computed(() => `${error.statusCode} ${error.message}`);
 	h1 {
 		font-size: 5rem;
 		font-weight: 200;
-		font-family: "Libre Barcode 128 Text" sans-serif;
+		font-family: "Sankofa Display", sans-serif;
 		color: rgb(var(--color-primary-DEFAULT));
 		user-select: none;
-
-		span {
-			&:hover {
-				font-weight: 900;
-			}
-			&:active {
-				@apply text-red-500;
-			}
-		}
 	}
 	.error-wrapper {
 		position: absolute;
