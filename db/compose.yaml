@@ -34,8 +34,6 @@ services:
             - "USERS=${AUTHENTICATION}"
         volumes:
             - storage:/home/ftp/storage
-            - /etc/letsencrypt/live/portaltest.ort.spb.ru/fullchain.pem:/etc/letsencrypt/live/portaltest.ort.spb.ru/fullchain.pem
-            - /etc/letsencrypt/live/portaltest.ort.spb.ru/privkey.pem:/etc/letsencrypt/live/portaltest.ort.spb.ru/privkey.pem
 
 volumes:
     storage:
