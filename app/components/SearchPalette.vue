@@ -25,6 +25,7 @@ const results = [
 			}>;
 			return hits.map((hit) => {
 				return {
+					id: hit.title,
 					label: hit.title,
 					suffix: hit.description,
 					to: `/${hit.slug}`,
@@ -36,8 +37,8 @@ const results = [
 
 const router = useRouter();
 
-const onNavigate = (slug: string) => {
-	router.push(slug);
+const onNavigate = (option: { label: string; suffix: string; to: string }) => {
+	router.push(option.to);
 	enabled.value = false;
 };
 
@@ -63,7 +64,7 @@ defineShortcuts({
 				label: 'Ничего не найдено',
 				queryLabel: 'Мы не нашли ничего по вашему запросу.',
 			}"
-			@update:model-value="(option) => onNavigate(option.to)"
+			@update:model-value="(option) => onNavigate(option)"
 		>
 			<template #empty-state>
 				<div
