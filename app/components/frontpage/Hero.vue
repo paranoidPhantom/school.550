@@ -12,6 +12,17 @@ onMounted(() => {
 });
 
 const { x, y } = useMouse();
+
+useHead({
+	link: [
+		{
+			rel: "preload",
+			href: "/fonts/akony.ttf",
+			as: "font",
+			type: "font/ttf",
+		},
+	],
+});
 </script>
 
 <template>
@@ -20,6 +31,7 @@ const { x, y } = useMouse();
 	>
 		<NuxtPicture
 			src="/images/gradient.png"
+			preload
 			alt="Фон"
 			width="1920"
 			sizes="sm:100vw md:100vw lg:100vw"
@@ -30,6 +42,7 @@ const { x, y } = useMouse();
 		/>
 		<NuxtPicture
 			src="/images/noise.png"
+			preload
 			class="static-noise absolute left-0 top-0 -z-10 w-full object-cover opacity-20"
 			width="1920"
 			sizes="sm:100vw md:100vw lg:100vw"
@@ -43,6 +56,7 @@ const { x, y } = useMouse();
 		/>
 		<NuxtPicture
 			src="/images/noise.png"
+			preload
 			class="dynamic-noise pointer-events-none absolute left-0 top-0 z-10 w-full object-cover opacity-20"
 			width="1920"
 			sizes="sm:100vw md:100vw lg:100vw"
@@ -56,9 +70,9 @@ const { x, y } = useMouse();
 			:style="{ '--x': x + 'px', '--y': y + 'px' }"
 		/>
 		<!-- Hero -->
-		<div v-show="!isServer" class="flex flex-col items-center gap-2">
+		<div class="flex flex-col items-center gap-2">
 			<!-- Line 1 -->
-			<div class="flex max-w-full flex-wrap gap-5" data-aos="fade-right">
+			<div class="flex max-w-full flex-wrap gap-5">
 				<h1
 					class="gradient text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
 					style="animation-delay: 1.84s"
@@ -73,7 +87,7 @@ const { x, y } = useMouse();
 				/>
 			</div>
 			<!-- Line 2 -->
-			<div class="flex flex-wrap gap-5" data-aos="fade-left">
+			<div class="flex flex-wrap gap-5">
 				<h1
 					class="gradient text-md sm:text-2xl md:text-3xl lg:text-4xl"
 					style="animation-delay: 2.74s"
@@ -87,11 +101,12 @@ const { x, y } = useMouse();
 				</h1>
 			</div>
 			<!-- Line 3 -->
-			<div class="flex flex-wrap gap-5" data-aos="fade-right">
+			<div class="flex flex-wrap gap-5">
 				<div
 					class="hidden items-center justify-center rounded-full bg-white px-4 py-2 sm:flex sm:h-12 md:h-14 lg:h-20"
 				>
-					<img
+					<NuxtImg
+						preload
 						class="h-2/3"
 						src="/images/ort.png"
 						sizes="sm:65 md:80 lg:130"
@@ -106,12 +121,12 @@ const { x, y } = useMouse();
 				</h1>
 			</div>
 		</div>
-		<div v-show="isServer" class="flex items-center justify-center">
+		<!-- <div v-show="isServer" class="flex items-center justify-center">
 			<UIcon
 				name="svg-spinners:blocks-wave"
 				class="text-4xl text-white opacity-70 blur-[1px]"
 			/>
-		</div>
+		</div> -->
 		<div
 			class="hero-links absolute bottom-0 flex w-full max-w-[1200px] justify-between p-4 pb-8 opacity-80 sm:p-6 md:p-8"
 		>
