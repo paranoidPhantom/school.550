@@ -43,29 +43,30 @@
 		}
 	}
 	blockquote {
-		@apply border-l-4 border-gray-400 pl-4 opacity-70;
+		@apply rounded-l-md border-l-4 border-gray-400 pl-4 opacity-70;
 	}
 	table {
+		@apply overflow-hidden rounded-xl outline outline-1 outline-gray-400 dark:outline-gray-600;
 		thead {
 			@apply text-left;
 			th {
-				@apply rounded-xl border border-gray-400 border-opacity-50 p-2;
+				@apply rounded-xl border border-gray-400 border-opacity-50 px-4 py-2;
 			}
 		}
 		tbody {
 			td {
-				@apply border border-gray-400 border-opacity-40 p-2;
+				@apply border border-gray-400 border-opacity-40 px-4 py-2;
 			}
 		}
 	}
 	a {
-		@apply text-sky-500;
+		@apply relative text-sky-500 dark:text-sky-400;
 		&:hover {
-			@apply text-sky-600;
+			@apply text-sky-600 dark:text-sky-500;
 		}
 	}
 	hr {
-		@apply dark:opacity-10;
+		@apply dark:opacity-20;
 	}
 }
 </style>
