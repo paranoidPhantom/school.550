@@ -24,7 +24,7 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
         restart: always
         command: --interval 30
-    alpine-ftp-server:
+    ftp:
         image: delfer/alpine-ftp-server
         restart: always
         ports:
@@ -32,8 +32,12 @@ services:
             - 21000-21010:21000-21010
         environment:
             - "USERS=${AUTHENTICATION}"
+            - "TLS_CERT=/etc/letsencrypt/live/portaltest.ort.spb.ru/fullchain.pem"
+            - "TLS_KEY=/etc/letsencrypt/live/portaltest.ort.spb.ru/privkey.pem"
         volumes:
             - storage:/home/ftp/storage
+            - /etc/letsencrypt/live/portaltest.ort.spb.ru/fullchain.pem:/etc/letsencrypt/live/portaltest.ort.spb.ru/fullchain.pem
+            - /etc/letsencrypt/live/portaltest.ort.spb.ru/privkey.pem:/etc/letsencrypt/live/portaltest.ort.spb.ru/privkey.pem
 
 volumes:
     storage:
