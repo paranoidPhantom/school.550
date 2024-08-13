@@ -55,9 +55,8 @@ export default defineNuxtConfig({
 	},
 
 	routeRules: {
-		"/": { isr: 60 },
-		"^(?!/manage\b).*": { isr: 600 },
-		"/manage/**": { robots: false },
+		"/**": { isr: 60 },
+		"/manage/**": { robots: false, isr: false },
 	},
 
 	sitemap: {
