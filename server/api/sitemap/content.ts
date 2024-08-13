@@ -11,6 +11,7 @@ export default defineCachedEventHandler(
 			return content.map((p) =>
 				asSitemapUrl({
 					loc: p.slug,
+					lastmod: p.last_edited,
 				}),
 			);
 		} catch (error) {

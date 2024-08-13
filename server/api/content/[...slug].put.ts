@@ -1,4 +1,5 @@
 import algoliasearch from "algoliasearch";
+import type { Content } from "../../types/content";
 
 export default defineEventHandler(async (event) => {
 	// EDIT_CONTENT ONLY
@@ -10,6 +11,7 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 	try {
+		// Update DB
 		const { slug } = getRouterParams(event);
 		const environment = process.env.NODE_ENV;
 		const { md, title, description } = (await readBody(event)) as {
@@ -19,6 +21,23 @@ export default defineEventHandler(async (event) => {
 		};
 		await storage.setItem(`${environment}_content_${slug}`, md);
 
+		// Set last_edited in index array
+
+		const content = await storage.getItem<Content[]>(
+			`${environment}_content`,
+		);
+		if (content) {
+			await storage.setItem(
+				`${environment}_content`,
+				content.map((c) =>
+					c.slug === `/${slug}`
+						? { ...c, last_edited: new Date().toISOString() }
+						: c,
+				),
+			);
+		}
+
+		// Invalidate cache
 		let hash = 0;
 		const keyUnhashed = getRouterParams(event).slug;
 		for (let i = 0; i < keyUnhashed.length; i++) {
@@ -29,6 +48,8 @@ export default defineEventHandler(async (event) => {
 		await useStorage("cache").removeItem(
 			`nitro:handlers:content:${Math.abs(hash)}.json`,
 		);
+
+		// Update algolia index
 		const algolia = algoliasearch(
 			process.env.ALGOLIA_APPLICATION_ID as string,
 			process.env.ALGOLIA_API_KEY as string,

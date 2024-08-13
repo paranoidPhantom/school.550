@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
 		const { id: UID } = await event.context.user;
 		await storage.setItem(`${environment}_content`, [
 			...previousContent,
-			{ ...body, created_by: UID },
+			{ ...body, created_by: UID, last_edited: new Date().toISOString() },
 		]);
 	} catch (error) {
 		console.error("Error content.post:", error);
