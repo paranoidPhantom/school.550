@@ -9,7 +9,6 @@ export default defineEventHandler(async (event) => {
 
 	if (isAPI && !isContent) {
 		const { valid, user } = await serverTelegramUser(event);
-		console.log(valid, user);
 
 		event.context.perms = [];
 		event.context.valid = valid;
