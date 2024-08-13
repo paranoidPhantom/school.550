@@ -56,7 +56,7 @@ export default defineNuxtConfig({
 
 	routeRules: {
 		"/": { isr: 60 },
-		"/**": { isr: 30 },
+		// "/**": { isr: 30 },
 		"/manage/**": { robots: false, isr: false },
 	},
 
