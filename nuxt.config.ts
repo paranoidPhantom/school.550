@@ -60,6 +60,7 @@ export default defineNuxtConfig({
 
 	routeRules: {
 		"/": { isr: 60 },
+		"/info/**": { isr: false },
 		"/manage/**": { robots: false, isr: false },
 	},
 
