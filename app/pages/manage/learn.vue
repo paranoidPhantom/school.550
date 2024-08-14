@@ -9,8 +9,20 @@ const ytVids: {
 	url: string;
 }[] = [
 	{
-		title: "Ресурсы для редакторов сайта - Часть 1 - Авторизация",
-		url: "https://youtube.com/watch?v=aWsS0d7xpB4",
+		title: "Авторизация",
+		url: "https://www.youtube.com/watch?v=KQGNfAvRJcE&list=PL2sSeg_ec3jepkdiiomwD6wfT9sS5eMrb",
+	},
+	{
+		title: "Контент",
+		url: "https://www.youtube.com/watch?v=6Np2jQfdPCc&list=PL2sSeg_ec3jepkdiiomwD6wfT9sS5eMrb&index=2",
+	},
+	{
+		title: "Новости",
+		url: "https://www.youtube.com/watch?v=MaJVLs66kq4&list=PL2sSeg_ec3jepkdiiomwD6wfT9sS5eMrb&index=3",
+	},
+	{
+		title: "Файловая система",
+		url: "https://www.youtube.com/watch?v=EFjb_g_afn0&list=PL2sSeg_ec3jepkdiiomwD6wfT9sS5eMrb&index=4",
 	},
 ];
 const ytID = ({ url }: (typeof ytVids)[number]) =>
