@@ -46,6 +46,7 @@
 				allowfullscreen="true"
 				style="position: relative"
 				loading="lazy"
+				title="Школа на карте"
 			/>
 		</div>
 	</section>
