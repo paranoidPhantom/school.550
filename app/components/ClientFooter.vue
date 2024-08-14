@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-const isServer = ref(true);
-
-onMounted(() => {
-	isServer.value = false;
-});
-
 const sections: {
 	[key: string]: (
 		| {
@@ -175,22 +169,30 @@ const sections: {
 		</section>
 		<UDivider class="w-full">
 			<div class="flex items-center justify-center gap-4">
-				<UBadge size="lg" color="gray" class="flex items-center gap-2">
+				<UBadge size="lg" color="white" class="flex items-center gap-2">
 					<p>Мы в соцсетях</p>
 					<p class="opacity-30">|</p>
 					<UTooltip text="VK">
 						<NuxtLink
+							aria-label="Группа в ВКонтакте"
 							to="https://vk.com/school_550_spb"
 							class="flex items-center"
 						>
-							<UIcon name="mdi:vk" class="h-5" /> </NuxtLink
+							<UIcon
+								name="mdi:vk"
+								class="py-4 text-xl"
+							/> </NuxtLink
 					></UTooltip>
 					<UTooltip text="Telegram">
 						<NuxtLink
+							aria-label="Канал в Telegram"
 							to="https://t.me/school550_spb"
 							class="flex items-center"
 						>
-							<UIcon name="mdi:telegram" /> </NuxtLink
+							<UIcon
+								name="mdi:telegram"
+								class="py-4 text-xl"
+							/> </NuxtLink
 					></UTooltip>
 				</UBadge>
 			</div>
