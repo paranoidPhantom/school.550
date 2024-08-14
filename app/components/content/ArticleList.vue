@@ -43,70 +43,38 @@ const entryStaggerMs = 50;
 
 <template>
 	<section class="__articles w-full">
-		<ClientOnly>
-			<div class="flex">
-				<ArticleCard
-					v-for="article in articleRows[0]"
-					:key="article.title"
-					v-bind="article"
-					:data-aos-delay="article.globalIndex * entryStaggerMs"
-				/>
-			</div>
-			<div class="hidden md:flex">
-				<ArticleCard
-					v-for="article in articleRows[1]"
-					:key="article.title"
-					v-bind="article"
-					:data-aos-delay="article.globalIndex * entryStaggerMs"
-				/>
-			</div>
-			<div class="hidden lg:flex">
-				<ArticleCard
-					v-for="article in articleRows[2]"
-					:key="article.title"
-					v-bind="article"
-					:data-aos-delay="article.globalIndex * entryStaggerMs"
-				/>
-			</div>
-			<div class="hidden xl:flex">
-				<ArticleCard
-					v-for="article in articleRows[3]"
-					:key="article.title"
-					v-bind="article"
-					:data-aos-delay="article.globalIndex * entryStaggerMs"
-				/>
-			</div>
-			<template #fallback>
-				<div class="flex">
-					<ArticlePlaceholder
-						v-for="article in articleRows[0]"
-						:key="article.title"
-						v-bind="article"
-					/>
-				</div>
-				<div class="hidden md:flex">
-					<ArticlePlaceholder
-						v-for="article in articleRows[1]"
-						:key="article.title"
-						v-bind="article"
-					/>
-				</div>
-				<div class="hidden lg:flex">
-					<ArticlePlaceholder
-						v-for="article in articleRows[2]"
-						:key="article.title"
-						v-bind="article"
-					/>
-				</div>
-				<div class="hidden xl:flex">
-					<ArticlePlaceholder
-						v-for="article in articleRows[3]"
-						:key="article.title"
-						v-bind="article"
-					/>
-				</div>
-			</template>
-		</ClientOnly>
+		<div class="flex">
+			<ArticleCard
+				v-for="article in articleRows[0]"
+				:key="article.title"
+				v-bind="article"
+				:data-aos-delay="article.globalIndex * entryStaggerMs"
+			/>
+		</div>
+		<div class="hidden md:flex">
+			<ArticleCard
+				v-for="article in articleRows[1]"
+				:key="article.title"
+				v-bind="article"
+				:data-aos-delay="article.globalIndex * entryStaggerMs"
+			/>
+		</div>
+		<div class="hidden lg:flex">
+			<ArticleCard
+				v-for="article in articleRows[2]"
+				:key="article.title"
+				v-bind="article"
+				:data-aos-delay="article.globalIndex * entryStaggerMs"
+			/>
+		</div>
+		<div class="hidden xl:flex">
+			<ArticleCard
+				v-for="article in articleRows[3]"
+				:key="article.title"
+				v-bind="article"
+				:data-aos-delay="article.globalIndex * entryStaggerMs"
+			/>
+		</div>
 	</section>
 </template>
 

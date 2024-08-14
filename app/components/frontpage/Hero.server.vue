@@ -12,17 +12,6 @@ onMounted(() => {
 });
 
 const { x, y } = useMouse();
-
-useHead({
-	link: [
-		{
-			rel: "preload",
-			href: "/fonts/akony.ttf",
-			as: "font",
-			type: "font/ttf",
-		},
-	],
-});
 </script>
 
 <template>

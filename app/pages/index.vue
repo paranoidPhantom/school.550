@@ -1,4 +1,15 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+useHead({
+	link: [
+		{
+			rel: "preload",
+			href: "/fonts/akony.ttf",
+			as: "font",
+			type: "font/ttf",
+		},
+	],
+});
+</script>
 
 <template>
 	<div class="__home">

@@ -1,15 +1,9 @@
 <script lang="ts" setup>
 import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
-const { data: md } = await useFetch(`/api/content/news`);
+const md = await $fetch(`/api/content/news`);
 
-const { data: ast } = await useAsyncData<typeof parseMarkdown>(
-	`md_news`,
-	() => parseMarkdown(md.value),
-	{
-		watch: [md],
-	},
-);
+const ast = await parseMarkdown(md);
 </script>
 
 <template>

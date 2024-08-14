@@ -45,6 +45,7 @@
 				data-aos="fade-left"
 				allowfullscreen="true"
 				style="position: relative"
+				loading="lazy"
 			/>
 		</div>
 	</section>

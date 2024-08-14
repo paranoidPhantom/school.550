@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 	const storage = useStorage(event.context.storage_driver);
 	const isAPI = event.path.startsWith("/api");
 	const isContent =
-		event.method === "GET" && event.path.match(/^\/api\/content\/(.*)$/);
+		event.method === "GET" && event.path.startsWith("/api/content");
 
 	if (isAPI && !isContent) {
 		const { valid, user } = await serverTelegramUser(event);
