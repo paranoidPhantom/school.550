@@ -203,6 +203,7 @@ const { y } = useWindowScroll();
 			>
 				<div class="base">
 					<UButton
+						aria-label="На домашнюю страницу"
 						color="white"
 						variant="link"
 						icon="line-md:search-twotone"
@@ -228,6 +229,7 @@ const { y } = useWindowScroll();
 					</nav>
 					<div class="right flex items-center gap-2">
 						<UButton
+							aria-label="Поиск"
 							color="white"
 							variant="link"
 							icon="line-md:search-twotone"
@@ -237,6 +239,7 @@ const { y } = useWindowScroll();
 						<ColorSwitcher />
 						<!-- Mobile menu -->
 						<UButton
+							aria-label="Меню страниц"
 							v-show="!isServer"
 							:key="state.active ? 'closed' : 'opened'"
 							class="lg:hidden"
