@@ -31,6 +31,7 @@ const { x, y } = useMouse();
 		/>
 		<NuxtPicture
 			src="/images/noise.png"
+			alt="Текустура шума"
 			preload
 			class="static-noise absolute left-0 top-0 -z-10 w-full object-cover opacity-20"
 			width="1920"
@@ -45,6 +46,7 @@ const { x, y } = useMouse();
 		/>
 		<NuxtPicture
 			src="/images/noise.png"
+			alt="Динамичная текустура шума"
 			preload
 			class="dynamic-noise pointer-events-none absolute left-0 top-0 z-10 w-full object-cover opacity-20"
 			width="1920"
@@ -135,6 +137,7 @@ const { x, y } = useMouse();
 					variant="solid"
 					color="gray"
 					to="https://t.me/school550_spb"
+					aria-label="Канал в Telegram"
 				>
 					<UIcon name="icon-park-outline:telegram" />
 				</UButton>
@@ -142,6 +145,7 @@ const { x, y } = useMouse();
 					variant="solid"
 					color="gray"
 					to="https://vk.com/school_550_spb"
+					aria-label="Группа в ВКонтакте"
 				>
 					<UIcon name="entypo-social:vk" />
 				</UButton>
