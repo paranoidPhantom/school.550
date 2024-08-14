@@ -3,7 +3,7 @@ import type { User } from "../types/user";
 export default defineEventHandler(async (event) => {
 	// ROOT ONLY
 	const storage = useStorage(event.context.storage_driver);
-	if (!event.context.perms.includes("root")) {
+	if (!event.context.perms || !event.context.perms.includes("root")) {
 		throw createError({
 			statusCode: 403,
 			statusMessage: "Forbidden",

@@ -3,7 +3,7 @@ import type { Content } from "../types/content";
 export default defineEventHandler(async (event) => {
 	// EDIT_CONTENT ONLY
 	const storage = useStorage(event.context.storage_driver);
-	if (!event.context.perms.includes("edit_content")) {
+	if (!event.context.perms || !event.context.perms.includes("edit_content")) {
 		throw createError({
 			statusCode: 403,
 			statusMessage: "Can't delete content",

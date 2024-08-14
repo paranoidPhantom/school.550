@@ -2,7 +2,7 @@ import type { Role } from "../types/role";
 
 export default defineEventHandler(async (event) => {
 	const storage = useStorage(event.context.storage_driver);
-	if (!event.context.perms.includes("root")) {
+	if (!event.context.perms || !event.context.perms.includes("root")) {
 		throw createError({
 			statusCode: 403,
 			statusMessage: "Forbidden",
