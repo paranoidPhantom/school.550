@@ -22,6 +22,7 @@ const route = useRoute();
 				:src="image"
 				:alt="title"
 				width="100%"
+				loading="lazy"
 				height="100%"
 				fit="cover"
 				class="absolute inset-0 z-0 h-full w-full object-cover"
