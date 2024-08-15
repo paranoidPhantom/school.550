@@ -24,19 +24,22 @@ const { x, y } = useMouse();
 			alt="Фон"
 			width="4000"
 			sizes="sm:100vw md:100vw lg:100vw"
-			quality="10"
+			quality="5"
+			fotmat="avif, webp"
 			fit="contain"
 			:img-attrs="{ class: 'h-screen object-cover' }"
 			class="absolute left-0 top-0 -z-20 h-screen w-full object-cover blur-md"
 		/>
 		<NuxtPicture
 			src="/images/noise.png"
+			loading="lazy"
 			alt="Текустура шума"
 			preload
 			class="static-noise absolute left-0 top-0 -z-10 w-full object-cover opacity-20"
 			width="4000"
 			sizes="sm:100vw md:100vw lg:100vw"
 			quality="10"
+			fotmat="avif, webp"
 			fit="cover"
 			:img-attrs="{
 				style: 'height: calc(100vh + 5px)',
@@ -47,11 +50,12 @@ const { x, y } = useMouse();
 		<NuxtPicture
 			src="/images/noise.png"
 			alt="Динамичная текустура шума"
-			preload
+			loading="lazy"
 			class="dynamic-noise pointer-events-none absolute left-0 top-0 z-10 w-full object-cover opacity-20"
 			width="4000"
 			sizes="sm:100vw md:100vw lg:100vw"
 			quality="10"
+			fotmat="avif, webp"
 			fit="cover"
 			:img-attrs="{
 				style: 'height: calc(100vh + 5px)',
@@ -73,6 +77,7 @@ const { x, y } = useMouse();
 				<img
 					src="/images/school_compact.png"
 					alt="Школа"
+					loading="lazy"
 					sizes="sm:75 md:90 lg:120"
 					class="hidden rounded-full sm:block sm:h-12 md:h-14 lg:h-20"
 				/>
@@ -100,6 +105,8 @@ const { x, y } = useMouse();
 						preload
 						class="h-2/3"
 						src="/images/ort.png"
+						loading="lazy"
+						format="webp"
 						sizes="sm:65 md:80 lg:130"
 						alt="ORT"
 					/>
