@@ -32,7 +32,7 @@ watch(ast, refreshSeo);
 </script>
 
 <template>
-	<div v-if="ast" :class="`__dynamic_${slug}`">
+	<div v-if="ast" :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
 		<MarkdownFormatter>
 			<MDCRenderer :body="ast.body" :data="ast.data" />
 		</MarkdownFormatter>
