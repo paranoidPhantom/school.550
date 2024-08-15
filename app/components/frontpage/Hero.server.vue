@@ -172,9 +172,6 @@ const { x, y } = useMouse();
 @keyframes fade {
 	0% {
 		opacity: 0;
-	}
-	50% {
-		opacity: 0;
 		scale: 0.9;
 	}
 	100% {
@@ -190,7 +187,7 @@ const { x, y } = useMouse();
 		height: calc(100vh - 80px + 3rem);
 
 		.animate-fade-in {
-			animation: fade 0.5s forwards ease-in-out;
+			animation: fade 0.3s forwards ease-in-out;
 		}
 
 		.gradient {
