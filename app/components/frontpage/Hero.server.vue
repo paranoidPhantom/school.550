@@ -22,7 +22,7 @@ const { x, y } = useMouse();
 			src="/images/gradient.png"
 			preload
 			alt="Фон"
-			width="1920"
+			width="4000"
 			sizes="sm:100vw md:100vw lg:100vw"
 			quality="10"
 			fit="contain"
@@ -34,7 +34,7 @@ const { x, y } = useMouse();
 			alt="Текустура шума"
 			preload
 			class="static-noise absolute left-0 top-0 -z-10 w-full object-cover opacity-20"
-			width="1920"
+			width="4000"
 			sizes="sm:100vw md:100vw lg:100vw"
 			quality="10"
 			fit="cover"
@@ -49,7 +49,7 @@ const { x, y } = useMouse();
 			alt="Динамичная текустура шума"
 			preload
 			class="dynamic-noise pointer-events-none absolute left-0 top-0 z-10 w-full object-cover opacity-20"
-			width="1920"
+			width="4000"
 			sizes="sm:100vw md:100vw lg:100vw"
 			quality="10"
 			fit="cover"
@@ -61,7 +61,7 @@ const { x, y } = useMouse();
 			:style="{ '--x': x + 'px', '--y': y + 'px' }"
 		/>
 		<!-- Hero -->
-		<div class="flex flex-col items-center gap-2">
+		<div class="animate-fade-in flex flex-col items-center gap-2">
 			<!-- Line 1 -->
 			<div class="flex max-w-full flex-wrap gap-5">
 				<h1
@@ -169,14 +169,33 @@ const { x, y } = useMouse();
 	}
 }
 
+@keyframes fade {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 0;
+		scale: 0.9;
+	}
+	100% {
+		opacity: 1;
+		scale: 1;
+	}
+}
+
 .__home {
 	.hero {
 		@apply w-full;
 		padding-bottom: calc(80px + 1.8rem);
 		height: calc(100vh - 80px + 3rem);
 
+		.animate-fade-in {
+			animation: fade 0.5s forwards ease-in-out;
+		}
+
 		.gradient {
-			font-family: Akony, sans-serif;
+			font-family: "Akony", "Arial Black";
+			font-weight: 900;
 			text-transform: uppercase;
 			background: linear-gradient(to right, #ffffff 16%, #b8d4ff);
 			-webkit-text-fill-color: transparent;
