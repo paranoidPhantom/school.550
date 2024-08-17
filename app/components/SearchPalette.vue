@@ -11,7 +11,7 @@ const enabled = useState("search_palette", () => false);
 const results = [
 	{
 		key: "results",
-		label: (q: string) => q && `Результаты поиска "${q}"`,
+		label: (q: string) => q && `Результаты на запрос «${q}»`,
 		search: async (q: string) => {
 			if (!q) {
 				return [];
@@ -55,7 +55,7 @@ defineShortcuts({
 				'flex min-h-full items-center justify-center text-center',
 		}"
 	>
-		<UCommandPalette
+		<LazyUCommandPalette
 			:groups="results"
 			:autoselect="false"
 			placeholder="Поиск..."
@@ -70,18 +70,18 @@ defineShortcuts({
 				<div
 					class="flex flex-col items-center justify-center gap-3 py-6"
 				>
-					<span class="flex items-center gap-2 text-sm"
-						>Поиск реализован на основе
+					<UTooltip text="Поиск реализован на основе Algolia Search">
 						<NuxtLink to="https://www.algolia.com/">
-							<UIcon
-								class="h-4 bg-cover bg-center text-6xl"
-								name="devicon:algolia-wordmark"
+							<NuxtImg
+								src="/images/algolia.svg"
+								alt="Algolia Search"
+								width="100px"
 							/>
 						</NuxtLink>
-					</span>
+					</UTooltip>
 				</div>
 			</template>
-		</UCommandPalette>
+		</LazyUCommandPalette>
 	</UModal>
 </template>
 
