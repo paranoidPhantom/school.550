@@ -36,6 +36,13 @@ const toggleMode = () => {
 			variant="link"
 			@click="toggleMode"
 		/>
+		<template #fallback>
+			<UButton
+				icon="svg-spinners:ring-resize"
+				variant="link"
+				color="white"
+			/>
+		</template>
 	</ClientOnly>
 </template>
 
