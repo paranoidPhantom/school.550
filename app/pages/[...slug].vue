@@ -29,10 +29,41 @@ const refreshSeo = () => {
 
 onMounted(refreshSeo);
 watch(ast, refreshSeo);
+
+const brklinks = computed(() => {
+	const links = [
+		{ label: "Домашняя", icon: "heroicons:home-20-solid", to: "/" },
+	];
+	if (slug) {
+		const category = slug[0];
+		switch (category) {
+			case "info":
+				links.push({
+					label: "Сведения об ОУ",
+					icon: "heroicons:information-circle-20-solid",
+				});
+				break;
+			case "for-parents":
+				links.push({
+					label: "Родителям",
+				});
+				break;
+			default:
+				break;
+		}
+	}
+
+	links.push({
+		label: ast.value?.data.title,
+	});
+
+	return links;
+});
 </script>
 
 <template>
 	<div v-if="ast" :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
+		<UBreadcrumb class="mb-4" :links="brklinks" />
 		<MarkdownFormatter>
 			<MDCRenderer :body="ast.body" :data="ast.data" />
 		</MarkdownFormatter>
