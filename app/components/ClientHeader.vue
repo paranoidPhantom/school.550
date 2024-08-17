@@ -156,11 +156,7 @@ const links: {
 			},
 			{
 				label: "Безопасная среда",
-				to: "/partners",
-			},
-			{
-				label: "Партнеры",
-				to: "/partners",
+				to: "/safe-environment",
 			},
 			{
 				label: "Функциональная грамотность",
@@ -181,7 +177,13 @@ const heights = [100, 450, 300, 290];
 
 const router = useRouter();
 
-router.afterEach(() => (state.active = false));
+const closeHeader = () => {
+	console.log("close");
+	state.active = false;
+	state.mobileDepth = 0;
+};
+
+router.afterEach(() => closeHeader());
 
 const { y } = useWindowScroll();
 </script>
@@ -197,10 +199,7 @@ const { y } = useWindowScroll();
 				'--section-height': `${heights[state.lastEnteredIndex]}px`,
 			}"
 		>
-			<header
-				:class="{ scrolled: y > 100 }"
-				@mouseleave="state.active = false"
-			>
+			<header :class="{ scrolled: y > 100 }" @mouseleave="closeHeader">
 				<div class="base">
 					<UButton
 						aria-label="На домашнюю страницу"
@@ -250,7 +249,11 @@ const { y } = useWindowScroll();
 									? 'line-md:menu-to-close-alt-transition'
 									: 'line-md:close-to-menu-alt-transition'
 							"
-							@click="state.active = !state.active"
+							@click="
+								state.active
+									? closeHeader()
+									: (state.active = true)
+							"
 						/>
 					</div>
 				</div>
@@ -392,7 +395,7 @@ const { y } = useWindowScroll();
 		position: fixed;
 		top: 0;
 		left: 0;
-		right: 0;
+		right: 1rem;
 		padding: 0.8rem;
 		--section-height: 500px;
 		header {
