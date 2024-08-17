@@ -6,6 +6,7 @@ useHead({
 			href: "/fonts/akony.ttf",
 			as: "font",
 			type: "font/ttf",
+			crossorigin: "anonymous",
 		},
 	],
 });
