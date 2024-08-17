@@ -69,7 +69,7 @@ const { x, y } = useMouse();
 			<!-- Line 1 -->
 			<div class="flex max-w-full flex-wrap gap-5">
 				<h1
-					class="gradient text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+					class="large text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
 					style="animation-delay: 1.84s"
 				>
 					Школа
@@ -78,7 +78,7 @@ const { x, y } = useMouse();
 			<!-- Line 2 -->
 			<div class="flex flex-wrap gap-5">
 				<h1
-					class="gradient text-md sm:text-2xl md:text-3xl lg:text-4xl"
+					class="large text-md sm:text-2xl md:text-3xl lg:text-4xl"
 					style="animation-delay: 2.74s"
 				>
 					Информационных технологий<span
@@ -92,7 +92,7 @@ const { x, y } = useMouse();
 			<!-- Line 3 -->
 			<div class="flex flex-wrap gap-5">
 				<h1
-					class="gradient text-6xl md:text-7xl lg:text-8xl"
+					class="large text-6xl md:text-7xl lg:text-8xl"
 					style="animation-delay: 0.67s"
 				>
 					550
@@ -180,11 +180,11 @@ const { x, y } = useMouse();
 			animation: fade 0.5s forwards ease-in-out;
 		}
 
-		.gradient {
+		.large {
 			font-family: "Akony", "Arial Black";
 			font-weight: 900;
 			text-transform: uppercase;
-			background: linear-gradient(to right, #ffffff 16%, #b8d4ff);
+			background: white;
 			-webkit-text-fill-color: transparent;
 			-webkit-background-clip: text;
 			background-clip: text;
