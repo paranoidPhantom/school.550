@@ -74,13 +74,6 @@ const { x, y } = useMouse();
 				>
 					Школа
 				</h1>
-				<img
-					src="/images/school_compact.png"
-					alt="Школа"
-					loading="lazy"
-					sizes="sm:75 md:90 lg:120"
-					class="hidden rounded-full sm:block sm:h-12 md:h-14 lg:h-20"
-				/>
 			</div>
 			<!-- Line 2 -->
 			<div class="flex flex-wrap gap-5">
@@ -98,19 +91,6 @@ const { x, y } = useMouse();
 			</div>
 			<!-- Line 3 -->
 			<div class="flex flex-wrap gap-5">
-				<div
-					class="hidden items-center justify-center rounded-full bg-white px-4 py-2 sm:flex sm:h-12 md:h-14 lg:h-20"
-				>
-					<NuxtImg
-						preload
-						class="h-2/3"
-						src="/images/ort.png"
-						loading="lazy"
-						format="webp"
-						sizes="sm:65 md:80 lg:130"
-						alt="ORT"
-					/>
-				</div>
 				<h1
 					class="gradient text-6xl md:text-7xl lg:text-8xl"
 					style="animation-delay: 0.67s"
