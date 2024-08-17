@@ -202,14 +202,14 @@ const { y } = useWindowScroll();
 			<header :class="{ scrolled: y > 100 }" @mouseleave="closeHeader">
 				<div class="base">
 					<UButton
-						aria-label="На домашнюю страницу"
+						aria-label="Поиск"
 						color="white"
 						variant="link"
 						icon="line-md:search-twotone"
 						class="lg:hidden"
 						@click="searchEnabled = true"
 					/>
-					<AppLogo />
+					<AppLogo class="ml-4 lg:ml-0" />
 					<nav class="hidden items-center gap-2 lg:flex">
 						<UButton
 							v-for="(group, groupName, index) in links"
