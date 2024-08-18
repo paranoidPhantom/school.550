@@ -195,7 +195,15 @@ const app = new Elysia()
 				);
 				await Promise.all(
 					files.map((file) =>
-						chownSync(`${folderPath}/${file.name}`, 1000, 1000),
+						chownSync(
+							join(
+								import.meta.dir,
+								"../",
+								`${folderPath}/${file.name}`,
+							),
+							1000,
+							1000,
+						),
 					),
 				);
 			} catch (error) {
@@ -222,14 +230,10 @@ const app = new Elysia()
 			await jwtVerify(fstoken, secret);
 
 			const folderPath = `storage${path.split("/directory")[1] ?? ""}`;
-			mkdirSync(join(import.meta.dir, "../", `${folderPath}`), {
+			mkdirSync(join(import.meta.dir, "../", folderPath), {
 				recursive: true,
 			});
-			chownSync(
-				join(import.meta.dir, "../", `${folderPath}`),
-				1000,
-				1000,
-			);
+			chownSync(join(import.meta.dir, "../", folderPath), 1000, 1000);
 		},
 		{
 			headers: t.Object({
