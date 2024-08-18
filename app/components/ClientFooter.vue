@@ -43,7 +43,7 @@ const sections: {
 		<UDivider class="w-full" />
 
 		<section
-			class="mx-auto flex w-full justify-center gap-[5%] p-8 max-[790px]:ml-4 max-[790px]:flex-col"
+			class="mx-auto flex w-full justify-center gap-[5%] p-8 max-[790px]:flex-col"
 		>
 			<template
 				v-for="(links, section, index) in sections"
