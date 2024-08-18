@@ -43,11 +43,14 @@ const route = useRoute();
 						/>
 					</div>
 				</div>
-				<h3
+				<div
 					class="surface rounded-[2rem] border border-white border-opacity-30 bg-white bg-opacity-25 px-6 py-3 text-white backdrop-blur-md"
 				>
-					{{ title }}
-				</h3>
+					<h3>
+						{{ title }}
+					</h3>
+					<p class="test-sm">{{ description }}</p>
+				</div>
 			</div>
 		</article>
 	</NuxtLink>
