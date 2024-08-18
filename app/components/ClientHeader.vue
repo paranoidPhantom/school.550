@@ -201,14 +201,6 @@ const { y } = useWindowScroll();
 		>
 			<header :class="{ scrolled: y > 100 }" @mouseleave="closeHeader">
 				<div class="base">
-					<UButton
-						aria-label="Поиск"
-						color="white"
-						variant="link"
-						icon="line-md:search-twotone"
-						class="lg:hidden"
-						@click="searchEnabled = true"
-					/>
 					<AppLogo class="ml-4 lg:ml-0" />
 					<nav class="hidden items-center gap-2 lg:flex">
 						<UButton
@@ -232,7 +224,6 @@ const { y } = useWindowScroll();
 							color="white"
 							variant="link"
 							icon="line-md:search-twotone"
-							class="hidden lg:block"
 							@click="searchEnabled = true"
 						/>
 						<ColorSwitcher />
@@ -395,7 +386,7 @@ const { y } = useWindowScroll();
 		position: fixed;
 		top: 0;
 		left: 0;
-		right: 1rem;
+		right: 0;
 		padding: 0.8rem;
 		--section-height: 500px;
 		header {
