@@ -6,6 +6,7 @@ import {
 	mkdirSync,
 	rmdirSync,
 	existsSync,
+	chownSync,
 	createWriteStream,
 } from "node:fs";
 import { readdir } from "node:fs/promises";
@@ -192,6 +193,11 @@ const app = new Elysia()
 						Bun.write(`${folderPath}/${file.name}`, file),
 					),
 				);
+				await Promise.all(
+					files.map((file) =>
+						chownSync(`${folderPath}/${file.name}`, 1000, 1000),
+					),
+				);
 			} catch (error) {
 				return new Response((error as Error).message, {
 					status: 500,
@@ -219,6 +225,11 @@ const app = new Elysia()
 			mkdirSync(join(import.meta.dir, "../", `${folderPath}`), {
 				recursive: true,
 			});
+			chownSync(
+				join(import.meta.dir, "../", `${folderPath}`),
+				1000,
+				1000,
+			);
 		},
 		{
 			headers: t.Object({
