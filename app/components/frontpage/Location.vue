@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const activated = ref(false);
+</script>
 
 <template>
 	<section id="location" class="mx-auto w-full max-w-[1200px] space-y-4">
@@ -17,6 +19,29 @@
 			</NuxtLink>
 		</p>
 		<div class="relative overflow-hidden rounded-2xl">
+			<UButton
+				v-if="!activated"
+				class="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
+				color="gray"
+				@click="activated = true"
+			>
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M12 1a9.002 9.002 0 0 0-6.366 15.362c1.63 1.63 5.466 3.988 5.693 6.465.034.37.303.673.673.673.37 0 .64-.303.673-.673.227-2.477 4.06-4.831 5.689-6.46A9.002 9.002 0 0 0 12 1z"
+						fill="#F43"
+					></path>
+					<path
+						d="M12 13.079a3.079 3.079 0 1 1 0-6.158 3.079 3.079 0 0 1 0 6.158z"
+						fill="#fff"
+					></path>
+				</svg>
+				Посмотреть на карте
+			</UButton>
 			<a
 				href="https://yandex.com/maps/org/gbou_secondary_school_550/1319139635/?utm_medium=mapframe&utm_source=maps"
 				style="
@@ -38,16 +63,26 @@
 				class="opacity-0"
 				>Торговый переулок, 2А — Yandex Maps</a
 			>
-			<iframe
-				src="https://yandex.com/map-widget/v1/?ll=30.332925%2C59.929026&mode=poi&poi%5Bpoint%5D=30.332778%2C59.928912&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D1319139635&z=15&lang=ru"
-				class="h-96 w-full rounded-2xl"
-				frameborder="1"
-				data-aos="fade-left"
-				allowfullscreen="true"
-				style="position: relative"
-				loading="lazy"
-				title="Школа на карте"
-			/>
+			<div
+				class="transition-all duration-300 ease-in-out"
+				:class="{
+					'pointer-events-none': !activated,
+					'opacity-50': !activated,
+					'scale-150': !activated,
+					'blur-lg': !activated,
+				}"
+			>
+				<iframe
+					src="https://yandex.com/map-widget/v1/?ll=30.332925%2C59.929026&mode=poi&poi%5Bpoint%5D=30.332778%2C59.928912&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D1319139635&z=15&lang=ru"
+					class="h-96 w-full rounded-2xl"
+					frameborder="1"
+					data-aos="fade-left"
+					allowfullscreen="true"
+					style="position: relative"
+					loading="lazy"
+					title="Школа на карте"
+				/>
+			</div>
 		</div>
 	</section>
 </template>
