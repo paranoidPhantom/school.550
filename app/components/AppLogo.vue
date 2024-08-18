@@ -2,7 +2,8 @@
 
 <template>
 	<NuxtLink to="/" aria-label="Перейти на главную">
-		<UIcon name="fluent:draw-image-24-regular" class="text-2xl" />
+		<!-- <UIcon name="fluent:draw-image-24-regular" class="text-2xl" /> -->
+		Лого
 	</NuxtLink>
 </template>
 
