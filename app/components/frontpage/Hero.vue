@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { useMouse, useWindowSize } from "@vueuse/core";
-const isServer = import.meta.server;
+import { useMouse } from "@vueuse/core";
 
 const suffix = "|";
 const suffixActive = ref(true);
@@ -18,18 +17,24 @@ const { x, y } = useMouse();
 	<section
 		class="hero flex select-none items-center justify-center overflow-hidden"
 	>
-		<NuxtPicture
-			src="/images/gradient.png"
-			preload
-			alt="Фон"
-			width="4000"
-			sizes="sm:100vw md:100vw lg:100vw"
-			quality="5"
-			fotmat="avif, webp"
-			fit="contain"
-			:img-attrs="{ class: 'h-screen object-cover' }"
-			class="absolute left-0 top-0 -z-20 h-screen w-full object-cover blur-md"
-		/>
+		<div
+			class="hero-bg absolute inset-0 -z-10 overflow-hidden bg-[#295FF5]"
+		>
+			<div class="shapes absolute left-0 top-0 h-full w-full">
+				<div
+					class="aspect-1 circle absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00F0FF]"
+				/>
+				<div
+					class="aspect-1 circle absolute bottom-0 left-40 -translate-x-1/2 translate-y-1/2 rounded-full bg-[#F046FF]"
+				/>
+				<div
+					class="aspect-1 circle 64translate-x-1/2 absolute bottom-1/2 right-40 translate-y-1/2 rounded-full bg-[#20FFCB] lg:bottom-0"
+				/>
+			</div>
+			<div
+				class="overlay absolute inset-0 bg-white bg-opacity-30 backdrop-blur-[200px] md:backdrop-blur-[400px]"
+			/>
+		</div>
 		<NuxtPicture
 			src="/images/noise.png"
 			loading="lazy"
@@ -170,7 +175,26 @@ const { x, y } = useMouse();
 	}
 }
 
+@keyframes shapes {
+	0% {
+		rotate: 0deg;
+	}
+	100% {
+		rotate: 360deg;
+	}
+}
+
 .__home {
+	.shapes {
+		--unit: max(50vw, 50vh);
+
+		animation: shapes 10s forwards linear infinite;
+		.circle {
+			width: var(--unit);
+			height: var(--unit);
+			translate: 20% -10%;
+		}
+	}
 	.hero {
 		@apply w-full;
 		padding-bottom: calc(80px + 1.8rem);
@@ -192,8 +216,9 @@ const { x, y } = useMouse();
 			animation: scale 3s infinite ease-in-out;
 		}
 
-		.static-noise {
-			--image: linear-gradient(to bottom, black, black 90%, transparent);
+		.static-noise,
+		.hero-bg {
+			--image: linear-gradient(to bottom, black, black 98%, transparent);
 			mask-image: var(--image);
 		}
 
