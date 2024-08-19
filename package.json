@@ -1,7 +1,6 @@
 {
 	"name": "nuxt-app",
 	"devDependencies": {
-		"@css-inline/css-inline": "^0.14.1",
 		"@iconify-json/akar-icons": "^1.1.26",
 		"@iconify-json/codicon": "^1.1.51",
 		"@iconify-json/devicon": "^1.1.50",
