@@ -18,10 +18,15 @@ const activated = ref(false);
 				(Посмотреть схему безопасного подхода к школе)
 			</NuxtLink>
 		</p>
-		<div class="relative overflow-hidden rounded-2xl">
+		<div
+			class="relative overflow-hidden rounded-2xl"
+			:class="{
+				'pointer-events-none': !activated,
+			}"
+		>
 			<UButton
 				v-if="!activated"
-				class="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
+				class="pointer-events-auto absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
 				color="gray"
 				@click="activated = true"
 			>
@@ -66,7 +71,6 @@ const activated = ref(false);
 			<div
 				class="transition-all duration-300 ease-in-out"
 				:class="{
-					'pointer-events-none': !activated,
 					'opacity-50': !activated,
 					'scale-150': !activated,
 					'blur-lg': !activated,
