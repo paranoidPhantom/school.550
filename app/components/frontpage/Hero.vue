@@ -32,8 +32,53 @@ const { x, y } = useMouse();
 				/>
 			</div>
 			<div
-				class="overlay absolute inset-0 bg-white bg-opacity-30 backdrop-blur-[200px] md:backdrop-blur-[400px]"
+				class="overlay absolute inset-0 bg-white bg-opacity-40 backdrop-blur-[200px] md:backdrop-blur-[400px]"
 			/>
+		</div>
+		<div
+			v-for="i in 3"
+			:key="i"
+			class="dashed-circles absolute left-0 top-0 -z-10 flex h-full w-full items-center justify-center overflow-hidden"
+		>
+			<div
+				class="aspect-1 relative"
+				style="rotate: 90deg"
+				:style="{ width: 50 + i * 10 + '%', opacity: 0.7 - i * 0.1 }"
+			>
+				<img
+					class="absolute left-0 top-0 h-full w-full rotate-[102deg] object-contain"
+					:src="`/images/hero-circle${i === 1 || i === 3 ? '-break' : ''}.svg`"
+					alt="Круг который крутится"
+				/>
+				<div
+					v-if="i === 1"
+					class="absolute -top-[2vw] left-1/2 h-[5vw] w-[5vw]"
+				>
+					<UIcon
+						name="flowbite:atom-outline"
+						class="icon absolute left-[30%] top-[30%] h-[40%] w-[40%]"
+					/>
+					<img
+						src="/images/hexagon.svg"
+						alt="Шестиугольник"
+						class="hexagon ansolute left-0 top-0 h-full w-full object-contain"
+					/>
+				</div>
+				<div
+					v-if="i === 3"
+					class="absolute -top-[2.5vw] left-1/2 h-[6vw] w-[6vw]"
+				>
+					<UIcon
+						name="ant-design:laptop-outlined"
+						class="icon absolute left-[30%] top-[30%] h-[40%] w-[40%]"
+					/>
+					<img
+						src="/images/hexagon.svg"
+						alt="Шестиугольник"
+						class="hexagon ansolute left-0 top-0 h-full w-full object-contain"
+					/>
+				</div>
+			</div>
 		</div>
 		<NuxtPicture
 			src="/images/noise.png"
@@ -195,6 +240,29 @@ const { x, y } = useMouse();
 			translate: 20% -10%;
 		}
 	}
+	.dashed-circles {
+		> div {
+			animation: shapes 20s linear infinite;
+		}
+		&:nth-child(3) {
+			> div {
+				animation-direction: reverse;
+				animation-duration: 25s;
+			}
+		}
+		&:nth-child(2) {
+			> div {
+				animation-duration: 16s;
+			}
+		}
+		.hexagon {
+			animation: shapes 5s linear reverse infinite;
+		}
+		.icon {
+			animation: shapes 20s linear reverse infinite;
+			color: white;
+		}
+	}
 	.hero {
 		@apply w-full;
 		padding-bottom: calc(80px + 1.8rem);
@@ -208,16 +276,23 @@ const { x, y } = useMouse();
 			font-family: "Akony", "Arial Black";
 			font-weight: 900;
 			text-transform: uppercase;
-			background: white;
+			letter-spacing: 5px;
+			background: linear-gradient(
+				to bottom,
+				white,
+				white 23%,
+				#e4e4e4 100%
+			);
+			text-align: center;
 			-webkit-text-fill-color: transparent;
 			-webkit-background-clip: text;
 			background-clip: text;
-			text-align: center;
-			animation: scale 3s infinite ease-in-out;
+			-webkit-text-stroke: 1px white;
 		}
 
 		.static-noise,
-		.hero-bg {
+		.hero-bg,
+		.dashed-circles {
 			--image: linear-gradient(to bottom, black, black 98%, transparent);
 			mask-image: var(--image);
 		}
