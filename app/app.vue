@@ -67,6 +67,10 @@ watch(visuallyImpaired, (newValue) => {
 		display: none !important;
 	}
 
+	.invert-if-impaired {
+		@apply text-black dark:text-white;
+	}
+
 	.aos-init {
 		transform: translate(0) scale(1) !important;
 		transition-property: none !important;

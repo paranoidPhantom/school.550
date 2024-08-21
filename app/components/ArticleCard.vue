@@ -30,7 +30,7 @@ const route = useRoute();
 			<div class="absolute inset-3 z-10 flex flex-col justify-between">
 				<div class="flex justify-between gap-8">
 					<p
-						class="surface rounded-full border border-white border-opacity-30 bg-white bg-opacity-25 px-6 py-3 text-white backdrop-blur-md"
+						class="surface invert-if-impaired rounded-full border border-white border-opacity-30 bg-white bg-opacity-25 px-6 py-3 text-white backdrop-blur-md"
 					>
 						{{ date }}
 					</p>
@@ -44,7 +44,7 @@ const route = useRoute();
 					</div>
 				</div>
 				<div
-					class="surface rounded-[2rem] border border-white border-opacity-30 bg-white bg-opacity-25 px-6 py-3 text-white backdrop-blur-md"
+					class="surface invert-if-impaired rounded-[2rem] border border-white border-opacity-30 bg-white bg-opacity-25 px-6 py-3 text-white backdrop-blur-md"
 				>
 					<h3>
 						{{ title }}
