@@ -195,6 +195,7 @@ const sections: {
 							/> </NuxtLink
 					></UTooltip>
 				</UBadge>
+				<VisualImpairmentToggle size="xl" color="white" />
 			</div>
 		</UDivider>
 		<section

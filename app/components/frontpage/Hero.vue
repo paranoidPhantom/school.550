@@ -12,14 +12,6 @@ onMounted(() => {
 
 const { x, y } = useMouse();
 const visuallyImpaired = useCookie("visImpairmentMode");
-const visuallyImpairedToggleEnabled = ref(true);
-
-const toggleVisuallyImpaired = () => {
-	visuallyImpaired.value = !visuallyImpaired.value;
-	visuallyImpairedToggleEnabled.value = false;
-
-	setTimeout(() => (visuallyImpairedToggleEnabled.value = true), 1000);
-};
 </script>
 
 <template>
@@ -130,6 +122,11 @@ const toggleVisuallyImpaired = () => {
 				<h1
 					class="large text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
 					style="animation-delay: 1.84s"
+					:style="{
+						'--gradient-white': visuallyImpaired
+							? 'black'
+							: 'white',
+					}"
 				>
 					Школа
 				</h1>
@@ -139,6 +136,11 @@ const toggleVisuallyImpaired = () => {
 				<h1
 					class="large text-md sm:text-2xl md:text-3xl lg:text-4xl"
 					style="animation-delay: 2.74s"
+					:style="{
+						'--gradient-white': visuallyImpaired
+							? 'black'
+							: 'white',
+					}"
 				>
 					Информационных технологий<span
 						class="ml-1"
@@ -153,6 +155,11 @@ const toggleVisuallyImpaired = () => {
 				<h1
 					class="large text-6xl md:text-7xl lg:text-8xl"
 					style="animation-delay: 0.67s"
+					:style="{
+						'--gradient-white': visuallyImpaired
+							? 'black'
+							: 'white',
+					}"
 				>
 					550
 				</h1>
@@ -177,14 +184,7 @@ const toggleVisuallyImpaired = () => {
 					to="tel:+7 (812) 315-50-60"
 					>+7 (812) 315-50-60</UButton
 				>
-				<UButton
-					variant="solid"
-					color="gray"
-					icon="material-symbols:accessibility"
-					label="Версия для слабовидящих"
-					:disabled="!visuallyImpairedToggleEnabled"
-					@click="toggleVisuallyImpaired"
-				/>
+				<VisualImpairmentToggle />
 			</div>
 			<div class="ml-8 flex flex-wrap justify-end gap-x-4 gap-y-2">
 				<UButton
@@ -296,8 +296,8 @@ const toggleVisuallyImpaired = () => {
 			letter-spacing: 5px;
 			background: linear-gradient(
 				to bottom,
-				white,
-				white 23%,
+				var(--gradient-white),
+				var(--gradient-white) 23%,
 				#e4e4e4 100%
 			);
 			text-align: center;
