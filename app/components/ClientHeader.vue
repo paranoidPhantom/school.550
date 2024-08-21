@@ -162,6 +162,10 @@ const links: {
 				label: "Функциональная грамотность",
 				to: "/funclit",
 			},
+			{
+				label: "Полезные ссылки",
+				to: "/useful-links",
+			},
 		],
 	},
 };
