@@ -178,7 +178,6 @@ const heights = [100, 450, 300, 290];
 const router = useRouter();
 
 const closeHeader = () => {
-	console.log("close");
 	state.active = false;
 	state.mobileDepth = 0;
 };
@@ -186,6 +185,11 @@ const closeHeader = () => {
 router.afterEach(() => closeHeader());
 
 const { y } = useWindowScroll();
+
+const focusFirstLink = () => {
+	const firstLink = document.querySelector(".__first-header-link");
+	if (firstLink) firstLink.focus();
+};
 </script>
 
 <template>
@@ -201,7 +205,7 @@ const { y } = useWindowScroll();
 		>
 			<header :class="{ scrolled: y > 100 }" @mouseleave="closeHeader">
 				<div class="base">
-					<AppLogo class="ml-4 lg:ml-0" />
+					<AppLogo class="ml-4 lg:ml-0" tabindex="0" />
 					<nav class="hidden items-center gap-2 lg:flex">
 						<UButton
 							v-for="(group, groupName, index) in links"
@@ -216,6 +220,13 @@ const { y } = useWindowScroll();
 										openHeader(groupName as string, index);
 								}
 							"
+							@focus="
+								() => {
+									if (groupName !== 'Новости')
+										openHeader(groupName as string, index);
+								}
+							"
+							@click="focusFirstLink"
 						/>
 					</nav>
 					<div class="right flex items-center gap-2">
@@ -335,9 +346,9 @@ const { y } = useWindowScroll();
 							class="desktop flex justify-center gap-8"
 						>
 							<div
-								v-for="(subgroup, subgroupName) in links[
-									state.currentGroup
-								]"
+								v-for="(
+									subgroup, subgroupName, subgroupIndex
+								) in links[state.currentGroup]"
 								:key="subgroupName"
 								class="flex h-full flex-col flex-wrap gap-2"
 							>
@@ -354,8 +365,14 @@ const { y } = useWindowScroll();
 									>
 										<NuxtLink
 											v-if="state.active"
+											:class="{
+												'__first-header-link':
+													subgroupIndex === 0 &&
+													index === 0,
+											}"
 											v-bind="link"
 											class="w-fit max-w-96 underline-offset-4 transition-all hover:underline"
+											:tabindex="subgroupIndex"
 											:style="{
 												transitionDelay: `${
 													(link.customIndex ??
@@ -390,7 +407,7 @@ const { y } = useWindowScroll();
 		padding: 0.8rem;
 		--section-height: 500px;
 		header {
-			@apply h-full w-full px-4;
+			@apply z-50 h-full w-full px-4;
 			@apply rounded-2xl bg-gray-50 bg-opacity-20 backdrop-blur-xl;
 			@apply dark:border dark:border-gray-900 dark:border-opacity-0 dark:bg-gray-800 dark:bg-opacity-50;
 			@apply overflow-hidden transition-all duration-300;
