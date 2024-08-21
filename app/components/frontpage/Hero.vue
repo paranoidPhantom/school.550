@@ -11,6 +11,15 @@ onMounted(() => {
 });
 
 const { x, y } = useMouse();
+const visuallyImpaired = useCookie("visImpairmentMode");
+const visuallyImpairedToggleEnabled = ref(true);
+
+const toggleVisuallyImpaired = () => {
+	visuallyImpaired.value = !visuallyImpaired.value;
+	visuallyImpairedToggleEnabled.value = false;
+
+	setTimeout(() => (visuallyImpairedToggleEnabled.value = true), 1000);
+};
 </script>
 
 <template>
@@ -168,6 +177,14 @@ const { x, y } = useMouse();
 					to="tel:+7 (812) 315-50-60"
 					>+7 (812) 315-50-60</UButton
 				>
+				<UButton
+					variant="solid"
+					color="gray"
+					icon="material-symbols:accessibility"
+					label="Версия для слабовидящих"
+					:disabled="!visuallyImpairedToggleEnabled"
+					@click="toggleVisuallyImpaired"
+				/>
 			</div>
 			<div class="ml-8 flex flex-wrap justify-end gap-x-4 gap-y-2">
 				<UButton
