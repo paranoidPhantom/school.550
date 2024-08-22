@@ -47,6 +47,7 @@ const app = new Elysia()
 		path = decodeURI(path);
 		const filePath = `storage${path}`;
 		const file = Bun.file(filePath);
+		console.log(join(import.meta.dir, "../", filePath));
 		const stats = statSync(join(import.meta.dir, "../", filePath));
 		if (stats.isDirectory()) {
 			return new Response("Provided path points to a directory", {
