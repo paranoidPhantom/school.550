@@ -47,14 +47,19 @@ const app = new Elysia()
 		path = decodeURI(path);
 		const filePath = `storage${path}`;
 		const file = Bun.file(filePath);
-		console.log(join(import.meta.dir, "../", filePath));
-		const stats = statSync(join(import.meta.dir, "../", filePath));
-		if (stats.isDirectory()) {
-			return new Response("Provided path points to a directory", {
+		try {
+			const stats = statSync(join(import.meta.dir, "../", filePath));
+			if (stats.isDirectory()) {
+				return new Response("Provided path points to a directory", {
+					status: 404,
+				});
+			}
+			return file;
+		} catch (error) {
+			return new Response((error as Error).message, {
 				status: 404,
 			});
 		}
-		return file;
 	})
 	.onError(handleError)
 	.get("/download/*", async ({ path }) => {
