@@ -1,39 +1,16 @@
+name: sch550-fs
+
 services:
-    app:
+    fs:
         image: paranoidphantom/db.school.550:latest
         build: .
-        restart: always
+        restart: unless-stopped
         volumes:
             - .env:/usr/src/app/.env
             - storage:/usr/src/app/storage
-    nginx:
-        image: nginx:latest
-        restart: always
-        depends_on:
-            - app
-        ports:
-            - 80:80
-            - 443:443
-        volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-            - /etc/letsencrypt/live/portaltest.ort.spb.ru/fullchain.pem:/etc/letsencrypt/live/portaltest.ort.spb.ru/fullchain.pem
-            - /etc/letsencrypt/live/portaltest.ort.spb.ru/privkey.pem:/etc/letsencrypt/live/portaltest.ort.spb.ru/privkey.pem
-    watchtower:
-        image: containrrr/watchtower
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        restart: always
-        command: --interval 30
-    dozzle:
-      container_name: dozzle
-      image: amir20/dozzle:latest
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-      ports:
-        - 8888:8080
-    ftp:
+    fs_ftp:
         image: delfer/alpine-ftp-server
-        restart: always
+        restart: unless-stopped
         ports:
             - 21:21
             - 21000-21010:21000-21010
