@@ -1,6 +1,6 @@
 name: Production image refresh
 
-run-name: Production release - ${{GITHUB_RUN_ID}}
+run-name: Production release - {{ GITHUB_RUN_ID }}
 
 on:
     push:
