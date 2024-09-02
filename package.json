@@ -27,13 +27,14 @@
 	},
 	"private": true,
 	"scripts": {
-		"build": "bunx nuxt build",
-		"dev": "bunx nuxt dev",
-		"generate": "bunx nuxt generate",
-		"preview": "bunx nuxt preview",
-		"postinstall": "bunx nuxt prepare",
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
 		"lint": "eslint . --fix",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"release": "docker compose build && docker compose push"
 	},
 	"trustedDependencies": [
 		"@vercel/speed-insights",
