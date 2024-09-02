@@ -1,6 +1,6 @@
 name: Production image refresh
 
-run-name: Production release - ${GITHUB_RUN_ID}
+run-name: Production release - ${{GITHUB_RUN_ID}}
 
 on:
     push:
@@ -27,7 +27,7 @@ jobs:
                 project-slug: "website-m-ps2"
                 domain: "pass.andreihudalla.ru"
                 export-type: "file"
-                file-output-path: "/.env.${{ steps.extract_branch.outputs.branch }}"
+                file-output-path: "./env"
             - name: Pull fresh images
               run: |
                   docker compose pull
