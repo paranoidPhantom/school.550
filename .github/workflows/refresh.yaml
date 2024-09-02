@@ -1,0 +1,39 @@
+name: Production image refresh
+
+run-name: Production release - ${GITHUB_RUN_ID}
+
+on:
+    push:
+        branches:
+            - "master"
+            - "dev"
+
+jobs:
+    docker:
+        runs-on: self-hosted
+        steps:
+            - name: Checkout branch
+              uses: actions/checkout@v2
+            - name: Extract branch name
+              shell: bash
+              run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+              id: extract_branch
+            - name: Infisical secrets
+              uses: Infisical/secrets-action@v1.0.7
+              with:
+                client-id: ${{ secrets.MACHINE_IDENTITY_CLIENT_ID }}
+                client-secret: ${{ secrets.MACHINE_IDENTITY_CLIENT_SECRET }}
+                env-slug: ${{ steps.extract_branch.outputs.branch }}
+                project-slug: "website-m-ps2"
+                domain: "pass.andreihudalla.ru"
+                export-type: "file"
+                file-output-path: "/.env.${{ steps.extract_branch.outputs.branch }}"
+            - name: Pull fresh images
+              run: |
+                  docker compose pull
+            - name: Stop running containers
+              run: |
+                  docker compose down --remove-orphans
+            - name: Start fresh containers
+              run: |
+                  docker compose up -d
