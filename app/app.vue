@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { SpeedInsights } from "@vercel/speed-insights/nuxt";
-
 const route = useRoute();
 onMounted(async () => {
 	if (
@@ -54,7 +52,6 @@ watch(visuallyImpaired, (newValue) => {
 		</NuxtLayout>
 		<SearchPalette />
 		<UNotifications />
-		<SpeedInsights />
 	</div>
 </template>
 
