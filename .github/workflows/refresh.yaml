@@ -11,6 +11,7 @@ on:
 jobs:
     docker:
         runs-on: self-hosted
+        environment: ${{ github.ref_name }}
         steps:
             - name: Extract branch name
               shell: bash
