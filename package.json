@@ -31,10 +31,9 @@
 		"postinstall": "nuxt prepare",
 		"lint": "eslint . --fix",
 		"format": "prettier --write .",
-		"release": "docker compose build && docker compose push"
+		"deploy": "sh -c 'branch=$(git rev-parse --abbrev-ref HEAD) && if [ \"$branch\" = \"dev\" ]; then docker compose -f compose.build.preview.yaml build && docker compose -f compose.build.preview.yaml push; elif [ \"$branch\" = \"master\" ]; then docker compose -f compose.build.prod.yaml build && docker compose -f compose.build.prod.yaml push; else echo \"Branch not recognized. No action taken.\"; fi'"
 	},
 	"trustedDependencies": [
-		"@vercel/speed-insights",
 		"esbuild",
 		"sharp",
 		"vue-demi"

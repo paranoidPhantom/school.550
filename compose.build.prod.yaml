@@ -1,0 +1,21 @@
+name: sch550-build-prod
+
+include:
+  - path: db/compose.yaml # File server
+
+services:
+    uiprod:
+        image: paranoidphantom/school.550:latest
+        build: .
+        restart: unless-stopped
+        volumes:
+            - ./.env.prod:/usr/src/app/.env
+    nginx:
+        image: paranoidphantom/nginx.school.550:latest
+        build: ./nginx
+        restart: unless-stopped
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - /etc/letsencrypt/live:/etc/letsencrypt/livech
