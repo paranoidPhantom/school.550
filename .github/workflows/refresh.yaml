@@ -19,7 +19,9 @@ jobs:
             - name: Go to working directory
               run: cd /home/fred/school.550
             - name: Pull fresh environment variables
-              run: export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=${{ secrets.MACHINE_IDENTITY_CLIENT_ID }} --client-secret=${{ secrets.MACHINE_IDENTITY_CLIENT_SECRET }} --silent --plain --domain=https://pass.andreihudalla.ru) && infisical export --domain=https://pass.andreihudalla.ru --projectId=8898adfd-2ebc-4d0f-9f64-6fa06d5de1ea --env=${{ steps.extract_branch.outputs.branch }} --format=dotenv-export > ./.env.${{ steps.extract_branch.outputs.branch }}
+              run: export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=${{ secrets.MACHINE_IDENTITY_CLIENT_ID }} --client-secret=${{ secrets.MACHINE_IDENTITY_CLIENT_SECRET }} --silent --plain --domain=https://pass.andreihudalla.ru) && infisical export --domain=https://pass.andreihudalla.ru --projectId=8898adfd-2ebc-4d0f-9f64-6fa06d5de1ea --env=${{ steps.extract_branch.outputs.branch }} --format=dotenv-export > ./.env
+            - name: Make copy of .env for Nuxt runtime config
+              run: cp .env .env.${{ steps.extract_branch.outputs.branch }}
             - name: Pull fresh images
               run: docker compose pull
             - name: Shutdown application
