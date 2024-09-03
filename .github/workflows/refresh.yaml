@@ -26,7 +26,7 @@ jobs:
             - name: Make copy of .env for Nuxt runtime config
               run: cp .env.${{ steps.extract_branch.outputs.branch }} .env
             - name: Pull fresh images
-              run: docker compose pull
+              run: cd /home/fred/school.550 && docker compose pull
             - name: Shutdown application
               run: docker compose down --remove-orphans
             - name: Run application
