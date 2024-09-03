@@ -10,13 +10,13 @@ services:
         build: .
         restart: unless-stopped
         volumes:
-            - /.env.master:/usr/src/app/.env
+            - ./.env.master:/usr/src/app/.env
     uipreview:
         image: paranoidphantom/school.550:preview
         build: .
         restart: unless-stopped
         volumes:
-            - /.env.dev:/usr/src/app/.env
+            - ./.env.dev:/usr/src/app/.env
     nginx:
         image: paranoidphantom/nginx.school.550:latest
         build: ./nginx
