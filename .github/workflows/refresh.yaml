@@ -16,9 +16,13 @@ jobs:
               shell: bash
               run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
               id: extract_branch
+            - name: Go to working directory
+              run: cd /home/fred/school.550
+            - name: Pull fresh environment variables
+              run: infisical export --format=dotenv-export > .env --env=${{ steps.extract_branch.outputs.branch }}
             - name: Pull fresh images
               run: docker compose pull
             - name: Shutdown application
               run: docker compose down --remove-orphans
             - name: Run application
-              run: infisical run --env=${{ steps.extract_branch.outputs.branch }} --path=/home/fred/school.550 -- docker compose up -d
+              run: docker compose up -d
