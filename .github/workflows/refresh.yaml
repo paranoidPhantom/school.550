@@ -19,7 +19,7 @@ jobs:
             - name: Go to working directory
               run: cd /home/fred/school.550
             - name: Pull fresh environment variables
-              run: infisical export --format=dotenv-export > .env --env=${{ steps.extract_branch.outputs.branch }}
+              run: infisical export --env=${{ steps.extract_branch.outputs.branch }} --format=dotenv-export > /.env.${{ steps.extract_branch.outputs.branch }}
             - name: Pull fresh images
               run: docker compose pull
             - name: Shutdown application
