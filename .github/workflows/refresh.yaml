@@ -1,6 +1,6 @@
-name: Docker compose refresh
+name: Image refresh
 
-run-name: Docker compose refresh
+run-name: Deployment@${{ github.ref_name }} - ${{ github.run_id }}
 
 on:
     push:
