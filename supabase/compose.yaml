@@ -356,9 +356,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    depends_on:
-      vector:
-        condition: service_healthy
     command:
       - postgres
       - -c
@@ -394,29 +391,29 @@ services:
       # Use named volume to persist pgsodium decryption key between restarts
       - db-config:/etc/postgresql-custom
 
-  vector:
-    container_name: supabase-vector
-    image: timberio/vector:0.28.1-alpine
-    healthcheck:
-      test:
-        [
+  # vector:
+  #   container_name: supabase-vector
+  #   image: timberio/vector:0.28.1-alpine
+  #   healthcheck:
+  #     test:
+  #       [
 
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider",
-          "http://vector:9001/health"
-        ]
-      timeout: 5s
-      interval: 5s
-      retries: 3
-    volumes:
-      - ./volumes/logs/vector.yml:/etc/vector/vector.yml:ro
-      - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro
-    environment:
-      LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
-    command: [ "--config", "etc/vector/vector.yml" ]
+  #         "CMD",
+  #         "wget",
+  #         "--no-verbose",
+  #         "--tries=1",
+  #         "--spider",
+  #         "http://vector:9001/health"
+  #       ]
+  #     timeout: 5s
+  #     interval: 5s
+  #     retries: 3
+  #   volumes:
+  #     - ./volumes/logs/vector.yml:/etc/vector/vector.yml:ro
+  #     - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro
+  #   environment:
+  #     LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
+  #   command: [ "--config", "etc/vector/vector.yml" ]
 
 volumes:
   db-config:
