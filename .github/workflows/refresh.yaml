@@ -9,7 +9,7 @@ on:
             - "dev"
 
 jobs:
-    Deployment:
+    Deploy:
         runs-on: self-hosted
         environment: ${{ github.ref_name }}
         steps:
