@@ -1,0 +1,24 @@
+name: Docker compose refresh
+
+run-name: Docker compose refresh
+
+on:
+    push:
+        branches:
+            - "master"
+            - "dev"
+
+jobs:
+    docker:
+        runs-on: self-hosted
+        steps:
+            - name: Extract branch name
+              shell: bash
+              run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+              id: extract_branch
+            - name: Pull fresh images
+              run: docker compose pull
+            - name: Shutdown application
+              run: docker compose down --remove-orphans
+            - name: Run application
+              run: infisical run --env=${{ steps.extract_branch.outputs.branch }} --path=/home/fred/school.550 -- docker compose up -d
