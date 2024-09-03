@@ -13,12 +13,12 @@ jobs:
         runs-on: self-hosted
         environment: ${{ github.ref_name }}
         steps:
-            - name: Checkout branch
-              uses: actions/checkout@v2
             - name: Extract branch name
               shell: bash
               run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
               id: extract_branch
+            - name: Go to working directory
+              run: cd /home/fred/school.550
             - name: Pull fresh environment variables - master
               run: export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=${{ secrets.MACHINE_IDENTITY_CLIENT_ID }} --client-secret=${{ secrets.MACHINE_IDENTITY_CLIENT_SECRET }} --silent --plain --domain=https://pass.andreihudalla.ru) && infisical export --domain=https://pass.andreihudalla.ru --projectId=8898adfd-2ebc-4d0f-9f64-6fa06d5de1ea --env=master --format=dotenv-export > ./.env.master
             - name: Pull fresh environment variables - dev
