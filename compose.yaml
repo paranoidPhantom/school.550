@@ -27,7 +27,7 @@ services:
             - 80:80
             - 443:443
         volumes:
-            - /etc/letsencrypt/live:/etc/letsencrypt/live
+            - /etc/letsencrypt/live/**:/etc/letsencrypt/live/**
     dozzle:
       image: amir20/dozzle:latest
       restart: unless-stopped
