@@ -32,7 +32,8 @@
 		"lint": "eslint . --fix",
 		"format": "prettier --write .",
 		"secrets": "infisical export --env=dev > .env.dev && infisical export --env=master > .env.master",
-		"deploy": "sh -c 'branch=$(git rev-parse --abbrev-ref HEAD) && if [ \"$branch\" = \"dev\" ]; then docker compose -f compose.build.preview.yaml build --push; elif [ \"$branch\" = \"master\" ]; then docker compose -f compose.build.prod.yaml build --push; else echo \"Branch not recognized. No action taken.\"; fi'"
+		"docker:build": "sh -c 'branch=$(git rev-parse --abbrev-ref HEAD) && if [ \"$branch\" = \"dev\" ]; then docker compose -f compose.build.preview.yaml build --push; elif [ \"$branch\" = \"master\" ]; then docker compose -f compose.build.prod.yaml build --push; else echo \"Branch not recognized. No action taken.\"; fi'",
+		"deploy": "bun secrets && bun docker:build && git push"
 	},
 	"trustedDependencies": [
 		"esbuild",
