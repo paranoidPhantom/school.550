@@ -29,9 +29,9 @@ jobs:
             - name: Pull fresh images
               run: docker compose pull
               working-directory: /home/fred/school.550
-            - name: Shutdown application
-              run: docker compose down --remove-orphans
-              working-directory: /home/fred/school.550
+            # - name: Shutdown application
+            #   run: docker compose down --remove-orphans
+            #   working-directory: /home/fred/school.550
             - name: Run application
-              run: docker compose up -d
+              run: docker compose up -d --no-deps
               working-directory: /home/fred/school.550
