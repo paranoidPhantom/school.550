@@ -6,3 +6,4 @@ db/**
 nginx/**
 supabase/**
 .git/**
+README.md
