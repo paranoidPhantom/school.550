@@ -1,4 +1,4 @@
-FROM nginx:1.27.1
+FROM arm64v8/nginx
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
