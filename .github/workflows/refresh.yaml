@@ -23,6 +23,9 @@ jobs:
             - name: Pull fresh images
               run: docker compose pull
               working-directory: /home/fred/school.550
+            - name: Stop containers
+              run: docker compose down
+              working-directory: /home/fred/school.550
             - name: Run application
-              run: docker compose up -d --no-deps
+              run: docker compose up -d
               working-directory: /home/fred/school.550
