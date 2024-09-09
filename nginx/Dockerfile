@@ -1,6 +1,6 @@
-FROM amd64/nginx
+FROM nginx:mainline-alpine
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.confa
 
 RUN mkdir -p /etc/letsencrypt/live
 
