@@ -53,8 +53,7 @@ export default defineNuxtConfig({
 	],
 
 	image: {
-		// TODO: fix this domain
-		domains: ["db.portaltest.ort.spb.ru"],
+		domains: ["db.portal.ort.spb.ru"],
 		formats: ["avif", "webp"],
 	},
 
@@ -83,7 +82,7 @@ export default defineNuxtConfig({
 	css: ["@/assets/style.scss"],
 
 	site: {
-		url: "https://portal.ort.spb.ru",
+		url: process.env.SITE_URL,
 		name: "Школа №550",
 		description: "Официальный портал школы №550",
 		defaultLocale: "ru",
