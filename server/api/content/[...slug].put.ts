@@ -1,4 +1,4 @@
-import algoliasearch from "algoliasearch";
+import { algoliasearch } from "algoliasearch";
 import type { Content } from "../../types/content";
 
 export default defineEventHandler(async (event) => {
@@ -54,17 +54,19 @@ export default defineEventHandler(async (event) => {
 			process.env.ALGOLIA_APPLICATION_ID as string,
 			process.env.ALGOLIA_API_KEY as string,
 		);
-		const index = algolia.initIndex(`pages_${environment}`);
 
-		index.saveObject({
-			objectID: slug,
-			title: title.slice(0, 300),
-			description: description.slice(0, 700),
-			content: md
-				.replaceAll("\n", " ")
-				.replaceAll("-", "")
-				.slice(0, 5000),
-			slug,
+		algolia.saveObject({
+			indexName: `pages_${environment}`,
+			body: {
+				objectID: slug,
+				title: title.slice(0, 300),
+				description: description.slice(0, 700),
+				content: md
+					.replaceAll("\n", " ")
+					.replaceAll("-", "")
+					.slice(0, 5000),
+				slug,
+			},
 		});
 	} catch (error) {
 		console.error("Error content/[...slug].put:", error);

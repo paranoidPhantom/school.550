@@ -1,4 +1,4 @@
-import algoliasearch from "algoliasearch";
+import { algoliasearch } from "algoliasearch";
 
 export default defineEventHandler(async (event) => {
 	// EDIT_CONTENT ONLY
@@ -29,9 +29,10 @@ export default defineEventHandler(async (event) => {
 			process.env.ALGOLIA_APPLICATION_ID as string,
 			process.env.ALGOLIA_API_KEY as string,
 		);
-		const index = algolia.initIndex(`pages_${environment}`);
-
-		index.deleteObject(slug);
+		algolia.deleteObject({
+			indexName: `pages_${environment}`,
+			objectID: slug,
+		});
 	} catch (error) {
 		console.error("Error content/[...slug].delete:", error);
 		throw createError(error as Error);
