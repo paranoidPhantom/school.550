@@ -1,16 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	nitro: {
-		storage: {
-			default: {
-				driver: "cloudflare-kv-http",
-				accountId: process.env.KV_ACCOUND_ID,
-				namespaceId: process.env.KV_NAMESPACE_ID,
-				apiToken: process.env.KV_API_TOKEN,
-			},
-		},
-	},
-
 	experimental: {
 		componentIslands: true,
 	},
@@ -40,7 +29,6 @@ export default defineNuxtConfig({
 
 	modules: [
 		"nuxt-aos",
-		"@paranoidphantom/tgauth",
 		"nuxt-monaco-editor",
 		"@nuxt/ui",
 		"@nuxt/fonts",
@@ -74,11 +62,11 @@ export default defineNuxtConfig({
 		pageTransition: { name: "page", mode: "out-in" },
 	},
 
-	algolia: {
-		instantSearch: {
-			theme: "algolia",
-		},
-	},
+	// algolia: {
+	// 	instantSearch: {
+	// 		theme: "algolia",
+	// 	},
+	// },
 
 	css: ["./app/assets/style.scss"],
 
@@ -93,13 +81,8 @@ export default defineNuxtConfig({
 		compatibilityVersion: 4,
 	},
 
-	tgauth: {
-		auth_expiration: 0,
-	},
-
 	runtimeConfig: {
 		public: {
-			tgbot: process.env.TG_BOT,
 			environment: process.env.NODE_ENV,
 			file_server_url: process.env.FILE_SERVER_URL,
 		},
@@ -108,7 +91,11 @@ export default defineNuxtConfig({
 	supabase: {
 		url: process.env.SUPABASE_PUBLIC_URL,
 		key: process.env.ANON_KEY,
-		redirect: false,
+		redirectOptions: {
+			include: ["/manage(/*)?"],
+			login: "/login",
+			callback: "/test",
+		},
 	},
 
 	compatibilityDate: "2024-07-17",

@@ -2,7 +2,6 @@
 definePageMeta({
 	title: "Ресурсы для редакторов",
 	layout: "manage",
-	middleware: ["auth"],
 });
 const ytVids: {
 	title: string;
