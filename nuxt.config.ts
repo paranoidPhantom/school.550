@@ -48,6 +48,7 @@ export default defineNuxtConfig({
 		"@nuxt/content",
 		"@nuxt/eslint",
 		"@nuxtjs/seo",
+		// "@nuxtjs/algolia",
 		"@nuxtjs/mdc",
 		"@nuxtjs/algolia",
 	],
