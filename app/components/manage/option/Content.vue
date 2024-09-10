@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computedAsync } from "@vueuse/core";
-import type * as Monaco from "monaco-editor";
+// import type * as Monaco from "monaco-editor";
 
 const sectionActive = useCookie("admin_section_content");
 
@@ -143,7 +143,7 @@ const promptDelete = async () => {
 
 const colorMode = useColorMode();
 
-const editor = ref<Monaco.editor.ICodeEditor | null>(null);
+// const editor = ref<Monaco.editor.ICodeEditor | null>(null);
 
 // const getSelection = () => {
 // 	if (editor.value) {
@@ -159,20 +159,20 @@ const editor = ref<Monaco.editor.ICodeEditor | null>(null);
 // 	return { start: 0, end: 0 };
 // };
 
-const initialSetupEditor = (editorPassed: Monaco.editor.ICodeEditor) => {
-	editor.value = editorPassed;
-};
+// const initialSetupEditor = (editorPassed: Monaco.editor.ICodeEditor) => {
+// 	editor.value = editorPassed;
+// };
 
-const monaco = useMonaco();
-onMounted(() => {
-	setTimeout(() => {
-		if (monaco && import.meta.client) {
-			const { editor } = monaco;
-			const editors = editor.getEditors();
-			editors.map(initialSetupEditor);
-		}
-	}, 100);
-});
+// const monaco = useMonaco();
+// onMounted(() => {
+// 	setTimeout(() => {
+// 		if (monaco && import.meta.client) {
+// 			const { editor } = monaco;
+// 			const editors = editor.getEditors();
+// 			editors.map(initialSetupEditor);
+// 		}
+// 	}, 100);
+// });
 
 // const wrapSelection = (wrapper: string) => {
 //     const { start, end } = getSelection();
