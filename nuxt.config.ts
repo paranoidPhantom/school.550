@@ -50,7 +50,7 @@ export default defineNuxtConfig({
 		"@nuxtjs/seo",
 		// "@nuxtjs/algolia",
 		"@nuxtjs/mdc",
-		"@nuxtjs/algolia",
+		"@nuxtjs/supabase",
 	],
 
 	image: {
@@ -80,7 +80,7 @@ export default defineNuxtConfig({
 		},
 	},
 
-	css: ["@/assets/style.scss"],
+	css: ["./app/assets/style.scss"],
 
 	site: {
 		url: process.env.SITE_URL,
@@ -103,6 +103,12 @@ export default defineNuxtConfig({
 			environment: process.env.NODE_ENV,
 			file_server_url: process.env.FILE_SERVER_URL,
 		},
+	},
+
+	supabase: {
+		url: process.env.SUPABASE_PUBLIC_URL,
+		key: process.env.ANON_KEY,
+		redirect: false,
 	},
 
 	compatibilityDate: "2024-07-17",
