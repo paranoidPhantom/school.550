@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useClipboard } from "@vueuse/core";
-import type { File } from "~/types/file";
+import type { File } from "~/app/types/file";
 
 const {
 	public: { file_server_url },

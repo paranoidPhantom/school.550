@@ -21,11 +21,6 @@ export default defineNuxtConfig({
 			anchorLinks: false,
 		},
 	},
-	content: {
-		markdown: {
-			anchorLinks: false,
-		},
-	},
 
 	modules: [
 		"nuxt-aos",
@@ -33,7 +28,6 @@ export default defineNuxtConfig({
 		"@nuxt/ui",
 		"@nuxt/fonts",
 		"@nuxt/image",
-		"@nuxt/content",
 		"@nuxt/eslint",
 		"@nuxtjs/seo",
 		// "@nuxtjs/algolia",
@@ -91,6 +85,7 @@ export default defineNuxtConfig({
 	supabase: {
 		url: process.env.SUPABASE_PUBLIC_URL,
 		key: process.env.ANON_KEY,
+		serviceKey: process.env.SERVICE_KEY,
 		redirectOptions: {
 			include: ["/manage(/*)?"],
 			login: "/login",

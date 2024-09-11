@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
-import type { Article } from "~/types/article";
+import type { Article } from "~/app/types/article";
 
 const props = defineProps<{
 	articles: (Article & { globalIndex: number })[];

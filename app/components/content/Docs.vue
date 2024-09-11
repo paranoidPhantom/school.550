@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { File } from "~/types/file";
+import type { File } from "~/app/types/file";
 
 const props = defineProps<{
 	base: string;
@@ -105,7 +105,7 @@ onMounted(() => refreshFiles());
 				/>
 			</div>
 		</USlideover>
-		<hr class="my-4" />
+		<hr class="my-4" >
 	</div>
 </template>
 

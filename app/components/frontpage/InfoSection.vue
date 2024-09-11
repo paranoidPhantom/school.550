@@ -26,9 +26,7 @@ onMounted(() => {
 		:ui="{ item: 'basis-full' }"
 		class="overflow-hidden rounded-2xl"
 	>
-		<template v-if="item === 'engineering'">
-			
-		</template>
+		<template v-if="item === 'engineering'"/>
 	</UCarousel>
 </template>
 
