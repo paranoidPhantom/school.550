@@ -17,7 +17,7 @@ export default (str: string) => {
 		"fuchsia",
 		"pink",
 		"rose",
-	];
+	] as const;
 	let hash = 1;
 	for (let i = 0; i < str.length; i++) {
 		hash = (hash + str.charCodeAt(i)) % colors.length;
