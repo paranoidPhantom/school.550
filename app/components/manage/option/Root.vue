@@ -1,158 +1,60 @@
 <script lang="ts" setup>
-import { computedAsync } from "@vueuse/core";
-import type { Role } from "~~/server/types/role";
-const toast = useToast();
-
 const sectionActive = useCookie("admin_section_root");
 
-// ROLES
-const { data: roles, refresh: refreshRoles } = await useFetch("/api/roles");
+const toast = useToast();
+const supabase = useSupabaseClient();
 
-const newRoleState = reactive({ key: "", description: "" });
-
-const createRole = async (key: string, description: string) => {
-	try {
-		if (!key || !description) return;
-		await $fetch("/api/roles", {
-			method: "POST",
-			body: { key, description },
-		});
-		if (roles.value) {
-			roles.value.push({ key, description });
-			newRoleState.key = "";
-			newRoleState.description = "";
-			toast.add({
-				title: "Успешно",
-				description: "Роль успешно создана",
-				color: "green",
-			});
-			refreshRoles();
-		}
-	} catch (error) {
-		toast.add({
-			title: "Ошибка",
-			description: (error as Error).message,
-			color: "red",
-		});
-	}
-};
-
-// USERS
-const { data: users, refresh: refreshUsers } = await useFetch("/api/users");
-
-const userActionState = reactive<{
-	add: boolean;
-	edit: boolean;
-	uid: string | number;
-}>({ add: false, edit: false, uid: "" });
-
-const popoverActive = ref(false);
-
-const idValid = computed(
-	() => userActionState.uid && !Number.isNaN(Number(userActionState.uid)),
+const { data: users, refresh: refreshUsers } = await useAsyncData(
+	"user_list_sb",
+	async () => {
+		const { data, error } = await supabase.from("users").select("*");
+		if (error) throw error;
+		return data;
+	},
 );
 
-const userFromId = computedAsync(async () => {
-	if (!idValid.value) return null;
-	return await $fetch(`/api/user/${userActionState.uid}`);
-}, null);
+const columns = [
+	{ key: "id", label: "ID" },
+	{ key: "created_at", label: "Дата создания" },
+	{ key: "perms", label: "Роли" },
+];
 
-const createUser = async () => {
+const newRoleInputs = reactive(
+	Object.fromEntries((users.value ?? []).map((user) => [user.id, ""])),
+);
+
+const addRole = async (uid: string, role: string) => {
+	newRoleInputs[uid] = "";
 	try {
-		if (!userActionState.uid || !userFromId.value) return;
-		await $fetch("/api/users", {
+		await $fetch(`/api/user/${uid}/perms`, {
 			method: "POST",
-			body: userFromId.value,
+			body: { newPerms: [role] },
 		});
 		refreshUsers();
-		userActionState.uid = Number(userFromId.value.id);
-		userActionState.edit = true;
-		userActionState.add = false;
-		toast.add({
-			title: "Успешно",
-			description: "Пользователь успешно создан",
-			color: "green",
-		});
 	} catch (error) {
 		toast.add({
-			title: "Ошибка",
+			title: "Ошибка добавления роли",
 			description: (error as Error).message,
 			color: "red",
 		});
 	}
 };
 
-const now = Date.now();
-
-const userOptions = computed(() => {
-	return users.value?.map((user) => ({
-		...user,
-		label: `${user.first_name} ${user.last_name}`,
-	}));
-});
-
-// User roles
-
-const userRoleRefresher = ref(0);
-
-const userRoles = computedAsync(async () => {
-	if (userRoleRefresher.value !== undefined) {
-		if (!userFromId.value) return [];
-		return await $fetch(`/api/user/${userFromId.value.id}/roles`);
-	}
-}, null);
-
-const giveUserRole = async (role: string) => {
+const removeRole = async (uid: string, role: string) => {
 	try {
-		if (!userFromId.value) return;
-		await $fetch(`/api/user/${userActionState.uid}/roles`, {
-			method: "POST",
-			body: { role },
-		});
-		toast.add({
-			title: "Успешно",
-			description: "Роль успешно добавлена",
-			color: "green",
-		});
-		userRoleRefresher.value++;
-	} catch (error) {
-		toast.add({
-			title: "Ошибка",
-			description: (error as Error).message,
-			color: "red",
-		});
-	}
-};
-
-const revokeUserRole = async (role: string) => {
-	try {
-		if (!userFromId.value) return;
-		await $fetch(`/api/user/${userActionState.uid}/roles`, {
+		await $fetch(`/api/user/${uid}/perms`, {
 			method: "DELETE",
-			body: { role },
+			body: { deletePerms: [role] },
 		});
-		toast.add({
-			title: "Успешно",
-			description: "Роль успешно удалена",
-			color: "green",
-		});
-		userRoleRefresher.value++;
+		refreshUsers();
 	} catch (error) {
 		toast.add({
-			title: "Ошибка",
+			title: "Ошибка удаления роли",
 			description: (error as Error).message,
 			color: "red",
 		});
 	}
 };
-
-const userRolePicked = ref();
-
-watch(userRolePicked, (picked) => {
-	if (!picked) return;
-	giveUserRole(picked);
-	userRolePicked.value = undefined;
-});
 </script>
 
 <template>
@@ -166,211 +68,70 @@ watch(userRolePicked, (picked) => {
 			@click="sectionActive = sectionActive ? '' : 'true'"
 		/>
 		<template v-if="sectionActive">
-			<div class="flex gap-2">
-				<UPopover v-if="roles">
-					<UButton color="gray" label="Роли" />
-					<template #panel>
-						<UCard>
-							<div
-								class="flex flex-col gap-2 divide-y divide-gray-800"
-							>
-								<div
-									v-for="role in roles"
-									:key="role.key"
-									class="role flex w-80 items-center gap-2 pt-2"
-								>
-									<UBadge
-										variant="soft"
-										:color="useKeyToColor(role.key)"
-										>{{ role.key }}</UBadge
-									>
-									<p
-										class="overflow-hidden text-wrap text-right text-xs opacity-80"
-										:title="role.description"
-									>
-										{{ role.description }}
-									</p>
-								</div>
-								<div class="border-none">
-									<UButtonGroup>
-										<UInput
-											v-model="newRoleState.key"
-											placeholder="Роль"
-											size="xs"
-										/>
-										<UInput
-											v-model="newRoleState.description"
-											placeholder="Описание"
-											size="xs"
-										/>
-										<UButton
-											icon="mdi:plus"
-											size="xs"
-											color="gray"
-											@click="
-												createRole(
-													newRoleState.key,
-													newRoleState.description,
-												)
-											"
-										/>
-									</UButtonGroup>
-								</div>
-							</div>
-						</UCard>
-					</template>
-				</UPopover>
-				<UPopover v-if="users" v-model:open="popoverActive">
-					<UButton color="gray" label="Пользователи" />
-					<template #panel>
-						<UCard>
-							<div v-if="users" class="flex flex-col gap-2">
-								<UButtonGroup>
-									<UInputMenu
-										v-model="userActionState.uid"
-										:options="userOptions"
-										:search-attributes="['username', 'id']"
-										value-attribute="id"
-									/>
-									<UButton
-										icon="line-md:edit-twotone-full"
-										:disabled="!userFromId"
-										color="gray"
-										@click="
-											userActionState.edit = true;
-											popoverActive = false;
-										"
-									/>
-								</UButtonGroup>
-								<UButton
-									color="gray"
-									icon="line-md:person-add-filled"
-									@click="
-										userActionState.add = true;
-										popoverActive = false;
-										userActionState.uid = '';
-									"
-									>Добавить пользователя</UButton
-								>
-							</div>
-						</UCard>
-					</template>
-				</UPopover>
-				<!-- Add user modal -->
-				<UModal v-model="userActionState.add">
-					<UCard>
-						<template #header>
-							<h3 class="text-lg font-bold">
-								Добавить пользователя
-							</h3>
-						</template>
-						<UAlert
-							class="mb-4"
-							variant="subtle"
-							color="yellow"
-							title="Пользователь появиться только если он ранее входил"
-							icon="mdi:alert"
-						/>
-						<div
-							v-if="userFromId"
-							class="mb-4 flex items-center gap-2"
-						>
-							<UAvatar :src="userFromId.photo_url" size="lg" />
-							<div class="flex flex-col">
-								<h3 class="text-lg font-bold">
-									{{ userFromId.first_name }}
-									{{ userFromId.last_name }}
-								</h3>
-								<p class="text-sm text-gray-500">
-									Создан
-									{{
-										useFormattedInterval(
-											now / 1000 - userFromId.auth_date,
-										)
-									}}
-									назад
-								</p>
-							</div>
-						</div>
-						<UButtonGroup class="w-full">
-							<UInput
-								v-model="userActionState.uid"
-								class="w-full"
-								placeholder="ID пользователя"
-							/>
-							<UButton
-								color="gray"
-								label="Добавить"
-								:disabled="!userFromId"
-								@click="createUser"
-							/>
-						</UButtonGroup>
-					</UCard>
-				</UModal>
-				<!-- Edit user modal -->
-				<UModal v-model="userActionState.edit">
-					<UCard>
-						<template #header>
-							<div v-if="userFromId" class="flex gap-2">
-								<UAvatar
-									:src="userFromId.photo_url"
-									size="lg"
-								/>
-								<div class="info">
-									<h3 class="text-lg font-bold">
-										{{ userFromId.first_name }}
-										{{ userFromId.last_name }}
-									</h3>
-									<p class="text-sm text-gray-500">
-										@{{ userFromId.username }} | Создан
-										{{
-											useFormattedInterval(
-												now / 1000 -
-													userFromId.auth_date,
-											)
-										}}
-										назад
-									</p>
-								</div>
-							</div>
-						</template>
-						<h3 class="mb-2 text-lg font-semibold">Роли</h3>
-						<div class="flex flex-wrap items-center gap-2">
+			<UTable :rows="users" :columns="columns">
+				<template #created_at-data="{ row }">
+					{{ new Date(row.created_at).toLocaleDateString("ru") }}@{{
+						new Date(row.created_at).toLocaleTimeString("ru")
+					}}
+				</template>
+				<template #perms-data="{ row }">
+					<div class="flex max-w-52 flex-wrap gap-2">
+						<TransitionGroup name="fade" mode="out-in">
 							<UBadge
-								v-for="role in userRoles"
-								:key="role"
+								v-for="perm in row.perms"
+								:key="perm"
 								variant="soft"
-								:color="useKeyToColor(role)"
-								>{{ role }}
+								size="xs"
+								:color="useKeyToColor(perm)"
+								>{{ perm }}
 								<UButton
-									v-if="role !== 'root'"
-									class="ml-2"
+									v-if="perm !== 'root'"
+									size="2xs"
 									color="white"
-									size="xs"
-									variant="link"
-									:padded="false"
 									icon="mdi:close"
-									@click="revokeUserRole(role)"
+									variant="link"
+									@click="removeRole(row.id, perm)"
 								/>
 							</UBadge>
-							<UButtonGroup size="xs">
-								<UInputMenu
-									v-if="roles"
-									v-model="userRolePicked"
-									:options="
-										roles.map((role: Role) => ({
-											label: role.key,
-										}))
-									"
-									value-attribute="label"
-									placeholder="Добавить роль"
-								/>
-							</UButtonGroup>
-						</div>
-					</UCard>
-				</UModal></div
-		></template>
+						</TransitionGroup>
+						<UButtonGroup size="xs">
+							<UInput
+								v-model="newRoleInputs[row.id]"
+								placeholder="Добавить роль"
+								@keyup.enter="
+									addRole(
+										row.id,
+										newRoleInputs[row.id] as string,
+									)
+								"
+							/>
+							<UButton
+								icon="mdi:plus"
+								color="gray"
+								:disabled="!newRoleInputs[row.id]"
+								@click="
+									addRole(
+										row.id,
+										newRoleInputs[row.id] as string,
+									)
+								"
+							/>
+						</UButtonGroup>
+					</div>
+				</template>
+			</UTable>
+		</template>
 	</div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+	transition: all 1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+</style>
