@@ -30,6 +30,7 @@
 		"postinstall": "nuxt prepare",
 		"lint": "eslint . --fix",
 		"format": "prettier --write .",
+		"supatypes": "export POSTGRES_PASSWORD=$(grep '^POSTGRES_PASSWORD=' .env | cut -d '=' -f2-) && bunx supabase gen types --db-url=\"postgres://postgres:$POSTGRES_PASSWORD@db.portal.ort.spb.ru:5432/postgres\" --schema public > supabase/types.ts",
 		"deploy": "sh -c 'branch=$(git rev-parse --abbrev-ref HEAD) && if [ \"$branch\" = \"dev\" ]; then docker compose -f compose.build.preview.yaml build --push; elif [ \"$branch\" = \"master\" ]; then docker compose -f compose.build.prod.yaml build --push; else echo \"Branch not recognized. No action taken.\"; fi'"
 	},
 	"trustedDependencies": [
