@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { User } from "@supabase/supabase-js";
+
 definePageMeta({
 	layout: "manage",
 });
@@ -6,6 +8,13 @@ definePageMeta({
 const { auth } = useSupabaseClient();
 
 const user = useSupabaseUser();
+
+const { data: perms } = await useFetch<string[] | null>(
+	`/api/user/${(user.value as User).id}/perms`,
+	{
+		headers: useRequestHeaders(["cookie"]),
+	},
+);
 
 const loggingOut = ref(false);
 
@@ -56,10 +65,10 @@ const logout = async () => {
 					/>
 				</div>
 			</template>
-			<div class="flex flex-col gap-4">
-				<!-- <ManageOptionRoot v-if="perms.includes('root')" />
+			<div v-if="perms" class="flex flex-col gap-4">
+				<ManageOptionRoot v-if="perms.includes('root')" />
 				<ManageOptionContent v-if="perms.includes('edit_content')" />
-				<ManageOptionFS v-if="perms.includes('fs')" /> -->
+				<ManageOptionFS v-if="perms.includes('fs')" />
 			</div>
 		</UCard>
 	</div>
