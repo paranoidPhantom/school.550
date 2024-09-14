@@ -85,7 +85,8 @@ export default defineNuxtConfig({
 	supabase: {
 		url: process.env.SUPABASE_PUBLIC_URL,
 		key: process.env.ANON_KEY,
-		serviceKey: process.env.SERVICE_KEY,
+		serviceKey: process.env.SERVICE_ROLE_KEY,
+		types: "./supabase/types.ts",
 		redirectOptions: {
 			include: ["/manage(/*)?"],
 			login: "/login",
