@@ -56,6 +56,16 @@ async function submit() {
 	switch (error.status) {
 		case 401: {
 			state.value.error = "Неверные данные";
+			break;
+		}
+		default: {
+			toast.add({
+				id: "auth_error",
+				title: "Ошибка авторизации",
+				message: error.message,
+				icon: "i-heroicons-exclamation-circle",
+				timeout: 3000,
+			});
 		}
 	}
 }
@@ -76,7 +86,7 @@ async function submit() {
 				variant="subtle"
 				:title="message as string"
 			/>
-			<hr class="w-1/2 opacity-10" >
+			<hr class="w-1/2 opacity-10" />
 			<UFormGroup label="Email" name="email">
 				<UInput v-model="state.email" placeholder="email@example.ru" />
 			</UFormGroup>
