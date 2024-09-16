@@ -13,7 +13,7 @@ const { data: ast } = await useAsyncData<typeof parseMarkdown>(
 		const { data } = await supabase
 			.from("content")
 			.select("md")
-			.eq("slug", `/${slug ?? [].join("/")}`)
+			.eq("slug", `/${slug.join("/")}`)
 			.maybeSingle();
 		if (!data) return null;
 		const { md } = data;
@@ -65,6 +65,17 @@ const brklinks = computed(() => {
 
 	return links;
 });
+
+supabase
+	.channel("_slug-changes")
+	.on(
+		"postgres_changes",
+		{ event: "UPDATE", schema: "public", table: "content" },
+		(payload: { new: Record<string, string> }) => {
+			console.log(payload);
+		},
+	)
+	.subscribe();
 </script>
 
 <template>
