@@ -22,18 +22,25 @@ export default defineNuxtConfig({
 		},
 	},
 
+	content: {
+		headings: {
+			anchorLinks: false,
+		},
+	},
+
 	modules: [
-		"nuxt-aos",
-		"nuxt-monaco-editor",
-		"@nuxt/ui",
-		"@nuxt/fonts",
-		"@nuxt/image",
-		"@nuxt/eslint",
-		"@nuxtjs/seo",
-		// "@nuxtjs/algolia",
-		"@nuxtjs/mdc",
-		"@nuxtjs/supabase",
-	],
+        "nuxt-aos",
+        "nuxt-monaco-editor",
+        "@nuxt/ui",
+        "@nuxt/fonts",
+        "@nuxt/image",
+        "@nuxt/eslint",
+        "@nuxtjs/seo",
+        // "@nuxtjs/algolia",
+        "@nuxtjs/mdc",
+        "@nuxtjs/supabase",
+        "@nuxt/content"
+    ],
 
 	image: {
 		domains: ["db.portal.ort.spb.ru"],
