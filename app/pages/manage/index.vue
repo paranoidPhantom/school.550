@@ -36,7 +36,7 @@ const logout = async () => {
 						icon="line-md:account"
 						size="xl"
 					/>
-					<div class="flex flex-col">
+					<div class="flex justify-between gap-4">
 						<h2
 							v-if="
 								user.user_metadata.first_name &&
@@ -50,6 +50,12 @@ const logout = async () => {
 						<p v-else>
 							{{ user.email }}
 						</p>
+						<UBadge size="xs" color="yellow" variant="subtle"
+							><span
+								class="w-16 truncate text-nowrap text-center transition-all hover:w-64 active:w-64"
+								>{{ user.id }}</span
+							></UBadge
+						>
 					</div>
 					<UButton
 						class="ml-auto"
