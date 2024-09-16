@@ -2,10 +2,9 @@ import {
 	serverSupabaseUser,
 	serverSupabaseServiceRole,
 } from "#supabase/server";
-import type { H3Event } from "h3";
 import type { Database } from "~~/supabase/types";
 
-export default defineEventHandler(async (event: H3Event) => {
+export default defineEventHandler(async (event) => {
 	const user = await serverSupabaseUser(event);
 	const supabase = serverSupabaseServiceRole<Database>(event);
 
