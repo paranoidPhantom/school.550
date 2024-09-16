@@ -1,18 +1,4 @@
 <script lang="ts" setup>
-const route = useRoute();
-onMounted(async () => {
-	if (
-		!route.path.startsWith("/manage") ||
-		route.path.startsWith("/manage/auth")
-	)
-		return;
-	const valid = await $fetch("/api/auth/validate");
-
-	if (!valid) {
-		navigateTo("/manage/auth");
-	}
-});
-
 useSeoMeta({
 	ogImage: "/images/exterior.png",
 });
