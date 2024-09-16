@@ -65,17 +65,6 @@ const brklinks = computed(() => {
 
 	return links;
 });
-
-supabase
-	.channel("_slug-changes")
-	.on(
-		"postgres_changes",
-		{ event: "UPDATE", schema: "public", table: "content" },
-		(payload: { new: Record<string, string> }) => {
-			console.log(payload);
-		},
-	)
-	.subscribe();
 </script>
 
 <template>
