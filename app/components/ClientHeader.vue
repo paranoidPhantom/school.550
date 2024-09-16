@@ -244,9 +244,9 @@ const focusFirstLink = () => {
 						<ColorSwitcher />
 						<!-- Mobile menu -->
 						<UButton
-							aria-label="Меню страниц"
 							v-show="!isServer"
 							:key="state.active ? 'closed' : 'opened'"
+							aria-label="Меню страниц"
 							class="lg:hidden"
 							color="white"
 							variant="link"

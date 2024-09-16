@@ -14,7 +14,7 @@
 						class="block w-[25%] rounded-xl border border-slate-300 bg-[#EDEBF0] py-2 pl-[1%] pr-3 shadow-sm placeholder:text-slate-400"
 						placeholder="Поиск"
 						type="text"
-					/>
+					>
 					<span
 						class="absolute inset-y-0 left-[20%] flex items-center pl-2 max-[1200px]:left-[15%]"
 					>

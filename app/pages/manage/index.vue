@@ -1,43 +1,69 @@
 <script lang="ts" setup>
+import type { User } from "@supabase/supabase-js";
+
 definePageMeta({
-	middleware: ["auth"],
 	layout: "manage",
 });
 
-const { user, logout: clearCredentials } = useTelegramUser();
+const { auth } = useSupabaseClient();
 
-const { data: perms } = await useFetch("/api/auth/perms");
+const user = useSupabaseUser();
 
-const logout = () => {
-	clearCredentials();
+const { data: perms } = await useFetch<string[] | null>(
+	`/api/user/${(user.value as User).id}/perms`,
+	{
+		headers: useRequestHeaders(["cookie"]),
+	},
+);
+
+const loggingOut = ref(false);
+
+const logout = async () => {
+	loggingOut.value = true;
+	await auth.signOut();
 	window.location.reload();
 };
-
-// Extra protective layer (can be bypassed easily but mainly here to not show the option to devs who don't need it)
-const kvEditors = [5491328220];
 </script>
 
 <template>
-	<div class="__manage p-4">
-		<UCard v-if="user">
+	<div v-if="user" class="__manage p-8">
+		<UCard>
 			<template #header>
 				<div class="flex items-center gap-4">
 					<UAvatar
-						:src="user.photo_url"
+						v-if="user.user_metadata.avatar_url"
+						:src="user.user_metadata.avatar_url"
 						icon="line-md:account"
 						size="xl"
 					/>
-					<div class="flex flex-col">
-						<h2 class="text-xl">
-							{{ user.first_name }} {{ user.last_name }}
+					<div class="flex justify-between gap-4">
+						<h2
+							v-if="
+								user.user_metadata.first_name &&
+								user.user_metadata.last_name
+							"
+							class="text-xl"
+						>
+							{{ user.user_metadata.first_name }}
+							{{ user.user_metadata.last_name }}
 						</h2>
-						<p class="text-xs opacity-50">
-							@{{ user.username }} - {{ user.id }}
+						<p v-else>
+							{{ user.email }}
 						</p>
+						<UBadge size="xs" color="yellow" variant="subtle"
+							><span
+								class="w-16 truncate text-nowrap text-center transition-all hover:w-64 active:w-64"
+								>{{ user.id }}</span
+							></UBadge
+						>
 					</div>
 					<UButton
 						class="ml-auto"
-						icon="line-md:logout"
+						:icon="
+							loggingOut
+								? 'svg-spinners:3-dots-scale'
+								: 'line-md:logout'
+						"
 						variant="ghost"
 						color="white"
 						size="xl"
@@ -45,27 +71,7 @@ const kvEditors = [5491328220];
 					/>
 				</div>
 			</template>
-			<DevOnly v-if="kvEditors.includes(user.id)">
-				<ManageOptionKVEditor />
-			</DevOnly>
-			<UAlert
-				v-if="perms.length === 0"
-				title="У вас пока нет доступа ни к одной части сайта"
-				color="yellow"
-				variant="subtle"
-				icon="line-md:alert-loop"
-			>
-				<template #description>
-					<p class="text-sm">
-						Чтобы получить права необходимо обратиться к
-						администратору сайта и сообщить свой ID -
-						<UBadge variant="subtle" color="yellow">
-							{{ user.id }}</UBadge
-						>
-					</p>
-				</template>
-			</UAlert>
-			<div v-else class="flex flex-col gap-4">
+			<div v-if="perms" class="flex flex-col gap-4">
 				<ManageOptionRoot v-if="perms.includes('root')" />
 				<ManageOptionContent v-if="perms.includes('edit_content')" />
 				<ManageOptionFS v-if="perms.includes('fs')" />

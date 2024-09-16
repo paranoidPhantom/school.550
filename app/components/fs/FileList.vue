@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useMouse, useWindowScroll } from "@vueuse/core";
-import type { File } from "~/types/file";
+import type { File } from "~/app/types/file";
 const props = defineProps<{
 	files?: File[];
 	selectable: boolean;

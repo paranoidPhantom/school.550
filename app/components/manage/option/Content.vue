@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { computedAsync } from "@vueuse/core";
 // import type * as Monaco from "monaco-editor";
+
+const toast = useToast();
+const supabase = useSupabaseClient();
 
 const sectionActive = useCookie("admin_section_content");
 
 const pageSlugCookie = useCookie("editing_page_slug");
-
-const toast = useToast();
 
 const loading = ref(false);
 
@@ -16,28 +16,28 @@ const state = reactive<{
 	md: string;
 }>({ slug: pageSlugCookie.value ?? "", md: "", open: true });
 
-const { data: content, refresh: refreshContent } = await useFetch(
-	"/api/content",
+const { data: content, refresh: refreshContent } = await useAsyncData(
+	"content_list_sb",
+	async () => {
+		const { data, error } = await supabase.from("content").select("*");
+		if (error) throw error;
+		return data;
+	},
 	{
 		transform: (data) =>
 			data.map((item) => ({
+				...item,
 				label: item.slug,
 			})),
 	},
 );
 
-const mdRefresher = ref(1);
-const fetchedMD = computedAsync(async () => {
-	if (mdRefresher.value) {
-		loading.value = true;
-		const md = (await $fetch(`/api/content${state.slug}`)) as string;
-		loading.value = false;
-		return (
-			md ||
-			"---\ntitle: Название Страницы\ndescription: Описание Страницы\n---\n # Странца пока что пуста, но это легко исправить.\n\n[Ресурсы для редакторов](/manage/learn)"
-		);
-	}
-}, null);
+const fetchedMD = computed(() => {
+	const md = content.value?.find((item) => item.slug === state.slug)?.md;
+	return md;
+});
+
+onMounted(() => (state.md = fetchedMD.value ?? ""));
 
 watch(fetchedMD, (md) => {
 	if (md && state.slug) {
@@ -46,8 +46,6 @@ watch(fetchedMD, (md) => {
 	}
 });
 
-const gotSomeMD = computed(() => fetchedMD.value || fetchedMD.value === "");
-
 const newPageSlug = ref("");
 
 const createNewPage = async () => {
@@ -55,12 +53,18 @@ const createNewPage = async () => {
 	const slug = newPageSlug.value;
 	if (!slug || !slug.startsWith("/")) return;
 	loading.value = true;
-	await $fetch(`/api/content`, {
-		method: "POST",
-		body: {
-			slug: slug,
-		},
-	});
+	try {
+		const { error } = await supabase.from("content").insert({
+			slug,
+		});
+		if (error) throw error;
+	} catch (error) {
+		toast.add({
+			title: "Ошибка создания страницы",
+			description: (error as Error).message,
+			color: "red",
+		});
+	}
 	await refreshContent();
 	loading.value = false;
 	state.slug = slug;
@@ -74,33 +78,29 @@ const savePage = async () => {
 
 	const ast = await parseMarkdown(state.md);
 	const { title, description } = ast.data;
-
-	await $fetch(`/api/content${slug}`, {
-		method: "PUT",
-		body: { title, description, md: state.md },
-	});
+	try {
+		await $fetch(`/api/content/regsearch`, {
+			method: "PUT",
+			body: { title, description, md: state.md, slug },
+		});
+		const { error } = await supabase
+			.from("content")
+			.update({
+				md: state.md,
+				updated_at: new Date().toISOString(),
+			})
+			.eq("slug", slug);
+		if (error) throw error;
+		await refreshContent();
+	} catch (error) {
+		toast.add({
+			title: "Ошибка сохранения страницы",
+			description: (error as Error).message,
+			color: "red",
+		});
+	}
 	loading.value = false;
-	mdRefresher.value++;
 };
-
-const statusAnim = computed(() => {
-	if (newPageSlug.value && newPageSlug.value !== state.slug) {
-		return {
-			value: null,
-			animation: "swing",
-		};
-	}
-	if (fetchedMD.value !== state.md) {
-		return {
-			value: null,
-			animation: "elastic",
-		};
-	}
-	return {
-		value: 0,
-		animation: "",
-	};
-});
 
 defineShortcuts({
 	meta_s: { handler: savePage, usingInput: true },
@@ -111,7 +111,7 @@ defineShortcuts({
 });
 
 const promptDelete = async () => {
-	if (!gotSomeMD.value) return;
+	if (!fetchedMD.value) return;
 	toast.add({
 		title: "Удалить страницу",
 		description: "Вы уверены, что хотите удалить страницу?",
@@ -121,20 +121,29 @@ const promptDelete = async () => {
 				label: "Удалить",
 				color: "red",
 				click: async () => {
-					await $fetch(`/api/content${state.slug}`, {
-						method: "DELETE",
-					});
-					await $fetch(`/api/content`, {
-						body: {
-							firefoslug: state.slug,
-						},
-						method: "DELETE",
-					});
-					await refreshContent();
-					toast.add({
-						title: "Страница удалена",
-						description: "Страница удалена из базы данных",
-					});
+					try {
+						await $fetch(`/api/content/regsearch`, {
+							method: "DELETE",
+							body: { slug: state.slug },
+						});
+						const { error } = await supabase
+							.from("content")
+							.delete()
+							.eq("slug", state.slug);
+						if (error) throw error;
+						await refreshContent();
+						toast.add({
+							title: "Страница удалена",
+							description: "Страница удалена из базы данных",
+						});
+						pageSlugCookie.value = "";
+					} catch (error) {
+						toast.add({
+							title: "Ошибка удаления страницы",
+							description: (error as Error).message,
+							color: "red",
+						});
+					}
 				},
 			},
 		],
@@ -228,13 +237,6 @@ const colorMode = useColorMode();
 			@click="sectionActive = sectionActive ? '' : 'true'"
 		/>
 		<template v-if="sectionActive">
-			<UProgress
-				size="sm"
-				class="transition-opacity"
-				:style="{ opacity: statusAnim.value === 0 ? 0 : 1 }"
-				:animation="statusAnim.animation"
-				:value="statusAnim.value"
-			/>
 			<div>
 				<UButtonGroup class="w-full">
 					<UInputMenu
@@ -253,7 +255,7 @@ const colorMode = useColorMode();
 							Пока что не создано ни одной страницы
 						</template>
 					</UInputMenu>
-
+					{{ newPageSlug }}
 					<UButton
 						v-show="newPageSlug !== state.slug"
 						color="gray"
@@ -261,7 +263,7 @@ const colorMode = useColorMode();
 						@click="createNewPage"
 					/>
 					<UButton
-						v-show="gotSomeMD"
+						v-show="fetchedMD"
 						color="gray"
 						icon="material-symbols:eye-tracking-outline-rounded"
 						:to="state.slug"
@@ -270,18 +272,18 @@ const colorMode = useColorMode();
 					<UButton
 						color="gray"
 						icon="akar-icons:save"
-						:disabled="fetchedMD === state.md || !gotSomeMD"
+						:disabled="fetchedMD === state.md || !fetchedMD"
 						@click="savePage"
 					/>
 					<UButton
 						color="red"
 						icon="material-symbols:delete-outline"
-						:disabled="!gotSomeMD"
+						:disabled="!fetchedMD"
 						@click="promptDelete"
 					/>
 				</UButtonGroup>
 			</div>
-			<div v-if="gotSomeMD" class="flex max-h-screen flex-wrap">
+			<div v-if="fetchedMD" class="flex max-h-screen flex-wrap">
 				<div
 					class="flex max-h-screen min-h-96 w-full flex-col overflow-hidden xl:!w-1/2 xl:flex-1"
 				>

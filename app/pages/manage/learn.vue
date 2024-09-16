@@ -2,7 +2,6 @@
 definePageMeta({
 	title: "Ресурсы для редакторов",
 	layout: "manage",
-	middleware: ["auth"],
 });
 const ytVids: {
 	title: string;
@@ -32,7 +31,7 @@ const ytID = ({ url }: (typeof ytVids)[number]) =>
 <template>
 	<div class="__learn flex flex-col gap-4 p-4">
 		<h1 class="text-2xl font-semibold">Ресурсы</h1>
-		<hr class="opacity-10" />
+		<hr class="opacity-10" >
 		<div class="flex flex-wrap gap-2">
 			<UCard
 				v-for="vid in ytVids"
@@ -50,7 +49,7 @@ const ytID = ({ url }: (typeof ytVids)[number]) =>
 						)}/sddefault.jpg`"
 						:alt="vid.title"
 					/>
-					<hr class="opacity-10" />
+					<hr class="opacity-10" >
 					<h3 class="text-lg font-semibold">{{ vid.title }}</h3>
 				</div>
 			</UCard>

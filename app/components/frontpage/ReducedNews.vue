@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
-const md = await $fetch(`/api/content/news`);
-
-const ast = await parseMarkdown(md);
+const ast = undefined;
 </script>
 
 <template>

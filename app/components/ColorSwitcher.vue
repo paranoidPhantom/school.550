@@ -19,7 +19,7 @@ const currentMode = computed(() => {
 const toggleMode = () => {
 	let done = false;
 	modes.forEach((mode, index) => {
-		if (currentMode.value.key === mode.key && !done) {
+		if (currentMode.value && currentMode.value.key === mode.key && !done) {
 			done = true;
 			colorMode.preference = modes[(index + 1) % modes.length].key;
 		}
@@ -30,6 +30,7 @@ const toggleMode = () => {
 <template>
 	<ClientOnly>
 		<UButton
+			v-if="currentMode"
 			:key="currentMode.key"
 			:icon="currentMode.icon"
 			color="white"

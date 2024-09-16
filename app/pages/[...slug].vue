@@ -1,18 +1,24 @@
 <script setup lang="ts">
 import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
-definePageMeta({
-	middleware: ["content"],
-});
+const supabase = useSupabaseClient();
 
 const {
-	meta: { md },
 	params: { slug },
 } = useRoute();
 
 const { data: ast } = await useAsyncData<typeof parseMarkdown>(
 	`md_${slug}`,
-	() => parseMarkdown(md),
+	async () => {
+		const { data } = await supabase
+			.from("content")
+			.select("md")
+			.eq("slug", `/${slug ?? [].join("/")}`)
+			.maybeSingle();
+		if (!data) return null;
+		const { md } = data;
+		return await parseMarkdown(md);
+	},
 );
 
 const refreshSeo = () => {
@@ -41,12 +47,12 @@ const brklinks = computed(() => {
 				links.push({
 					label: "Сведения об ОУ",
 					icon: "heroicons:information-circle-20-solid",
-				});
+				} as any);
 				break;
 			case "for-parents":
 				links.push({
 					label: "Родителям",
-				});
+				} as any);
 				break;
 			default:
 				break;
@@ -55,7 +61,7 @@ const brklinks = computed(() => {
 
 	links.push({
 		label: ast.value?.data.title,
-	});
+	} as any);
 
 	return links;
 });

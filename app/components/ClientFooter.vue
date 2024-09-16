@@ -202,7 +202,7 @@ const sections: {
 		>
 			<p>
 				&copy; {{ new Date().getFullYear() }} Школа №550. Все права
-				защищены. Совпадения не случайны.
+				защищены.
 			</p>
 		</section>
 	</footer>
