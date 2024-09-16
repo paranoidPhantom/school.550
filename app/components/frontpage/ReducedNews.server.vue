@@ -1,7 +1,17 @@
 <script lang="ts" setup>
 import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
-const ast = undefined;
+const supabase = useSupabaseClient();
+
+const { data: ast } = await useAsyncData("news", async () => {
+	const { data, error } = await supabase
+		.from("content")
+		.select("md")
+		.eq("slug", "/news")
+		.maybeSingle();
+	if (error) throw error;
+	return parseMarkdown(data?.md);
+});
 </script>
 
 <template>
