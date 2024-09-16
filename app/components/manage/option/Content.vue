@@ -82,6 +82,7 @@ const savePage = async () => {
 		await $fetch(`/api/content/regsearch`, {
 			method: "PUT",
 			body: { title, description, md: state.md, slug },
+			headers: useRequestHeaders(["cookie"]),
 		});
 		const { error } = await supabase
 			.from("content")
@@ -125,6 +126,7 @@ const promptDelete = async () => {
 						await $fetch(`/api/content/regsearch`, {
 							method: "DELETE",
 							body: { slug: state.slug },
+							headers: useRequestHeaders(["cookie"]),
 						});
 						const { error } = await supabase
 							.from("content")

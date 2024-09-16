@@ -45,6 +45,7 @@ const removeRole = async (uid: string, role: string) => {
 		await $fetch(`/api/user/${uid}/perms`, {
 			method: "DELETE",
 			body: { deletePerms: [role] },
+			headers: useRequestHeaders(["cookie"]),
 		});
 		refreshUsers();
 	} catch (error) {

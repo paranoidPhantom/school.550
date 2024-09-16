@@ -4,7 +4,9 @@ export default async (...args: (typeof $fetch)["arguments"]) => {
 	} = useRuntimeConfig();
 	const fstoken = useCookie<string | undefined>("fstoken");
 	if (!fstoken.value) {
-		const token = (await $fetch(`/api/auth/fstoken`)) as string;
+		const token = (await $fetch(`/api/auth/fstoken`, {
+			headers: useRequestHeaders(["cookie"]),
+		})) as string;
 		fstoken.value = token;
 	}
 	try {
