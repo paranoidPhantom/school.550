@@ -1,34 +1,19 @@
 <script setup lang="ts">
-import { parseMarkdown } from "@nuxtjs/mdc/runtime";
-
-const supabase = useSupabaseClient();
+definePageMeta({
+	middleware: ["content"],
+});
 
 const {
 	params: { slug },
-} = useRoute();
-
-const { data: ast } = await useAsyncData<typeof parseMarkdown>(
-	`md_${slug}`,
-	async () => {
-		const { data } = await supabase
-			.from("content")
-			.select("md")
-			.eq("slug", `/${slug.join("/")}`)
-			.maybeSingle();
-		if (!data) return null;
-		const { md } = data;
-		return await parseMarkdown(md);
-	},
-);
+	meta: { ast },
+} = useRoute() as any;
 
 const refreshSeo = () => {
-	if (ast.value) {
+	if (ast) {
 		useSeoMeta({
-			title: ast.value.data.title,
+			title: ast.data.title,
 			description:
-				ast.value.data.description === ""
-					? undefined
-					: ast.value.data.description,
+				ast.data.description === "" ? undefined : ast.data.description,
 		});
 	}
 };
