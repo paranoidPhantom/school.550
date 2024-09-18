@@ -12,7 +12,7 @@ COPY . .
 
 RUN nuxi build
 
-FROM node:21-slim AS release
+FROM node:20 AS release
 WORKDIR /usr/src/frontend
 
 COPY --from=build /usr/src/frontend/.output .output
