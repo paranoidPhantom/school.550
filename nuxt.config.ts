@@ -29,18 +29,18 @@ export default defineNuxtConfig({
 	},
 
 	modules: [
-        "nuxt-aos",
-        "nuxt-monaco-editor",
-        "@nuxt/ui",
-        "@nuxt/fonts",
-        "@nuxt/image",
-        "@nuxt/eslint",
-        "@nuxtjs/seo",
-        // "@nuxtjs/algolia",
-        "@nuxtjs/mdc",
-        "@nuxtjs/supabase",
-        "@nuxt/content"
-    ],
+		"nuxt-aos",
+		"nuxt-monaco-editor",
+		"@nuxt/ui",
+		"@nuxt/fonts",
+		"@nuxt/image",
+		"@nuxt/eslint",
+		"@nuxtjs/seo",
+		// "@nuxtjs/algolia",
+		"@nuxtjs/mdc",
+		"@nuxtjs/supabase",
+		"@nuxt/content",
+	],
 
 	image: {
 		domains: ["db.portal.ort.spb.ru"],
@@ -48,10 +48,7 @@ export default defineNuxtConfig({
 	},
 
 	routeRules: {
-		"/": { isr: 60 },
-		"/info/**": { isr: 60 },
-		"/for-parents/**": { isr: 60 },
-		"/manage/**": { robots: false, isr: false },
+		"/manage/**": { robots: false },
 	},
 
 	sitemap: {
