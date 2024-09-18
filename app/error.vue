@@ -57,7 +57,9 @@ const barcode = computed(() => `${error.statusCode} ${error.message}`);
 				>
 			</h1>
 			<p class="text-center opacity-50">{{ comment }}</p>
-			<UButton size="lg" to="/" label="На главную" />
+			<UButton size="lg" to="/" variant="link" :padded="false"
+				><UBadge variant="subtle" label="На главную" size="lg" />
+			</UButton>
 		</div>
 	</div>
 </template>
