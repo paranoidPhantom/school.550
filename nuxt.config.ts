@@ -81,6 +81,7 @@ export default defineNuxtConfig({
 
 	runtimeConfig: {
 		public: {
+			site_url: process.env.SITE_URL,
 			environment: process.env.NODE_ENV,
 			file_server_url: process.env.FILE_SERVER_URL,
 		},
