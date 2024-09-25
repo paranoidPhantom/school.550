@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useClipboard } from "@vueuse/core";
 import type { User } from "@supabase/supabase-js";
 
 definePageMeta({
@@ -23,6 +24,9 @@ const logout = async () => {
 	await auth.signOut();
 	window.location.reload();
 };
+
+const uid = ref(user.value ? user.value.id : "");
+const { copy, copied, isSupported } = useClipboard({ source: uid.value });
 </script>
 
 <template>
@@ -50,12 +54,6 @@ const logout = async () => {
 						<p v-else>
 							{{ user.email }}
 						</p>
-						<UBadge size="xs" color="yellow" variant="subtle"
-							><span
-								class="w-16 truncate text-nowrap text-center transition-all hover:w-64 active:w-64"
-								>{{ user.id }}</span
-							></UBadge
-						>
 					</div>
 					<UButton
 						class="ml-auto"
@@ -75,6 +73,34 @@ const logout = async () => {
 				<ManageOptionRoot v-if="perms.includes('root')" />
 				<ManageOptionContent v-if="perms.includes('edit_content')" />
 				<ManageOptionFS v-if="perms.includes('fs')" />
+				<UAlert
+					v-if="perms.length === 0"
+					color="yellow"
+					variant="subtle"
+					title="Вам еще не выдали права для работы с системой"
+					icon="mdi:alert-circle-outline"
+				>
+					<template #description>
+						Ваш ID -
+						<UBadge color="yellow" variant="solid"
+							>{{ user.id }}
+							<UButton
+								v-if="isSupported"
+								class="ml-2"
+								:padded="false"
+								variant="link"
+								:icon="
+									copied
+										? 'mdi:check'
+										: 'ic:twotone-content-copy'
+								"
+								color="white"
+								size="xs"
+								@click="copy(user.id)"
+							/>
+						</UBadge>
+					</template>
+				</UAlert>
 			</div>
 		</UCard>
 	</div>
