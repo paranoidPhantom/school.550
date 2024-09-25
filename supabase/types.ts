@@ -13,7 +13,6 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          label: string
           md: string
           restricted: boolean
           slug: string
@@ -22,7 +21,6 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
-          label?: string
           md?: string
           restricted?: boolean
           slug: string
@@ -31,11 +29,34 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
-          label?: string
           md?: string
           restricted?: boolean
           slug?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      "registration-links": {
+        Row: {
+          activated_at: string | null
+          created_at: string
+          id: string
+          "initial-perms": string[]
+          metadata: Json
+        }
+        Insert: {
+          activated_at?: string | null
+          created_at?: string
+          id?: string
+          "initial-perms"?: string[]
+          metadata?: Json
+        }
+        Update: {
+          activated_at?: string | null
+          created_at?: string
+          id?: string
+          "initial-perms"?: string[]
+          metadata?: Json
         }
         Relationships: []
       }
