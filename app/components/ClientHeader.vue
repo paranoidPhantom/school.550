@@ -217,6 +217,7 @@ const focusFirstLink = () => {
 							:label="groupName as string"
 							variant="link"
 							color="white"
+							class="font-light"
 							:to="groupName === 'Новости' ? '/news' : undefined"
 							@mouseenter="
 								() => {
