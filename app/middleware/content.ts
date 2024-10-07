@@ -1,15 +1,21 @@
-export default defineNuxtRouteMiddleware(async (to) => {
-    const {
-        params: { slug },
-    } = to as unknown as { params: { slug: string[] } };
-    const { data: md } = await useFetch(`/api/content/${slug.join("/")}`);
+import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
-    if (md.value) {
-        to.meta.md = md.value;
-    } else {
-        return abortNavigation({
-            statusCode: 404,
-            message: "Not found",
-        });
-    }
+export default defineNuxtRouteMiddleware(async (to) => {
+	const supabase = useSupabaseClient();
+
+	const { data } = await supabase
+		.from("content")
+		.select("md")
+		.eq("slug", to.path)
+		.maybeSingle();
+	if (data) {
+		const { md } = data;
+		const ast = await parseMarkdown(md);
+		to.meta.ast = ast;
+	} else {
+		return abortNavigation({
+			statusCode: 404,
+			message: "ツ",
+		});
+	}
 });

@@ -1,95 +1,103 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    nitro: {
-        storage: {
-            default: {
-                driver: "cloudflare-kv-http",
-                accountId: process.env.KV_ACCOUND_ID,
-                namespaceId: process.env.KV_NAMESPACE_ID,
-                apiToken: process.env.KV_API_TOKEN,
-            },
-        },
-    },
+	experimental: {
+		componentIslands: true,
+	},
 
-    devServer: {
-        port: 80,
-        host: "0.0.0.0",
-    },
+	devServer: {
+		port: 80,
+		host: "0.0.0.0",
+	},
 
-    devtools: { enabled: true },
+	devtools: { enabled: true },
 
-    monacoEditor: {
-        // These are default values:
-        locale: "ru",
-    },
+	monacoEditor: {
+		// These are default values:
+		locale: "ru",
+	},
 
-    mdc: {
-        headings: {
-            anchorLinks: false,
-        },
-    },
+	mdc: {
+		headings: {
+			anchorLinks: false,
+		},
+	},
 
-    modules: [
-        "nuxt-aos",
-        "@paranoidphantom/tgauth",
-        "nuxt-monaco-editor",
-        "@nuxt/ui",
-        "@nuxt/fonts",
-        "@nuxt/image",
-        "@nuxt/content",
-        "@nuxt/eslint",
-        "@nuxtjs/seo",
-        "@nuxtjs/mdc",
-        "@nuxtjs/algolia",
-    ],
+	content: {
+		headings: {
+			anchorLinks: false,
+		},
+	},
 
-    image: {
-        // TODO: fix this domain
-        domains: ["db.portaltest.ort.spb.ru"],
-        formats: ["avif", "webp"],
-    },
+	modules: [
+		"nuxt-aos",
+		"nuxt-monaco-editor",
+		"@nuxt/ui",
+		"@nuxt/fonts",
+		"@nuxt/image",
+		"@nuxt/eslint",
+		"@nuxtjs/seo",
+		// "@nuxtjs/algolia",
+		"@nuxtjs/mdc",
+		"@nuxtjs/supabase",
+		"@nuxt/content",
+	],
 
-    routeRules: {
-        "/": { isr: 600 },
-        "/**": { isr: 600 },
-        "/manage/**": { robots: false, isr: false, swr: true },
-    },
+	image: {
+		domains: ["db.portal.ort.spb.ru"],
+		formats: ["avif", "webp"],
+	},
 
-    sitemap: {
-        sources: ["/api/sitemap/content"],
-    },
+	routeRules: {
+		"/manage/**": { robots: false },
+	},
 
-    app: {
-        layoutTransition: { name: "layout", mode: "out-in" },
-        pageTransition: { name: "page", mode: "out-in" },
-    },
+	sitemap: {
+		sources: ["/api/sitemap/content"],
+	},
 
-    algolia: {
-        instantSearch: {
-            theme: "algolia",
-        },
-    },
+	app: {
+		layoutTransition: { name: "layout", mode: "out-in" },
+		pageTransition: { name: "page", mode: "out-in" },
+	},
 
-    css: ["@/assets/style.scss"],
+	// algolia: {
+	// 	instantSearch: {
+	// 		theme: "algolia",
+	// 	},
+	// },
 
-    site: {
-        url: "https://portal.ort.spb.ru",
-        name: "Школа №550",
-        description: "Официальный портал школы №550",
-        defaultLocale: "ru",
-    },
+	css: ["./app/assets/style.scss"],
 
-    future: {
-        compatibilityVersion: 4,
-    },
+	site: {
+		url: process.env.SITE_URL,
+		name: "Школа №550",
+		description: "Официальный портал школы №550",
+		defaultLocale: "ru",
+	},
 
-    runtimeConfig: {
-        public: {
-            tgbot: process.env.TG_BOT,
-            environment: process.env.NODE_ENV,
-            file_server_url: process.env.FILE_SERVER_URL,
-        },
-    },
+	future: {
+		compatibilityVersion: 4,
+	},
 
-    compatibilityDate: "2024-07-17",
+	runtimeConfig: {
+		public: {
+			site_url: process.env.SITE_URL,
+			environment: process.env.NODE_ENV,
+			file_server_url: process.env.FILE_SERVER_URL,
+		},
+	},
+
+	supabase: {
+		url: process.env.SUPABASE_PUBLIC_URL,
+		key: process.env.ANON_KEY,
+		serviceKey: process.env.SERVICE_ROLE_KEY,
+		types: "./supabase/types.ts",
+		redirectOptions: {
+			include: ["/manage(/*)?"],
+			login: "/login",
+			callback: "/test",
+		},
+	},
+
+	compatibilityDate: "2024-07-17",
 });

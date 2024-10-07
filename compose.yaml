@@ -1,0 +1,42 @@
+name: sch550-root
+
+include:
+  - path: db/compose.yaml # File server
+  - path: supabase/compose.yaml # Supabase
+
+services:
+    uiprod:
+        image: paranoidphantom/school.550:latest
+        build: .
+        restart: unless-stopped
+        volumes:
+            - ./.env.master:/usr/src/frontend/.env
+    uipreview:
+        image: paranoidphantom/school.550:preview
+        build: .
+        restart: unless-stopped
+        volumes:
+            - ./.env.dev:/usr/src/frontend/.env
+    nginx:
+        image: paranoidphantom/nginx.school.550:latest
+        build: ./nginx
+        restart: unless-stopped
+        depends_on:
+            - uiprod
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+          - /etc/letsencrypt:/etc/letsencrypt
+    dozzle:
+      image: amir20/dozzle:latest
+      restart: unless-stopped
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+        - 8080:8080
+    watchtower:
+      image: containrrr/watchtower
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      command: --interval 30

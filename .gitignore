@@ -10,7 +10,7 @@ dist
 node_modules
 
 # Logs
-logs
+./logs
 *.log
 
 # Misc
@@ -22,3 +22,6 @@ logs
 .env
 .env.*
 !.env.example
+bundled/README.md
+
+.kv
