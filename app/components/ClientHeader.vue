@@ -438,7 +438,7 @@ const focusFirstLink = () => {
 				border-radius: 0;
 				padding: 1rem;
 				.base {
-					@apply border-opacity-20;
+					@apply border-opacity-20 pb-4;
 				}
 			}
 		}
