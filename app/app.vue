@@ -32,6 +32,7 @@ watch(visuallyImpaired, (newValue) => {
 
 <template>
 	<div :class="{ 'visually-impaired': visuallyImpaired }">
+		<NuxtRouteAnnouncer />
 		<NuxtLoadingIndicator color="rgb(var(--color-primary-500))" />
 		<NuxtLayout>
 			<NuxtPage />
