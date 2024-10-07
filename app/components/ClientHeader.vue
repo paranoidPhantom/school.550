@@ -413,7 +413,7 @@ const focusFirstLink = () => {
 		--section-height: 500px;
 		header {
 			@apply z-50 h-full w-full px-4;
-			@apply rounded-2xl bg-gray-50 bg-opacity-20 backdrop-blur-xl;
+			@apply rounded-3xl bg-gray-50 bg-opacity-20 backdrop-blur-xl;
 			@apply dark:border dark:border-gray-900 dark:border-opacity-0 dark:bg-gray-800 dark:bg-opacity-50;
 			@apply overflow-hidden transition-all duration-300;
 			max-width: 1200px;
