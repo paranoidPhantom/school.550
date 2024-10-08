@@ -50,7 +50,7 @@ const brklinks = computed(() => {
 	}
 
 	links.push({
-		label: ast.value?.data.title,
+		label: ast.data.title,
 	} as { label: string; icon: string; to: string });
 
 	return links;
