@@ -5,7 +5,7 @@ const colorMode = useColorMode();
 <template>
 	<NuxtLink to="/" aria-label="Перейти на главную" class="home-btn">
 		<NuxtImg
-			:style="`filter: invert(${colorMode.value === 'dark' ? 0 : 1})`"
+			style="filter: invert(calc(1 - var(--is-dark)))"
 			src="/logo.png"
 			width="60px"
 		/>
