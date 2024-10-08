@@ -44,15 +44,14 @@ const brklinks = computed(() => {
 					label: "Новости",
 					icon: "fluent-emoji-high-contrast:rolled-up-newspaper",
 				} as { label: string; icon: string; to: string });
-				return links;
-			default:
+				if (slug.length === 0) return links;
 				break;
 		}
 	}
 
 	links.push({
 		label: ast.value?.data.title,
-	} as any);
+	} as { label: string; icon: string; to: string });
 
 	return links;
 });
