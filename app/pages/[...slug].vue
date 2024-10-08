@@ -32,13 +32,19 @@ const brklinks = computed(() => {
 				links.push({
 					label: "Сведения об ОУ",
 					icon: "heroicons:information-circle-20-solid",
-				} as any);
+				} as { label: string; icon: string; to: string });
 				break;
 			case "for-parents":
 				links.push({
 					label: "Родителям",
-				} as any);
+				} as { label: string; icon: string; to: string });
 				break;
+			case "news":
+				links.push({
+					label: "Новости",
+					icon: "fluent-emoji-high-contrast:rolled-up-newspaper",
+				} as { label: string; icon: string; to: string });
+				return links;
 			default:
 				break;
 		}
