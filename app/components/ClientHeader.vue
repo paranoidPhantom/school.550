@@ -457,12 +457,14 @@ const focusFirstLink = () => {
 .right-leave-to {
 	opacity: 0;
 	translate: -1rem 0;
+	filter: blur(2px);
 }
 
 .left-leave-to,
 .right-enter-from {
 	opacity: 0;
 	translate: 1rem 0;
+	filter: blur(2px);
 }
 
 .left-enter-active,
@@ -475,6 +477,7 @@ const focusFirstLink = () => {
 .link-enter-from {
 	opacity: 0;
 	translate: -1rem 0;
+	filter: blur(2px);
 }
 .link-leave-to {
 	opacity: 0;
