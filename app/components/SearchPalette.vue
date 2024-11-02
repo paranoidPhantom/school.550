@@ -72,7 +72,7 @@ defineShortcuts({
 				>
 					<UTooltip text="Поиск реализован на основе Algolia Search">
 						<NuxtLink to="https://www.algolia.com/">
-							<NuxtImg
+							<img
 								src="/images/algolia.svg"
 								alt="Algolia Search"
 								width="100px"

@@ -1,10 +1,8 @@
-<script lang="ts" setup>
-const colorMode = useColorMode();
-</script>
+<script lang="ts" setup></script>
 
 <template>
 	<NuxtLink to="/" aria-label="Перейти на главную" class="home-btn">
-		<NuxtImg
+		<img
 			style="filter: invert(calc(1 - var(--is-dark)))"
 			src="/logo.png"
 			width="60px"

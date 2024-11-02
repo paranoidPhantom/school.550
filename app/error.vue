@@ -36,12 +36,12 @@ const barcode = computed(() => `${error.statusCode} ${error.message}`);
 <template>
 	<div class="__error">
 		<div class="creative-block">
-			<NuxtImg
+			<img
 				:style="`translate: ${displacement.x}% ${displacement.y}%;`"
 				class="a hidden sm:block"
 				src="/images/question_mark.svg"
 			/>
-			<NuxtImg
+			<img
 				:style="`translate: ${displacement.x}% ${displacement.y}%;`"
 				class="b"
 				src="/images/question_mark.svg"
