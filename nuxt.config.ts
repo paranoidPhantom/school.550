@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 	},
 
 	content: {
-		headings: {
+		markdown: {
 			anchorLinks: false,
 		},
 	},
@@ -33,7 +33,6 @@ export default defineNuxtConfig({
 		"nuxt-monaco-editor",
 		"@nuxt/ui",
 		"@nuxt/fonts",
-		"@nuxt/image",
 		"@nuxt/eslint",
 		"@nuxtjs/seo",
 		// "@nuxtjs/algolia",
