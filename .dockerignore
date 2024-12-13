@@ -1,9 +1,8 @@
-.nuxt/**
-.vscode/**
-.output/**
-node_modules/**
-db/**
-nginx/**
-supabase/**
-.git/**
+.nuxt
+.output
+node_modules
+db
+nginx
+supabase
+.git
 README.md
