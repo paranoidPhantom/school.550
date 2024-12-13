@@ -50,7 +50,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 					class="absolute left-0 top-0 h-full w-full rotate-[102deg] object-contain"
 					:src="`/images/hero-circle${i === 1 || i === 3 ? '-break' : ''}.svg`"
 					alt="Круг который крутится"
-				>
+				/>
 				<div
 					v-if="i === 1"
 					class="absolute -top-[2vw] left-1/2 h-[5vw] w-[5vw]"
@@ -63,7 +63,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 						src="/images/hexagon.svg"
 						alt="Шестиугольник"
 						class="hexagon ansolute left-0 top-0 h-full w-full object-contain"
-					>
+					/>
 				</div>
 				<div
 					v-if="i === 3"
@@ -77,11 +77,11 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 						src="/images/hexagon.svg"
 						alt="Шестиугольник"
 						class="hexagon ansolute left-0 top-0 h-full w-full object-contain"
-					>
+					/>
 				</div>
 			</div>
 		</div>
-		<NuxtPicture
+		<img
 			src="/images/noise.png"
 			loading="lazy"
 			alt="Текустура шума"
@@ -98,7 +98,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 			}"
 			style="height: calc(100vh + 5px)"
 		/>
-		<NuxtPicture
+		<img
 			src="/images/noise.png"
 			alt="Динамичная текустура шума"
 			loading="lazy"
@@ -108,10 +108,6 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 			quality="10"
 			fotmat="avif, webp"
 			fit="cover"
-			:img-attrs="{
-				style: 'height: calc(100vh + 5px)',
-				class: 'object-cover',
-			}"
 			style="height: calc(100vh + 5px)"
 			:style="{ '--x': x + 'px', '--y': y + 'px' }"
 		/>
