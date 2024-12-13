@@ -39,12 +39,8 @@ export default defineNuxtConfig({
 		"@nuxtjs/mdc",
 		"@nuxtjs/supabase",
 		"@nuxt/content",
+		"@nuxt/image",
 	],
-
-	image: {
-		domains: ["db.portal.ort.spb.ru"],
-		formats: ["avif", "webp"],
-	},
 
 	routeRules: {
 		"/manage/**": { robots: false },
