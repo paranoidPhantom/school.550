@@ -10,6 +10,8 @@ RUN bun install
 
 COPY . .
 
+ENV NODE_OPTIONS=--max-old-space-size=16000
+
 RUN nuxi build
 
 FROM node:20 AS release

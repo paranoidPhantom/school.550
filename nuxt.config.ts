@@ -4,6 +4,12 @@ export default defineNuxtConfig({
 		componentIslands: true,
 	},
 
+	nitro: {
+		prerender: {
+			concurrency: 1,
+		},
+	},
+
 	devServer: {
 		port: 80,
 		host: "0.0.0.0",
