@@ -11,7 +11,7 @@ const { auth } = useSupabaseClient();
 const user = useSupabaseUser();
 
 const { data: perms } = await useFetch<string[] | null>(
-	`/api/user/${(user.value as User).id}/perms`,
+	`/api/user/${(user.value as User)?.id ?? "0"}/perms`,
 	{
 		headers: useRequestHeaders(["cookie"]),
 	},
