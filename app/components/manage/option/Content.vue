@@ -84,6 +84,14 @@ const savePage = async () => {
 			body: { title, description, md: state.md, slug },
 			headers: useRequestHeaders(["cookie"]),
 		});
+	} catch (error) {
+		toast.add({
+			title: "Ошибка поисковой индексации страницы",
+			description: (error as Error).message,
+			color: "red",
+		});
+	}
+	try {
 		const { error } = await supabase
 			.from("content")
 			.update({
