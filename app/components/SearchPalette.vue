@@ -53,13 +53,10 @@ defineShortcuts({
 			:groups="results"
 			:autoselect="false"
 			placeholder="Поиск..."
-			:empty-state="{
-				icon: 'i-heroicons-magnifying-glass-20-solid',
-				label: 'Ничего не найдено',
-				queryLabel: 'Мы не нашли ничего по вашему запросу.',
-			}"
 			@update:model-value="(option) => onNavigate(option)"
-		/>
+		>
+			<template #empty-state> <div /></template>
+		</LazyUCommandPalette>
 	</UModal>
 </template>
 
