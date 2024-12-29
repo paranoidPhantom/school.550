@@ -76,21 +76,6 @@ const savePage = async () => {
 	if (!slug || !slug.startsWith("/")) return;
 	loading.value = true;
 
-	const ast = await parseMarkdown(state.md);
-	const { title, description } = ast.data;
-	try {
-		await $fetch(`/api/content/regsearch`, {
-			method: "PUT",
-			body: { title, description, md: state.md, slug },
-			headers: useRequestHeaders(["cookie"]),
-		});
-	} catch (error) {
-		toast.add({
-			title: "Ошибка поисковой индексации страницы",
-			description: (error as Error).message,
-			color: "red",
-		});
-	}
 	try {
 		const { error } = await supabase
 			.from("content")
@@ -131,11 +116,6 @@ const promptDelete = async () => {
 				color: "red",
 				click: async () => {
 					try {
-						await $fetch(`/api/content/regsearch`, {
-							method: "DELETE",
-							body: { slug: state.slug },
-							headers: useRequestHeaders(["cookie"]),
-						});
 						const { error } = await supabase
 							.from("content")
 							.delete()

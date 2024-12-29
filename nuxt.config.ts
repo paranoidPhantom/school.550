@@ -41,7 +41,6 @@ export default defineNuxtConfig({
 		"@nuxt/fonts",
 		"@nuxt/eslint",
 		"@nuxtjs/seo",
-		// "@nuxtjs/algolia",
 		"@nuxtjs/mdc",
 		"@nuxtjs/supabase",
 		"@nuxt/content",
@@ -60,12 +59,6 @@ export default defineNuxtConfig({
 		layoutTransition: { name: "layout", mode: "out-in" },
 		pageTransition: { name: "page", mode: "out-in" },
 	},
-
-	// algolia: {
-	// 	instantSearch: {
-	// 		theme: "algolia",
-	// 	},
-	// },
 
 	css: ["./app/assets/style.scss"],
 

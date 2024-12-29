@@ -1,11 +1,4 @@
 <script lang="ts" setup>
-import type { SearchResponse } from "@nuxtjs/algolia";
-
-const {
-	public: { environment },
-} = useRuntimeConfig();
-const { search } = useAlgoliaSearch(`pages_${environment}`);
-
 const enabled = useState("search_palette", () => false);
 
 const results = [
@@ -16,21 +9,22 @@ const results = [
 			if (!q) {
 				return [];
 			}
+			return [];
 
-			const { hits } = (await search({ query: q })) as SearchResponse<{
-				title: string;
-				description: string;
-				slug: string;
-				content: string;
-			}>;
-			return hits.map((hit) => {
-				return {
-					id: hit.title,
-					label: hit.title,
-					suffix: hit.description,
-					to: `/${hit.slug}`,
-				};
-			});
+			// const { hits } = (await search({ query: q })) as SearchResponse<{
+			// 	title: string;
+			// 	description: string;
+			// 	slug: string;
+			// 	content: string;
+			// }>;
+			// return hits.map((hit) => {
+			// 	return {
+			// 		id: hit.title,
+			// 		label: hit.title,
+			// 		suffix: hit.description,
+			// 		to: `/${hit.slug}`,
+			// 	};
+			// });
 		},
 	},
 ];
@@ -65,23 +59,7 @@ defineShortcuts({
 				queryLabel: 'Мы не нашли ничего по вашему запросу.',
 			}"
 			@update:model-value="(option) => onNavigate(option)"
-		>
-			<template #empty-state>
-				<div
-					class="flex flex-col items-center justify-center gap-3 py-6"
-				>
-					<UTooltip text="Поиск реализован на основе Algolia Search">
-						<NuxtLink to="https://www.algolia.com/">
-							<img
-								src="/images/algolia.svg"
-								alt="Algolia Search"
-								width="100px"
-							/>
-						</NuxtLink>
-					</UTooltip>
-				</div>
-			</template>
-		</LazyUCommandPalette>
+		/>
 	</UModal>
 </template>
 
