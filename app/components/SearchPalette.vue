@@ -1,30 +1,48 @@
 <script lang="ts" setup>
+import { parseMarkdown } from "@nuxtjs/mdc/runtime";
+import type { Database } from "~~/supabase/types";
+
+const supabase = useSupabaseClient<Database>();
+
 const enabled = useState("search_palette", () => false);
 
 const results = [
 	{
 		key: "results",
-		label: (q: string) => q && `Результаты на запрос «${q}»`,
+		label: (q: string) => q && `Результаты по запросу «${q}»`,
 		search: async (q: string) => {
 			if (!q) {
 				return [];
 			}
-			return [];
 
-			// const { hits } = (await search({ query: q })) as SearchResponse<{
-			// 	title: string;
-			// 	description: string;
-			// 	slug: string;
-			// 	content: string;
-			// }>;
-			// return hits.map((hit) => {
-			// 	return {
-			// 		id: hit.title,
-			// 		label: hit.title,
-			// 		suffix: hit.description,
-			// 		to: `/${hit.slug}`,
-			// 	};
-			// });
+			const keywords = q.split(" ");
+
+			const { data: hits, error } = await supabase
+				.from("content")
+				.select()
+				.textSearch(
+					"md",
+					keywords.map((keyword) => `'${keyword}'`).join(" | "),
+				);
+
+			if (error) {
+				console.error("FTS Error:", error);
+				return [];
+			}
+
+			const results = await Promise.all(
+				hits.map(async (hit) => {
+					const { data: astData } = await parseMarkdown(hit.md);
+
+					return {
+						id: hit.id,
+						label: astData.title,
+						suffix: astData.description || hit.slug,
+						to: hit.slug,
+					};
+				}),
+			);
+			return results;
 		},
 	},
 ];
