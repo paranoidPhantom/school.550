@@ -108,17 +108,23 @@ const app = new Elysia()
 	.get("/list/*", async ({ path }) => {
 		path = decodeURI(path);
 		const folderPath = `storage${path.split("/list")[1] ?? ""}`;
-		const files = readdirSync(join(import.meta.dir, "../", folderPath));
-		return files.map((file) => {
-			const stats = statSync(
-				join(import.meta.dir, "../", folderPath, file),
-			);
-			return {
-				name: file,
-				size: stats.size,
-				isDirectory: stats.isDirectory(),
-			};
-		});
+		try {
+			const files = readdirSync(join(import.meta.dir, "../", folderPath));
+			return files.map((file) => {
+				const stats = statSync(
+					join(import.meta.dir, "../", folderPath, file),
+				);
+				return {
+					name: file,
+					size: stats.size,
+					isDirectory: stats.isDirectory(),
+				};
+			});
+		} catch {
+			return new Response("Requested directory does not exist", {
+				status: 404,
+			});
+		}
 	})
 	.onError(handleError)
 	.put(
