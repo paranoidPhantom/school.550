@@ -4,6 +4,7 @@ import {
 	useBreakpoints,
 	useWindowScroll,
 } from "@vueuse/core";
+import type { Database } from "~~/supabase/types";
 
 const isServer = import.meta.server;
 
@@ -15,13 +16,13 @@ const searchEnabled = useState("search_palette", () => false);
 
 const state = reactive<{
 	active: boolean;
-	currentGroup: keyof typeof links | undefined;
+	currentGroup: string | undefined;
 	animation: "left" | "right";
 	lastEnteredIndex: number;
 	mobileDepth: number;
 }>({
 	active: false,
-	currentGroup: "Сведения об ОУ",
+	currentGroup: undefined,
 	animation: "left",
 	lastEnteredIndex: 1,
 	mobileDepth: 0,
@@ -33,142 +34,61 @@ type NormalLink = {
 	customIndex?: number;
 };
 
-const links: {
-	[key: string]: {
-		[key: string]: NormalLink[];
-	};
-} = {
-	Новости: {
-		"": [
-			{
-				to: "special",
-				label: "news",
-			},
-		],
-	},
-	"Сведения об ОУ": {
-		"Сведения об оброзовательном учреждении": [
-			{
-				label: "Основные сведения",
-				to: "/info/primary",
-			},
-			{
-				label: "Структура и органы управления",
-				to: "/info/structure",
-			},
-			{
-				label: "Документы",
-				to: "/info/documents",
-			},
-			{
-				label: "Образование",
-				to: "/info/education",
-			},
-			{
-				label: "Образовательные стандарты",
-				to: "/info/standards",
-			},
-			{
-				label: "Руководство. Педагогический (научно-педагогический) состав",
-				to: "/info/teachers",
-			},
-			{
-				label: "Материально-техническое обеспечение и оснащенность образовательного процесса",
-				to: "/info/equipment",
-			},
-		],
-		"": [
-			{
-				label: "Стипендии и иные виды материальной поддержки",
-				to: "/info/scholarship",
-				customIndex: 8,
-			},
-			{
-				label: "Платные образовательные услуги",
-				to: "/info/paid",
-				customIndex: 9,
-			},
-			{
-				label: "Финансово-хозяйственная деятельность",
-				to: "/info/finance",
-				customIndex: 10,
-			},
-			{
-				label: "Вакантные места для приема (перевода) обучающихся",
-				to: "/info/vacancies",
-				customIndex: 11,
-			},
-			{
-				label: "Доступная среда",
-				to: "/info/accessible-environment",
-				customIndex: 12,
-			},
-			{
-				label: "Международное сотрудничество",
-				to: "/info/collaboration",
-				customIndex: 13,
-			},
-			{
-				label: "Организация питания",
-				to: "/info/food",
-				customIndex: 14,
-			},
-			{
-				label: "Методические и иные документы",
-				to: "/info/materials",
-				customIndex: 15,
-			},
-		],
-	},
-	Родителям: {
-		"Информация для родителей": [
-			{
-				label: "Обучение с использованием ДОТ",
-				to: "/for-parents/distantedu",
-			},
-			{
-				label: "Информация о ГИА",
-				to: "/for-parents/gia",
-			},
-			{
-				label: "О приеме в школу",
-				to: "/for-parents/admission",
-			},
-			{
-				label: "О толерантности",
-				to: "/for-parents/tolerance",
-			},
-			{
-				label: "ОРКСЭ",
-				to: "/for-parents/orkse",
-			},
-		],
-	},
-	Еще: {
-		"Прочие разделы": [
-			{
-				label: "Партнеры",
-				to: "/partners",
-			},
-			{
-				label: "Противодействие коррупции",
-				to: "/curruption-prevention",
-			},
-			{
-				label: "Безопасная среда",
-				to: "/safe-environment",
-			},
-			{
-				label: "Функциональная грамотность",
-				to: "/funclit",
-			},
-			{
-				label: "Полезные ссылки",
-				to: "/useful-links",
-			},
-		],
-	},
-};
+const supabase = useSupabaseClient<Database>();
+
+const heights = useState("header_height", () => ({}));
+
+const { data: linkGroups } = await useAsyncData<{
+	[key: string]:
+		| {
+				[key: string]: NormalLink[];
+		  }
+		| {
+				to: string;
+		  };
+}>(async () => {
+	const { data: groups } = await supabase.from("header-links").select("*");
+
+	groups?.forEach((group, index) => {
+		if (!group.logic.hasOwnProperty("to")) {
+			if (!state.currentGroup) state.currentGroup = group.groupName;
+			const subgroups = Object.keys(group.logic);
+			if (subgroups.length > 1) {
+				groups[index].logic = Object.fromEntries(
+					subgroups
+						.sort(
+							(a, b) =>
+								group.logic[a].index - group.logic[b].index,
+						)
+						.map((key) => {
+							return [key, group.logic[key].links];
+						}),
+				);
+				let totalLinksProcessed = 1;
+				for (let i = 0; i < subgroups.length; i++) {
+					groups[index].logic[subgroups[i]] = groups[index]?.logic[
+						subgroups[i]
+					].map((link) => {
+						link.customIndex = totalLinksProcessed;
+						totalLinksProcessed++;
+						return link;
+					});
+				}
+			} else {
+				groups[index].logic = Object.fromEntries(
+					subgroups.map((key) => {
+						return [key, group.logic[key].links];
+					}),
+				);
+			}
+		}
+		heights.value[index] = group.height;
+	});
+
+	return Object.fromEntries(
+		groups?.map((group) => [group.groupName, group.logic]),
+	);
+});
 
 const openHeader = (groupName: string, index: number) => {
 	state.active = true;
@@ -177,8 +97,6 @@ const openHeader = (groupName: string, index: number) => {
 	state.lastEnteredIndex = index;
 };
 
-const heights = [100, 450, 300, 290];
-
 const router = useRouter();
 
 const closeHeader = () => {
@@ -186,7 +104,9 @@ const closeHeader = () => {
 	state.mobileDepth = 0;
 };
 
-router.afterEach(() => closeHeader());
+router.afterEach((to, from) => {
+	if (to.path !== from.path) closeHeader();
+});
 
 const { y } = useWindowScroll();
 
@@ -204,7 +124,7 @@ const focusFirstLink = () => {
 			class="wrapper"
 			:class="{ active: state.active }"
 			:style="{
-				'--section-height': `${heights[state.lastEnteredIndex]}px`,
+				'--section-height': `${heights[state.lastEnteredIndex] ?? 0}px`,
 			}"
 		>
 			<header :class="{ scrolled: y > 100 }" @mouseleave="closeHeader">
@@ -212,22 +132,26 @@ const focusFirstLink = () => {
 					<AppLogo class="ml-4 lg:ml-0" tabindex="0" />
 					<nav class="hidden items-center gap-2 lg:flex">
 						<UButton
-							v-for="(group, groupName, index) in links"
+							v-for="(group, groupName, index) in linkGroups"
 							:key="groupName"
 							:label="groupName as string"
 							variant="link"
 							color="white"
 							class="font-light"
-							:to="groupName === 'Новости' ? '/news' : undefined"
+							:to="
+								group.hasOwnProperty('to')
+									? (group.to as string)
+									: undefined
+							"
 							@mouseenter="
 								() => {
-									if (groupName !== 'Новости')
+									if (!group.hasOwnProperty('to'))
 										openHeader(groupName as string, index);
 								}
 							"
 							@focus="
 								() => {
-									if (groupName !== 'Новости')
+									if (!group.hasOwnProperty('to'))
 										openHeader(groupName as string, index);
 								}
 							"
@@ -273,19 +197,19 @@ const focusFirstLink = () => {
 						>
 							<template v-if="state.mobileDepth === 0">
 								<UButton
-									v-for="(group, groupName) in links"
+									v-for="(group, groupName) in linkGroups"
 									:key="groupName"
 									:label="groupName as string"
 									color="gray"
 									trailing-icon="material-symbols:arrow-right-alt-rounded"
 									:to="
-										groupName === 'Новости'
-											? '/news'
+										group.hasOwnProperty('to')
+											? (group.to as string)
 											: undefined
 									"
 									@click="
-										() => {
-											if (groupName !== 'Новости') {
+										(event) => {
+											if (!group.hasOwnProperty('to')) {
 												state.animation = 'right';
 												state.mobileDepth = 1;
 												state.currentGroup = groupName;
@@ -311,7 +235,7 @@ const focusFirstLink = () => {
 								<template
 									v-for="(
 										subgroup, subgroupName, index
-									) in links[state.currentGroup]"
+									) in linkGroups[state.currentGroup]"
 									:key="index"
 								>
 									<TransitionGroup name="link">
@@ -353,7 +277,7 @@ const focusFirstLink = () => {
 							<div
 								v-for="(
 									subgroup, subgroupName, subgroupIndex
-								) in links[state.currentGroup]"
+								) in linkGroups[state.currentGroup]"
 								:key="subgroupName"
 								class="flex h-full flex-col flex-wrap gap-2"
 							>
