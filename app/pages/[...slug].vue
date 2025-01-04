@@ -48,10 +48,11 @@ const brklinks = computed(() => {
 				break;
 		}
 	}
-
-	links.push({
-		label: ast.data.title,
-	} as { label: string; icon: string; to: string });
+	if (slug.length > 1) {
+		links.push({
+			label: ast.data.title,
+		} as { label: string; icon: string; to: string });
+	}
 
 	return links;
 });
