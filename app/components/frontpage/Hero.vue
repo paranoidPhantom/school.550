@@ -116,7 +116,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 			<!-- Line 1 -->
 			<div class="flex max-w-full flex-wrap gap-5">
 				<h1
-					class="large text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+					class="large text-4xl sm:text-6xl md:text-7xl lg:text-8xl"
 					style="animation-delay: 1.84s"
 					:style="{
 						'--gradient-white': visuallyImpaired
@@ -130,7 +130,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 			<!-- Line 2 -->
 			<div class="flex flex-wrap gap-5">
 				<h1
-					class="large text-md sm:text-2xl md:text-3xl lg:text-4xl"
+					class="large xs:text-base text-xs sm:text-2xl md:text-3xl lg:text-4xl"
 					style="animation-delay: 2.74s"
 					:style="{
 						'--gradient-white': visuallyImpaired
