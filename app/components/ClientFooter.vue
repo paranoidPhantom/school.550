@@ -17,7 +17,7 @@ const sections: {
 			route: "https://github.com/paranoidPhantom/school.550",
 		},
 		{
-			name: "Упомянуть ошибку на GitHub",
+			name: "Поднять проблему в GitHub",
 			route: "https://github.com/paranoidPhantom/school.550/issues/new",
 		},
 	],
