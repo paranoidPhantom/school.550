@@ -48,7 +48,9 @@ export default defineNuxtConfig({
 	],
 
 	routeRules: {
-		"/manage/**": { robots: false },
+		"/**": { swr: 60 },
+		"/manage": { robots: false, isr: false },
+		"/manage/**": { robots: false, isr: false },
 	},
 
 	sitemap: {
