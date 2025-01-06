@@ -1,38 +1,39 @@
 <script lang="ts" setup>
+import type { ExtractPropTypes, GlobalComponents } from "vue";
+
 const sections: {
-	[key: string]: (
-		| {
-				name: string;
-				route: string;
-		  }
-		| {
-				name: string;
-				popover: string;
-		  }
-	)[];
+	[key: string]: (ExtractPropTypes<GlobalComponents["UButton"]> & {
+		popover_key?: string;
+	})[];
 } = {
 	"Помочь разработке": [
 		{
-			name: "Исходный код проекта",
-			route: "https://github.com/paranoidPhantom/school.550",
+			label: "Сообщить о баге/недоработке",
+			onClick: () => useFeedbackRequest(),
 		},
 		{
-			name: "Поднять проблему в GitHub",
-			route: "https://github.com/paranoidPhantom/school.550/issues/new",
+			label: "Исходный код проекта",
+			to: "https://github.com/paranoidPhantom/school.550",
+			external: true,
+		},
+		{
+			label: "Поднять проблему в GitHub",
+			to: "https://github.com/paranoidPhantom/school.550/issues/new",
+			external: true,
 		},
 	],
 	"Над проектом работали": [
 		{
-			name: "Худалла Андрей",
-			popover: "dev_andrei",
+			label: "Худалла Андрей",
+			popover_key: "dev_andrei",
 		},
 		{
-			name: "Филиппов Кирилл",
-			popover: "dev_kirill",
+			label: "Филиппов Кирилл",
+			popover_key: "dev_kirill",
 		},
 		{
-			name: "Каменик Леонид",
-			popover: "dev_leonid",
+			label: "Каменик Леонид",
+			popover_key: "dev_leonid",
 		},
 	],
 };
@@ -52,9 +53,9 @@ const sections: {
 				<div>
 					<p class="mb-6 font-bold text-gray-400">{{ section }}</p>
 					<div class="flex flex-col space-y-2">
-						<template v-for="link in links" :key="link.name">
+						<template v-for="link in links" :key="link.label">
 							<UPopover
-								v-if="link.popover"
+								v-if="link.popover_key"
 								class="w-fit"
 								:popper="{ placement: 'right' }"
 							>
@@ -62,10 +63,8 @@ const sections: {
 									class="pl-0 pr-2"
 									variant="link"
 									color="white"
-									:to="link.route"
-								>
-									<p>{{ link.name }}</p>
-								</UButton>
+									v-bind="link"
+								/>
 								<template #panel>
 									<UCard
 										:ui="{
@@ -75,7 +74,10 @@ const sections: {
 										}"
 									>
 										<template
-											v-if="link.popover === 'dev_andrei'"
+											v-if="
+												link.popover_key ===
+												'dev_andrei'
+											"
 										>
 											<div class="flex flex-col gap-2">
 												<h3
@@ -96,7 +98,8 @@ const sections: {
 										</template>
 										<template
 											v-else-if="
-												link.popover === 'dev_kirill'
+												link.popover_key ===
+												'dev_kirill'
 											"
 										>
 											<div class="flex flex-col gap-2">
@@ -121,7 +124,8 @@ const sections: {
 										</template>
 										<template
 											v-else-if="
-												link.popover === 'dev_leonid'
+												link.popover_key ===
+												'dev_leonid'
 											"
 										>
 											<div class="flex flex-col gap-2">
@@ -151,10 +155,8 @@ const sections: {
 								class="px-0"
 								variant="link"
 								color="white"
-								:to="link.route"
-							>
-								<p>{{ link.name }}</p>
-							</UButton>
+								v-bind="link"
+							/>
 						</template>
 					</div>
 				</div>
