@@ -41,18 +41,21 @@ export type Database = {
           groupName: string
           height: number
           id: number
+          index: number
           logic: Json | null
         }
         Insert: {
           groupName: string
           height?: number
           id?: number
+          index?: number
           logic?: Json | null
         }
         Update: {
           groupName?: string
           height?: number
           id?: number
+          index?: number
           logic?: Json | null
         }
         Relationships: []
