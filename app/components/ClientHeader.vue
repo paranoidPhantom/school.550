@@ -4,6 +4,7 @@ import {
 	useBreakpoints,
 	useWindowScroll,
 } from "@vueuse/core";
+import type { Dropdown, Logic } from "~/types/header";
 import type { Database } from "~~/supabase/types";
 
 const isServer = import.meta.server;
@@ -28,66 +29,73 @@ const state = reactive<{
 	mobileDepth: 0,
 });
 
-type NormalLink = {
-	label: string;
-	to: string;
-	customIndex?: number;
-};
-
 const supabase = useSupabaseClient<Database>();
 
-const heights = useState("header_height", () => ({}));
+const heights = useState<Record<number, number>>("header_height", () => ({}));
 
-const { data: linkGroups } = await useAsyncData<{
-	[key: string]:
-		| {
-				[key: string]: NormalLink[];
-		  }
-		| {
-				to: string;
-		  };
-}>(async () => {
+const isToPresent = (obj: Logic): obj is { to: string } => {
+	return (obj as { to: string }).to !== undefined;
+};
+
+const { data: linkGroups } = await useAsyncData(async () => {
 	const { data: groups } = await supabase.from("header-links").select("*");
+	if (!groups) return [];
 
-	groups?.forEach((group, index) => {
-		if (!group.logic.hasOwnProperty("to")) {
+	const typedGroups = groups as unknown as (Omit<
+		(typeof groups)[number],
+		"logic"
+	> & {
+		logic: Logic;
+	})[];
+
+	const sortedGroups = typedGroups.toSorted((a, b) => a.index - b.index);
+
+	sortedGroups?.forEach((group, index) => {
+		const logic = sortedGroups[index]?.logic;
+		if (!logic) return;
+		if (!isToPresent(logic)) {
 			if (!state.currentGroup) state.currentGroup = group.groupName;
-			const subgroups = Object.keys(group.logic);
+			const subgroups = Object.keys(logic);
+			if (!sortedGroups[index]) return;
 			if (subgroups.length > 1) {
-				groups[index].logic = Object.fromEntries(
+				sortedGroups[index].logic = Object.fromEntries(
 					subgroups
-						.sort(
-							(a, b) =>
-								group.logic[a].index - group.logic[b].index,
-						)
+						.sort((a, b) => {
+							if (!logic[a] || !logic[b]) return 0;
+							return logic[a].index - logic[b].index;
+						})
 						.map((key) => {
-							return [key, group.logic[key].links];
+							return [key, logic[key]];
 						}),
-				);
+				) as Dropdown;
 				let totalLinksProcessed = 1;
 				for (let i = 0; i < subgroups.length; i++) {
-					groups[index].logic[subgroups[i]] = groups[index]?.logic[
-						subgroups[i]
-					].map((link) => {
-						link.customIndex = totalLinksProcessed;
-						totalLinksProcessed++;
-						return link;
-					});
+					const subgroupKey = subgroups[i];
+					if (
+						subgroupKey !== undefined &&
+						sortedGroups[index].logic[subgroupKey]
+					) {
+						sortedGroups[index].logic[subgroupKey].links = (
+							logic[subgroupKey] as Dropdown[string]
+						).links.map((link) => {
+							link.customIndex = totalLinksProcessed;
+							totalLinksProcessed++;
+							return link;
+						});
+					}
 				}
 			} else {
-				groups[index].logic = Object.fromEntries(
+				sortedGroups[index].logic = Object.fromEntries(
 					subgroups.map((key) => {
-						return [key, group.logic[key].links];
+						return [key, logic[key]];
 					}),
-				);
+				) as Dropdown;
 			}
 		}
 		heights.value[index] = group.height;
 	});
 
-	return Object.fromEntries(
-		groups?.map((group) => [group.groupName, group.logic]),
-	);
+	return sortedGroups;
 });
 
 const openHeader = (groupName: string, index: number) => {
@@ -111,9 +119,15 @@ router.afterEach((to, from) => {
 const { y } = useWindowScroll();
 
 const focusFirstLink = () => {
-	const firstLink = document.querySelector(".__first-header-link");
+	const firstLink = document.querySelector(
+		".__first-header-link",
+	) as HTMLAnchorElement;
 	if (firstLink) firstLink.focus();
 };
+
+const currentGroup = computed(() =>
+	linkGroups.value?.find((group) => group.groupName === state.currentGroup),
+);
 </script>
 
 <template>
@@ -132,27 +146,44 @@ const focusFirstLink = () => {
 					<AppLogo class="ml-4 lg:ml-0" tabindex="0" />
 					<nav class="hidden items-center gap-2 lg:flex">
 						<UButton
-							v-for="(group, groupName, index) in linkGroups"
-							:key="groupName"
-							:label="groupName as string"
+							v-for="(group, index) in linkGroups"
+							:key="group.id"
+							:label="group.groupName as string"
 							variant="link"
 							color="white"
 							class="font-light"
 							:to="
-								group.hasOwnProperty('to')
-									? (group.to as string)
+								group.logic &&
+								Object.hasOwnProperty.call(group.logic, 'to')
+									? (group.logic.to as string)
 									: undefined
 							"
 							@mouseenter="
 								() => {
-									if (!group.hasOwnProperty('to'))
-										openHeader(groupName as string, index);
+									if (
+										!Object.hasOwnProperty.call(
+											group.logic,
+											'to',
+										)
+									)
+										openHeader(
+											group.groupName as string,
+											index,
+										);
 								}
 							"
 							@focus="
 								() => {
-									if (!group.hasOwnProperty('to'))
-										openHeader(groupName as string, index);
+									if (
+										!Object.hasOwnProperty.call(
+											group.logic,
+											'to',
+										)
+									)
+										openHeader(
+											group.groupName as string,
+											index,
+										);
 								}
 							"
 							@click="focusFirstLink"
@@ -197,22 +228,27 @@ const focusFirstLink = () => {
 						>
 							<template v-if="state.mobileDepth === 0">
 								<UButton
-									v-for="(group, groupName) in linkGroups"
-									:key="groupName"
-									:label="groupName as string"
+									v-for="group in linkGroups"
+									:key="group.groupName"
+									:label="group.groupName as string"
 									color="gray"
 									trailing-icon="material-symbols:arrow-right-alt-rounded"
 									:to="
-										group.hasOwnProperty('to')
-											? (group.to as string)
+										group.logic.hasOwnProperty('to')
+											? (group.logic.to as string)
 											: undefined
 									"
 									@click="
 										(event) => {
-											if (!group.hasOwnProperty('to')) {
+											if (
+												!group.logic.hasOwnProperty(
+													'to',
+												)
+											) {
 												state.animation = 'right';
 												state.mobileDepth = 1;
-												state.currentGroup = groupName;
+												state.currentGroup =
+													group.groupName;
 											}
 										}
 									"
@@ -235,7 +271,7 @@ const focusFirstLink = () => {
 								<template
 									v-for="(
 										subgroup, subgroupName, index
-									) in linkGroups[state.currentGroup]"
+									) in currentGroup?.logic"
 									:key="index"
 								>
 									<TransitionGroup name="link">
@@ -246,10 +282,10 @@ const focusFirstLink = () => {
 											{{ subgroupName }}
 										</p>
 										<template
-											v-for="(
-												link, link_index
-											) in subgroup"
-											:key="`${link.to}_${link.label}_${link_index}`"
+											v-for="(link, index) in (
+												subgroup as Dropdown[string]
+											).links"
+											:key="`${link.to}_${link.label}_${index}`"
 										>
 											<UButton
 												v-if="state.mobileDepth > 0"
@@ -277,7 +313,7 @@ const focusFirstLink = () => {
 							<div
 								v-for="(
 									subgroup, subgroupName, subgroupIndex
-								) in linkGroups[state.currentGroup]"
+								) in currentGroup?.logic"
 								:key="subgroupName"
 								class="flex h-full flex-col flex-wrap gap-2"
 							>
@@ -289,7 +325,9 @@ const focusFirstLink = () => {
 										{{ subgroupName }}
 									</p>
 									<template
-										v-for="(link, index) in subgroup"
+										v-for="(link, index) in (
+											subgroup as Dropdown[string]
+										).links"
 										:key="`${link.to}_${link.label}_${index}`"
 									>
 										<NuxtLink
