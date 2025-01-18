@@ -19,6 +19,7 @@ useHead({
 			<FrontpageFederalFeedback />
 			<FrontpageReducedNews />
 			<FrontpageLocation />
+			<FrontpageRequiredAnnouncements />
 		</div>
 	</div>
 </template>
