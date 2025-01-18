@@ -73,6 +73,7 @@ const { copy, copied, isSupported } = useClipboard({ source: uid.value });
 				<ManageOptionRoot v-if="perms.includes('root')" />
 				<ManageOptionContent v-if="perms.includes('edit_content')" />
 				<ManageOptionFS v-if="perms.includes('fs')" />
+				<ManageOptionHeader v-if="perms.includes('site-menu')" />
 				<ManageOptionAnnouncements
 					v-if="perms.includes('announcements')"
 				/>
