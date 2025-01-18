@@ -2,7 +2,7 @@
 import type { Database } from "~~/supabase/types";
 
 defineProps<{
-	underedit: boolean | undefined;
+	underedit?: boolean;
 }>();
 
 const supabase = useSupabaseClient<Database>();
