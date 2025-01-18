@@ -265,12 +265,24 @@ const createFolder = async () => {
 								"
 							/>
 							<UButton
+								v-if="!state.rightClickedFile.isDirectory"
+								label="Скопировать путь к файлу"
+								color="gray"
+								@click="
+									() => {
+										useClipboard({
+											source: `${file_server_url}${currentPath}/${state.rightClickedFile.name}`,
+										}).copy();
+									}
+								"
+							/>
+							<UButton
 								v-if="state.rightClickedFile.isDirectory"
 								label="Копировать компонент Markdown"
 								color="gray"
 								@click="
 									useClipboard({
-										source: `:docs{base='${currentPath}${state.rightClickedFile.name}'}`,
+										source: `:docs{base='${currentPath}/${state.rightClickedFile.name}'}`,
 									}).copy()
 								"
 							/>
