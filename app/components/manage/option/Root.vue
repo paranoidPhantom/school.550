@@ -135,9 +135,9 @@ const { copy, copied, isSupported, text } = useClipboard();
 <template>
 	<div class="flex flex-col gap-4">
 		<USlideover v-model="newAdminState.open">
-			<UForm @submit="addAdmin" class="space-y-4 p-8">
+			<UForm class="space-y-4 p-8" @submit="addAdmin">
 				<h2 class="text-xl font-semibold">Приглашение админа</h2>
-				<hr class="opacity-10" />
+				<hr class="opacity-10" >
 				<UFormGroup label="Фамилия" name="last_name" required>
 					<UInput v-model="newAdminState.metadata.last_name" />
 				</UFormGroup>
@@ -280,7 +280,7 @@ const { copy, copied, isSupported, text } = useClipboard();
 					</div>
 				</template>
 			</UTable>
-			<hr class="opacity-10" />
+			<hr class="opacity-10" >
 			<h2 class="text-xl font-semibold">Приглашения</h2>
 			<UTable :rows="invitations" :columns="invitationColumns">
 				<template #id-data="{ row }">

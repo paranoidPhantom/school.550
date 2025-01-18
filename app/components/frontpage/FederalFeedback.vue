@@ -15,7 +15,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
 				src="https://pos.gosuslugi.ru/bin/banner-fluid/gosuslugi-logo-blue.svg"
 				class="my-4 opacity-80 dark:brightness-150 dark:contrast-125"
 				width="150px"
-			/>
+			>
 		</template>
 		<template #description>
 			<div class="flex flex-col gap-4">

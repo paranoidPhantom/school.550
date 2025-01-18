@@ -246,31 +246,37 @@ const colorMode = useColorMode();
 						</template>
 					</UInputMenu>
 					{{ newPageSlug }}
-					<UButton
-						v-show="newPageSlug !== state.slug"
-						color="gray"
-						icon="line-md:plus"
-						@click="createNewPage"
-					/>
-					<UButton
-						v-show="fetchedMD"
-						color="gray"
-						icon="material-symbols:eye-tracking-outline-rounded"
-						:to="state.slug"
-						target="_blank"
-					/>
-					<UButton
-						color="gray"
-						icon="akar-icons:save"
-						:disabled="fetchedMD === state.md || !fetchedMD"
-						@click="savePage"
-					/>
-					<UButton
-						color="red"
-						icon="material-symbols:delete-outline"
-						:disabled="!fetchedMD"
-						@click="promptDelete"
-					/>
+					<UTooltip v-show="newPageSlug !== state.slug" text="">
+						<UButton
+							color="gray"
+							icon="line-md:plus"
+							@click="createNewPage"
+						/>
+					</UTooltip>
+					<UTooltip v-show="fetchedMD" text="View">
+						<UButton
+							color="gray"
+							icon="material-symbols:eye-tracking-outline-rounded"
+							:to="state.slug"
+							target="_blank"
+						/>
+					</UTooltip>
+					<UTooltip text="Save">
+						<UButton
+							color="gray"
+							icon="akar-icons:save"
+							:disabled="fetchedMD === state.md || !fetchedMD"
+							@click="savePage"
+						/>
+					</UTooltip>
+					<UTooltip text="Delete">
+						<UButton
+							color="red"
+							icon="material-symbols:delete-outline"
+							:disabled="!fetchedMD"
+							@click="promptDelete"
+						/>
+					</UTooltip>
 				</UButtonGroup>
 			</div>
 			<div v-if="fetchedMD" class="flex flex-wrap">

@@ -6,7 +6,7 @@
 			style="filter: invert(calc(1 - var(--is-dark)))"
 			src="/logo.png"
 			width="60px"
-		/>
+		>
 	</NuxtLink>
 </template>
 

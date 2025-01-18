@@ -69,14 +69,14 @@ const register = async () => {
 							: `Добрый день!`
 					}}
 				</h1>
-				<hr class="my-4 opacity-10" />
+				<hr class="my-4 opacity-10" >
 				<p class="opacity-80">
 					Вас пригласили стать администратором сайта
 				</p>
 				<UButton
-					@click="step++"
 					trailing-icon="mdi:arrow-right"
 					color="white"
+					@click="step++"
 					>Начать регистрацию</UButton
 				>
 			</div>
@@ -84,7 +84,7 @@ const register = async () => {
 				<h1 class="text-2xl font-semibold">
 					Подтвердите правильность данных
 				</h1>
-				<hr class="my-4 opacity-10" />
+				<hr class="my-4 opacity-10" >
 				<UCard class="mx-auto max-w-[300px] p-4">
 					<div class="flex flex-col items-center gap-8">
 						<UIcon name="clarity:employee-line" class="text-5xl" />
@@ -101,17 +101,17 @@ const register = async () => {
 						@click="step--"
 					/>
 					<UButton
-						@click="step++"
 						trailing-icon="mdi:arrow-right"
 						color="white"
+						@click="step++"
 						>Всё верно</UButton
 					>
 				</div>
 			</div>
 			<div v-else-if="step === 3" class="space-y-4">
 				<h1 class="text-2xl font-semibold">Введите данные для входа</h1>
-				<hr class="my-4 opacity-10" />
-				<UForm @submit="register" class="space-y-4">
+				<hr class="my-4 opacity-10" >
+				<UForm class="space-y-4" @submit="register">
 					<UFormGroup label="Почта" required>
 						<UInput
 							id="email"

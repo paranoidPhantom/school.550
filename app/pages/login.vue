@@ -86,7 +86,7 @@ async function submit() {
 				variant="subtle"
 				:title="message as string"
 			/>
-			<hr class="w-1/2 opacity-10" />
+			<hr class="w-1/2 opacity-10" >
 			<UFormGroup label="Email" name="email">
 				<UInput v-model="state.email" placeholder="email@example.ru" />
 			</UFormGroup>

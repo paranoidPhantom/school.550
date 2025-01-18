@@ -1,6 +1,6 @@
 <template>
 	<div class="flex h-[90px] w-[245px] space-x-[5px] rounded-xl bg-slate-100">
-		<img src="/images/author_photo.svg" />
+		<img src="/images/author_photo.svg" >
 		<div class="my-auto flex flex-col space-y-[1px]">
 			<p>{{ name.second_name }}</p>
 			<p>{{ name.first_name }}</p>
