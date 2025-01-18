@@ -273,7 +273,7 @@ const colorMode = useColorMode();
 					/>
 				</UButtonGroup>
 			</div>
-			<div v-if="fetchedMD" class="flex max-h-screen flex-wrap">
+			<div v-if="fetchedMD" class="flex flex-wrap">
 				<div
 					class="flex max-h-screen min-h-96 w-full flex-col overflow-hidden xl:!w-1/2 xl:flex-1"
 				>
