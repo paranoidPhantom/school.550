@@ -246,14 +246,20 @@ const colorMode = useColorMode();
 						</template>
 					</UInputMenu>
 					{{ newPageSlug }}
-					<UTooltip v-show="newPageSlug !== state.slug" text="">
+					<UTooltip
+						v-show="newPageSlug !== state.slug"
+						text="Создать страницу с вписанным в строку адресом"
+					>
 						<UButton
 							color="gray"
 							icon="line-md:plus"
 							@click="createNewPage"
 						/>
 					</UTooltip>
-					<UTooltip v-show="fetchedMD" text="View">
+					<UTooltip
+						v-show="fetchedMD"
+						text="Переити к редактируемой странице"
+					>
 						<UButton
 							color="gray"
 							icon="material-symbols:eye-tracking-outline-rounded"
@@ -261,7 +267,7 @@ const colorMode = useColorMode();
 							target="_blank"
 						/>
 					</UTooltip>
-					<UTooltip text="Save">
+					<UTooltip text="Сохранить страницу">
 						<UButton
 							color="gray"
 							icon="akar-icons:save"
@@ -269,7 +275,7 @@ const colorMode = useColorMode();
 							@click="savePage"
 						/>
 					</UTooltip>
-					<UTooltip text="Delete">
+					<UTooltip text="Удалить страницу">
 						<UButton
 							color="red"
 							icon="material-symbols:delete-outline"
