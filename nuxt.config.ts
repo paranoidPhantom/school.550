@@ -48,7 +48,10 @@ export default defineNuxtConfig({
 	],
 
 	routeRules: {
-		"/**": { swr: 60 },
+		"/": { swr: 60 },
+		"/news/**": { swr: 60 },
+		"/info/**": { swr: 60 },
+		"/for-parents/**": { swr: 60 },
 		"/manage": { robots: false, isr: false },
 		"/manage/**": { robots: false, isr: false },
 	},
@@ -92,6 +95,9 @@ export default defineNuxtConfig({
 			include: ["/manage(/*)?"],
 			login: "/login",
 			callback: "/test",
+		},
+		cookieOptions: {
+			secure: false,
 		},
 	},
 
