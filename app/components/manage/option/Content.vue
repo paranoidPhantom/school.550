@@ -239,7 +239,8 @@ const colorMode = useColorMode();
 						name="content-slug"
 					>
 						<template #option-empty="{ query }">
-							Страница с URL <q>{{ query }}</q> не существует
+							Страница с URL <q>{{ query }}</q> не существует, но
+							вы можете создать её, нажав на +
 						</template>
 						<template #empty>
 							Пока что не создано ни одной страницы
