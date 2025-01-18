@@ -84,6 +84,33 @@ export type Database = {
         }
         Relationships: []
       }
+      "required-announcements": {
+        Row: {
+          description: string | null
+          id: number
+          image_url: string | null
+          index: number
+          label: string | null
+          route: string | null
+        }
+        Insert: {
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          index?: number
+          label?: string | null
+          route?: string | null
+        }
+        Update: {
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          index?: number
+          label?: string | null
+          route?: string | null
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           created_at: string
