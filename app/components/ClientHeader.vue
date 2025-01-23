@@ -55,41 +55,22 @@ const { data: linkGroups } = await useAsyncData(async () => {
 		if (!logic) return;
 		if (!isToPresent(logic)) {
 			if (!state.currentGroup) state.currentGroup = group.groupName;
-			const subgroups = Object.keys(logic);
 			if (!sortedGroups[index]) return;
-			if (subgroups.length > 1) {
-				sortedGroups[index].logic = Object.fromEntries(
-					subgroups
-						.sort((a, b) => {
-							if (!logic[a] || !logic[b]) return 0;
-							return logic[a].index - logic[b].index;
-						})
-						.map((key) => {
-							return [key, logic[key]];
-						}),
-				) as Dropdown;
+			if (logic.length > 1) {
+				sortedGroups[index].logic = logic.toSorted(
+					(a, b) => a.data.index - b.data.index,
+				);
 				let totalLinksProcessed = 1;
-				for (let i = 0; i < subgroups.length; i++) {
-					const subgroupKey = subgroups[i];
-					if (
-						subgroupKey !== undefined &&
-						sortedGroups[index].logic[subgroupKey]
-					) {
-						sortedGroups[index].logic[subgroupKey].links = (
-							logic[subgroupKey] as Dropdown[string]
-						).links.map((link) => {
-							link.customIndex = totalLinksProcessed;
-							totalLinksProcessed++;
-							return link;
-						});
-					}
+				console.log(logic.length);
+				for (let i = 0; i < logic.length; i++) {
+					sortedGroups[index].logic[i].data.links = sortedGroups[
+						index
+					].logic[i]?.data.links.map((link) => {
+						if (i > 0) link.customIndex = totalLinksProcessed;
+						totalLinksProcessed++;
+						return link;
+					});
 				}
-			} else {
-				sortedGroups[index].logic = Object.fromEntries(
-					subgroups.map((key) => {
-						return [key, logic[key]];
-					}),
-				) as Dropdown;
 			}
 		}
 		heights.value[index] = group.height;
@@ -270,21 +251,23 @@ const currentGroup = computed(() =>
 								/>
 								<template
 									v-for="(
-										subgroup, subgroupName, index
-									) in currentGroup?.logic"
+										subgroup, index
+									) in currentGroup?.logic as Dropdown"
 									:key="index"
 								>
 									<TransitionGroup name="link">
 										<p
-											v-if="state.active && subgroupName"
+											v-if="
+												state.active && subgroup.column
+											"
 											class="text-md opacity-60"
 										>
-											{{ subgroupName }}
+											{{ subgroup.column }}
 										</p>
 										<template
-											v-for="(link, index) in (
-												subgroup as Dropdown[string]
-											).links"
+											v-for="(link, link_index) in (
+												subgroup as Dropdown[number]
+											).data.links"
 											:key="`${link.to}_${link.label}_${index}`"
 										>
 											<UButton
@@ -294,7 +277,7 @@ const currentGroup = computed(() =>
 												:style="{
 													transitionDelay: `${
 														(link.customIndex ??
-															index) * 0.05
+															link_index) * 0.05
 													}s`,
 												}"
 												:label="link.label"
@@ -312,9 +295,9 @@ const currentGroup = computed(() =>
 						>
 							<div
 								v-for="(
-									subgroup, subgroupName, subgroupIndex
+									subgroup, subgroupIndex
 								) in currentGroup?.logic"
-								:key="subgroupName"
+								:key="subgroupIndex"
 								class="flex h-full flex-col flex-wrap gap-2"
 							>
 								<TransitionGroup name="link">
@@ -322,12 +305,12 @@ const currentGroup = computed(() =>
 										v-if="state.active"
 										class="text-sm opacity-60"
 									>
-										{{ subgroupName }}
+										{{ subgroup.column }}
 									</p>
 									<template
-										v-for="(link, index) in (
-											subgroup as Dropdown[string]
-										).links"
+										v-for="(link, link_index) in (
+											subgroup as Dropdown[number]
+										).data.links"
 										:key="`${link.to}_${link.label}_${index}`"
 									>
 										<NuxtLink
@@ -343,11 +326,11 @@ const currentGroup = computed(() =>
 											:style="{
 												transitionDelay: `${
 													(link.customIndex ??
-														index) * 0.05
+														link_index) * 0.05
 												}s`,
 											}"
-											>{{ link.label }}</NuxtLink
-										>
+											>{{ link.label }}
+										</NuxtLink>
 									</template>
 								</TransitionGroup>
 							</div>

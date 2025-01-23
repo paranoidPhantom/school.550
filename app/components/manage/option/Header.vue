@@ -26,12 +26,7 @@ const logic = ref<
 	Record<
 		number,
 		Omit<Database["public"]["Tables"]["header-links"]["Row"], "logic"> & {
-			logic:
-				| { to: string }
-				| Array<{
-						column: string;
-						data: Dropdown[string];
-				  }>;
+			logic: Logic;
 		}
 	>
 >({});
@@ -43,12 +38,7 @@ const updateLogic = (content: typeof linkGroups.value) => {
 				index,
 				{
 					...item,
-					logic: (item.logic as Logic).to
-						? item.logic
-						: Object.entries(item.logic as Logic).map((entry) => ({
-								column: entry[0],
-								data: entry[1],
-							})),
+					logic: item.logic as Logic,
 				},
 			]),
 		]);
@@ -110,14 +100,7 @@ const saveGroup = async (index: number) => {
 
 			.update({
 				...saving,
-				logic: saving.logic.to
-					? saving.logic
-					: Object.fromEntries(
-							saving.logic.map((item) => [
-								item.column,
-								item.data,
-							]),
-						),
+				logic: saving.logic,
 			})
 			.eq("id", saving.id);
 		if (!error) refresh();
