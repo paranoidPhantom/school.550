@@ -123,6 +123,9 @@ const deleteLink = async (index: number) => {
 								placeholder="Ссылка туда-то"
 							/>
 						</UFormGroup>
+						<UFormGroup label="Ссылка">
+							<UInput v-model="mirror[index].route as string" />
+						</UFormGroup>
 						<UFormGroup label="Индекс">
 							<UInput
 								v-model="mirror[index].index"
