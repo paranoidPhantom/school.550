@@ -1,4 +1,4 @@
-FROM node:20 AS build
+FROM --platform=linux/amd64 node:20 AS build
 WORKDIR /usr/src/frontend
 
 RUN npm install -g bun

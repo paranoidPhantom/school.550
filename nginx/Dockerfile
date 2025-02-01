@@ -1,4 +1,4 @@
-FROM nginx:mainline-alpine
+FROM --platform=linux/amd64 nginx:mainline-alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
