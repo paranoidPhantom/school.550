@@ -23,6 +23,7 @@ const inputify = (content: typeof links.value) =>
 					label: item.label === null ? "" : item.label,
 					description:
 						item.description === null ? "" : item.description,
+					route: item.route === null ? "" : item.route,
 					image_url: item.image_url === null ? "" : item.image_url,
 					index: item.index === null ? 0 : item.index,
 				};
@@ -147,6 +148,8 @@ const deleteLink = async (index: number) => {
 										mirror[index].label &&
 									inputify(links)[index]?.index ===
 										mirror[index].index &&
+									inputify(links)[index]?.route ===
+										mirror[index].route &&
 									inputify(links)[index]?.description ===
 										mirror[index].description &&
 									inputify(links)[index]?.image_url ===
