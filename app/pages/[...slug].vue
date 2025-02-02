@@ -5,27 +5,27 @@ const {
 	params: { slug },
 } = useRoute();
 
-const { data: ast } = await useAsyncData(`${slug}_md_parse`, () => {
-	const supabase = useSupabaseClient();
-	const { data } = await supabase
-		.from("content")
-		.select("md")
-		.eq("slug", to.path)
-		.maybeSingle();
-	if (data) {
-		const { md } = data;
-		const ast = await parseMarkdown(md);
-		return ast;
-	} else {
-		throw createError({
-			statusCode: 404,
-			statusMessage: "...",
-		});
-	}
-});
+const supabase = useSupabaseClient();
+
+const { data: ast } = await useAsyncData(
+	`${slug.join("/")}_md_parse`,
+	async () => {
+		const { data } = await supabase
+			.from("content")
+			.select("md")
+			.eq("slug", `/${slug.join("/")}`)
+			.maybeSingle();
+		if (data) {
+			const { md } = data;
+			const ast = await parseMarkdown(md);
+			return ast;
+		}
+		return null;
+	},
+);
 
 const refreshSeo = () => {
-	if (ast) {
+	if (ast && ast.data) {
 		useSeoMeta({
 			title: ast.data.title,
 			description:
@@ -64,9 +64,9 @@ const brklinks = computed(() => {
 				break;
 		}
 	}
-	if (slug.length > 1) {
+	if (slug.length > 1 && ast.value) {
 		links.push({
-			label: ast.data.title,
+			label: ast.value.data.title,
 		} as { label: string; icon: string; to: string });
 	}
 
@@ -75,11 +75,13 @@ const brklinks = computed(() => {
 </script>
 
 <template>
-	<div v-if="ast" :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
-		<UBreadcrumb class="mb-4" :links="brklinks" />
-		<MarkdownFormatter>
-			<MDCRenderer :body="ast.body" :data="ast.data" />
-		</MarkdownFormatter>
+	<div :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
+		<div v-if="ast">
+			<UBreadcrumb class="mb-4" :links="brklinks" />
+			<MarkdownFormatter>
+				<MDCRenderer :body="ast.body" :data="ast.data" />
+			</MarkdownFormatter>
+		</div>
 	</div>
 </template>
 
