@@ -25,3 +25,5 @@ node_modules
 bundled/README.md
 
 .kv
+
+logs/users.yml
