@@ -26,7 +26,7 @@ const route = useRoute();
 				height="100%"
 				fit="cover"
 				class="absolute inset-0 z-0 h-full w-full object-cover"
-			>
+			/>
 			<div class="absolute inset-3 z-10 flex flex-col justify-between">
 				<div class="flex justify-between gap-8">
 					<p
@@ -46,10 +46,10 @@ const route = useRoute();
 				<div
 					class="surface invert-if-impaired rounded-[2rem] border border-white border-opacity-30 bg-white bg-opacity-25 px-6 py-3 text-white backdrop-blur-md"
 				>
-					<h3>
+					<h4>
 						{{ title }}
-					</h3>
-					<p class="test-sm">{{ description }}</p>
+					</h4>
+					<p>{{ description }}</p>
 				</div>
 			</div>
 		</article>

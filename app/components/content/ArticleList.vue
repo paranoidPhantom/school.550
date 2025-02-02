@@ -45,32 +45,32 @@ const entryStaggerMs = 50;
 	<section class="__articles w-full">
 		<div class="flex">
 			<ArticleCard
-				v-for="article in articleRows[0]"
-				:key="article.title"
+				v-for="(article, index) in articleRows[0]"
+				:key="index"
 				v-bind="article"
 				:data-aos-delay="article.globalIndex * entryStaggerMs"
 			/>
 		</div>
 		<div class="hidden md:flex">
 			<ArticleCard
-				v-for="article in articleRows[1]"
-				:key="article.title"
+				v-for="(article, index) in articleRows[1]"
+				:key="index"
 				v-bind="article"
 				:data-aos-delay="article.globalIndex * entryStaggerMs"
 			/>
 		</div>
 		<div class="hidden lg:flex">
 			<ArticleCard
-				v-for="article in articleRows[2]"
-				:key="article.title"
+				v-for="(article, index) in articleRows[2]"
+				:key="index"
 				v-bind="article"
 				:data-aos-delay="article.globalIndex * entryStaggerMs"
 			/>
 		</div>
 		<div class="hidden xl:flex">
 			<ArticleCard
-				v-for="article in articleRows[3]"
-				:key="article.title"
+				v-for="(article, index) in articleRows[3]"
+				:key="index"
 				v-bind="article"
 				:data-aos-delay="article.globalIndex * entryStaggerMs"
 			/>
