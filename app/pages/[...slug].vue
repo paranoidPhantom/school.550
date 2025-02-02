@@ -21,41 +21,41 @@ const refreshSeo = () => {
 onMounted(refreshSeo);
 watch(ast, refreshSeo);
 
-const brklinks = computed(() => {
-	const links = [
-		{ label: "Домашняя", icon: "heroicons:home-20-solid", to: "/" },
-	];
-	if (slug) {
-		const category = slug[0];
-		switch (category) {
-			case "info":
-				links.push({
-					label: "Сведения об ОУ",
-					icon: "heroicons:information-circle-20-solid",
-				} as { label: string; icon: string; to: string });
-				break;
-			case "for-parents":
-				links.push({
-					label: "Родителям",
-				} as { label: string; icon: string; to: string });
-				break;
-			case "news":
-				links.push({
-					label: "Новости",
-					icon: "fluent-emoji-high-contrast:rolled-up-newspaper",
-				} as { label: string; icon: string; to: string });
-				if (slug.length === 0) return links;
-				break;
-		}
-	}
-	if (slug.length > 1) {
-		links.push({
-			label: ast.data.title,
-		} as { label: string; icon: string; to: string });
-	}
+// const brklinks = computed(() => {
+// 	const links = [
+// 		{ label: "Домашняя", icon: "heroicons:home-20-solid", to: "/" },
+// 	];
+// 	if (slug) {
+// 		const category = slug[0];
+// 		switch (category) {
+// 			case "info":
+// 				links.push({
+// 					label: "Сведения об ОУ",
+// 					icon: "heroicons:information-circle-20-solid",
+// 				} as { label: string; icon: string; to: string });
+// 				break;
+// 			case "for-parents":
+// 				links.push({
+// 					label: "Родителям",
+// 				} as { label: string; icon: string; to: string });
+// 				break;
+// 			case "news":
+// 				links.push({
+// 					label: "Новости",
+// 					icon: "fluent-emoji-high-contrast:rolled-up-newspaper",
+// 				} as { label: string; icon: string; to: string });
+// 				if (slug.length === 0) return links;
+// 				break;
+// 		}
+// 	}
+// 	if (slug.length > 1) {
+// 		links.push({
+// 			label: ast.data.title,
+// 		} as { label: string; icon: string; to: string });
+// 	}
 
-	return links;
-});
+// 	return links;
+// });
 </script>
 
 <template>
