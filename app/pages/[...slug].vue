@@ -59,7 +59,7 @@ const brklinks = computed(() => {
 </script>
 
 <template>
-	<div :class="`__dynamic`" class="mx-auto max-w-[1200px]">
+	<div class="mx-auto max-w-[1200px]">
 		<div v-if="ast">
 			<UBreadcrumb class="mb-4" :links="brklinks" />
 			<MarkdownFormatter>
