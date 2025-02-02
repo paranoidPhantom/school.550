@@ -47,12 +47,12 @@ export default defineNuxtConfig({
 	],
 
 	routeRules: {
-		// "/": { swr: 60 },
-		// "/news/**": { swr: 60 },
-		// "/info/**": { swr: 60 },
-		// "/for-parents/**": { swr: 60 },
-		"/manage": { robots: false, isr: false },
-		"/manage/**": { robots: false, isr: false },
+		"/": { swr: 60 },
+		"/news/**": { swr: 60 },
+		"/info/**": { swr: 60 },
+		"/for-parents/**": { swr: 60 },
+		"/manage": { robots: false },
+		"/manage/**": { robots: false },
 	},
 
 	sitemap: {
