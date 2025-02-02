@@ -1,7 +1,7 @@
 <script setup lang="ts">
-definePageMeta({
-	middleware: ["content"],
-});
+// definePageMeta({
+// 	middleware: ["content"],
+// });
 
 // const {
 // 	params: { slug },
