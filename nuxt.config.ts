@@ -42,7 +42,7 @@ export default defineNuxtConfig({
 		"@nuxt/eslint",
 		"@nuxtjs/seo",
 		"@nuxtjs/supabase",
-		// "@nuxt/content",
+		"@nuxt/content",
 		"@nuxtjs/mdc",
 	],
 
