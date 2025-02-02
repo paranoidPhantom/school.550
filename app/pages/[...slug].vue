@@ -1,19 +1,33 @@
 <script setup lang="ts">
-definePageMeta({
-	middleware: ["content"],
-});
+import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
 const {
 	params: { slug },
-	meta: { ast },
 } = useRoute();
 
+const supabase = useSupabaseClient();
+
+const { data: ast } = await useAsyncData(`${slug.join("_")}`, async () => {
+	const { data } = await supabase
+		.from("content")
+		.select("md")
+		.eq("slug", `/${slug.join("/")}`)
+		.maybeSingle();
+	if (data) {
+		const { md } = data;
+		const tree = await parseMarkdown(md);
+		return tree;
+	}
+});
+
 const refreshSeo = () => {
-	if (ast) {
+	if (ast.value) {
 		useSeoMeta({
-			title: ast.data.title,
+			title: ast.value.data.title,
 			description:
-				ast.data.description === "" ? undefined : ast.data.description,
+				ast.value.data.description === ""
+					? undefined
+					: ast.value.data.description,
 		});
 	}
 };
@@ -48,9 +62,9 @@ const brklinks = computed(() => {
 				break;
 		}
 	}
-	if (slug.length > 1) {
+	if (slug.length > 1 && ast.value) {
 		links.push({
-			label: ast.data.title,
+			label: ast.value.data.title,
 		} as { label: string; icon: string; to: string });
 	}
 
