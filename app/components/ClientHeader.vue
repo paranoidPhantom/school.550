@@ -61,7 +61,6 @@ const { data: linkGroups } = await useAsyncData(async () => {
 					(a, b) => a.data.index - b.data.index,
 				);
 				let totalLinksProcessed = 1;
-				console.log(logic.length);
 				for (let i = 0; i < logic.length; i++) {
 					sortedGroups[index].logic[i].data.links = sortedGroups[
 						index
