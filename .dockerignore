@@ -5,4 +5,6 @@ db
 nginx
 supabase
 .git
+.github
+.gitignore
 README.md
