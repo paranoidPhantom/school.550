@@ -1,31 +1,15 @@
 <script setup lang="ts">
-import { parseMarkdown } from "@nuxtjs/mdc/runtime";
+definePageMeta({
+	middleware: ["content"],
+});
 
 const {
 	params: { slug },
+	meta: { ast },
 } = useRoute();
 
-const supabase = useSupabaseClient();
-
-const { data: ast } = await useAsyncData(
-	`${slug.join("/")}_md_parse`,
-	async () => {
-		const { data } = await supabase
-			.from("content")
-			.select("md")
-			.eq("slug", `/${slug.join("/")}`)
-			.maybeSingle();
-		if (data) {
-			const { md } = data;
-			const ast = await parseMarkdown(md);
-			return ast;
-		}
-		return null;
-	},
-);
-
 const refreshSeo = () => {
-	if (ast && ast.data) {
+	if (ast) {
 		useSeoMeta({
 			title: ast.data.title,
 			description:
@@ -64,9 +48,9 @@ const brklinks = computed(() => {
 				break;
 		}
 	}
-	if (slug.length > 1 && ast.value) {
+	if (slug.length > 1) {
 		links.push({
-			label: ast.value.data.title,
+			label: ast.data.title,
 		} as { label: string; icon: string; to: string });
 	}
 
@@ -75,7 +59,7 @@ const brklinks = computed(() => {
 </script>
 
 <template>
-	<div :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
+	<div :class="`__dynamic`" class="mx-auto max-w-[1200px]">
 		<div v-if="ast">
 			<UBreadcrumb class="mb-4" :links="brklinks" />
 			<MarkdownFormatter>
