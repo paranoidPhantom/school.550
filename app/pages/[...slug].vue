@@ -1,12 +1,12 @@
 <script setup lang="ts">
-definePageMeta({
-	middleware: ["content"],
-});
+// definePageMeta({
+// 	middleware: ["content"],
+// });
 
-const {
-	params: { slug },
-	meta: { ast },
-} = useRoute() as any;
+// const {
+// 	params: { slug },
+// 	meta: { ast },
+// } = useRoute() as any;
 
 // const refreshSeo = () => {
 // 	if (ast) {
@@ -60,10 +60,10 @@ const {
 
 <template>
 	<div v-if="ast" :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
-		<!-- <UBreadcrumb class="mb-4" :links="brklinks" /> -->
+		<!-- <UBreadcrumb class="mb-4" :links="brklinks" />
 		<MarkdownFormatter>
 			<MDCRenderer :body="ast.body" :data="ast.data" />
-		</MarkdownFormatter>
+		</MarkdownFormatter> -->
 	</div>
 </template>
 
