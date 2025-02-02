@@ -16,4 +16,4 @@ jobs:
         echo '${{ secrets.ENV_FILE }}' > .env
     - name: Run deployment script
       run: |
-        npx bun run deploy
+        bun run deploy
