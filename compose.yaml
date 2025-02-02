@@ -37,7 +37,7 @@ services:
         - DOZZLE_BASE=/dozzle
         - DOZZLE_AUTH_PROVIDER=simple
       volumes:
-        - ./dozzle:/data
+        - ./logs:/data
         - /var/run/docker.sock:/var/run/docker.sock
     watchtower:
       image: containrrr/watchtower
