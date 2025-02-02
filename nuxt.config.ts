@@ -22,12 +22,6 @@ export default defineNuxtConfig({
 		locale: "ru",
 	},
 
-	mdc: {
-		headings: {
-			anchorLinks: false,
-		},
-	},
-
 	content: {
 		markdown: {
 			anchorLinks: false,
@@ -41,17 +35,16 @@ export default defineNuxtConfig({
 		"@nuxt/fonts",
 		"@nuxt/eslint",
 		"@nuxtjs/seo",
-		"@nuxtjs/mdc",
 		"@nuxtjs/supabase",
 		"@nuxt/content",
 		"@nuxt/image",
 	],
 
 	routeRules: {
-		"/": { swr: 60 },
-		"/news/**": { swr: 60 },
-		"/info/**": { swr: 60 },
-		"/for-parents/**": { swr: 60 },
+		// "/": { swr: 60 },
+		// "/news/**": { swr: 60 },
+		// "/info/**": { swr: 60 },
+		// "/for-parents/**": { swr: 60 },
 		"/manage": { robots: false, isr: false },
 		"/manage/**": { robots: false, isr: false },
 	},
