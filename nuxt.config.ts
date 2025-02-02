@@ -28,6 +28,12 @@ export default defineNuxtConfig({
 		},
 	},
 
+	mdc: {
+		headings: {
+			anchorLinks: false,
+		},
+	},
+
 	modules: [
 		"nuxt-aos",
 		"nuxt-monaco-editor",
