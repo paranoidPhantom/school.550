@@ -43,7 +43,7 @@ export default defineNuxtConfig({
 		"@nuxtjs/seo",
 		"@nuxtjs/supabase",
 		"@nuxt/content",
-		"@nuxt/mdc",
+		"@nuxtjs/mdc",
 	],
 
 	routeRules: {
