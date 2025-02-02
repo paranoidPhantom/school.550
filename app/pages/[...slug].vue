@@ -3,23 +3,23 @@ definePageMeta({
 	middleware: ["content"],
 });
 
-const {
-	params: { slug },
-	meta: { ast },
-} = useRoute();
+// const {
+// 	params: { slug },
+// 	meta: { ast },
+// } = useRoute();
 
-const refreshSeo = () => {
-	if (ast) {
-		useSeoMeta({
-			title: ast.data.title,
-			description:
-				ast.data.description === "" ? undefined : ast.data.description,
-		});
-	}
-};
+// const refreshSeo = () => {
+// 	if (ast) {
+// 		useSeoMeta({
+// 			title: ast.data.title,
+// 			description:
+// 				ast.data.description === "" ? undefined : ast.data.description,
+// 		});
+// 	}
+// };
 
-onMounted(refreshSeo);
-watch(ast, refreshSeo);
+// onMounted(refreshSeo);
+// watch(ast, refreshSeo);
 
 // const brklinks = computed(() => {
 // 	const links = [
@@ -60,10 +60,10 @@ watch(ast, refreshSeo);
 
 <template>
 	<div v-if="ast" :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
-		<!-- <UBreadcrumb class="mb-4" :links="brklinks" /> -->
+		<!-- <UBreadcrumb class="mb-4" :links="brklinks" />
 		<MarkdownFormatter>
 			<MDCRenderer :body="ast.body" :data="ast.data" />
-		</MarkdownFormatter>
+		</MarkdownFormatter> -->
 	</div>
 </template>
 
