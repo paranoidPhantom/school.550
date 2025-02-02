@@ -12,7 +12,7 @@
 		"@nuxt/eslint": "0.5.5",
 		"@nuxt/fonts": "^0.7.2",
 		"@nuxt/ui": "^2.21.0",
-		"@nuxtjs/mdc": "^0.13.2",
+		"@nuxtjs/mdc": "0.13.2",
 		"@nuxtjs/seo": "2.0.0-rc.20",
 		"@nuxtjs/supabase": "^1.4.5",
 		"jose": "^5.8.0",
