@@ -62,11 +62,8 @@ const brklinks = computed(() => {
 	<div v-if="ast" :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
 		<UBreadcrumb class="mb-4" :links="brklinks" />
 		<MarkdownFormatter>
-			<MDC value="# Testin the title!" />
-		</MarkdownFormatter>
-		<!-- <MarkdownFormatter>
 			<MDCRenderer :body="ast.body" :data="ast.data" />
-		</MarkdownFormatter> -->
+		</MarkdownFormatter>
 	</div>
 </template>
 
