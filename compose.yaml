@@ -34,7 +34,7 @@ services:
       restart: unless-stopped
       environment:
         - DOZZLE_ENABLE_ACTIONS=true
-        - DOZZLE_BASE="/dozzle"
+        - DOZZLE_BASE=/dozzle
       volumes:
         - ./dozzle:/data
         - /var/run/docker.sock:/var/run/docker.sock
