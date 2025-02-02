@@ -1,0 +1,19 @@
+name: Build
+
+on:
+  push:
+    branches: [ master, dev ]
+
+jobs:
+  build:
+    runs-on: home
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Create .env file
+      run: |
+        echo "${{ secrets.ENV_FILE }}" > .env
+    - name: Run deployment script
+      run: |
+        bun run deploy
