@@ -6,7 +6,7 @@ definePageMeta({
 const {
 	params: { slug },
 	meta: { ast },
-} = useRoute() as any;
+} = useRoute();
 
 const refreshSeo = () => {
 	if (ast) {
@@ -60,10 +60,10 @@ const brklinks = computed(() => {
 
 <template>
 	<div v-if="ast" :class="`__dynamic_${slug}`" class="mx-auto max-w-[1200px]">
-		<UBreadcrumb class="mb-4" :links="brklinks" />
+		<!-- <UBreadcrumb class="mb-4" :links="brklinks" />
 		<MarkdownFormatter>
 			<MDCRenderer :body="ast.body" :data="ast.data" />
-		</MarkdownFormatter>
+		</MarkdownFormatter> -->
 	</div>
 </template>
 
