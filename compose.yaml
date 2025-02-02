@@ -32,10 +32,12 @@ services:
     dozzle:
       image: amir20/dozzle:latest
       restart: unless-stopped
+      environment:
+        - DOZZLE_ENABLE_ACTIONS=true
+        - DOZZLE_BASE="/dozzle"
       volumes:
+        - ./dozzle:/data
         - /var/run/docker.sock:/var/run/docker.sock
-      ports:
-        - 8080:8080
     watchtower:
       image: containrrr/watchtower
       volumes:
