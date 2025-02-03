@@ -1,11 +1,11 @@
 FROM --platform=linux/amd64 node:20 AS build
 WORKDIR /usr/src/frontend
 
-RUN npm install -g bun
+RUN npm install -g pnpm
 RUN npm install -g nuxi
 
 COPY package.json .
-RUN bun install
+RUN pnpm install
 
 
 COPY . .

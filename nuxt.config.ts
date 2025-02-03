@@ -46,6 +46,9 @@ export default defineNuxtConfig({
 		"@nuxtjs/mdc",
 	],
 
+	// Temporary measure until MDC get's fixed (TODO)
+	ssr: false,
+
 	routeRules: {
 		"/": { swr: 60 },
 		"/news/**": { swr: 60 },
