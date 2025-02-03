@@ -69,15 +69,15 @@ export default defineNuxtConfig({
 
 	css: ["./app/assets/style.scss"],
 
+	future: {
+		compatibilityVersion: 4,
+	},
+
 	site: {
 		url: process.env.SITE_URL,
 		name: "Школа №550",
 		description: "Официальный портал школы №550",
 		defaultLocale: "ru",
-	},
-
-	future: {
-		compatibilityVersion: 4,
 	},
 
 	runtimeConfig: {
