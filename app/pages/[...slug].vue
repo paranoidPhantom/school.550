@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { parseMarkdown } from "@nuxtjs/mdc/runtime";
+
 definePageMeta({
 	middleware: ["content"],
 });
@@ -21,12 +23,13 @@ const { data: ast } = await useAsyncData(`render_${slug.value}`, async () => {
 		.maybeSingle();
 	if (data) {
 		const { md: markdown } = data;
-		const tree = await $fetch("/api/parsemd", {
-			method: "POST",
-			body: {
-				markdown,
-			},
-		});
+		const tree = await parseMarkdown(markdown);
+		// const tree = await $fetch("/api/parsemd", {
+		// 	method: "POST",
+		// 	body: {
+		// 		markdown,
+		// 	},
+		// });
 		return tree;
 	}
 });
