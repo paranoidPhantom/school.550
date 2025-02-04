@@ -394,6 +394,7 @@ services:
       - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro
     environment:
       LOGFLARE_URL: null
+      LOGFLARE_API_KEY: ""
     command: [ "--config", "etc/vector/vector.yml" ]
 
 volumes:
