@@ -1,21 +1,32 @@
 <script setup lang="ts">
-import { parseMarkdown } from "@nuxtjs/mdc/runtime";
+definePageMeta({
+	middleware: ["content"],
+});
 
 const {
-	params: { slug },
+	params: { slug: rawSlug },
 } = useRoute();
+
+const slug = computed(() =>
+	Array.isArray(rawSlug) ? `/${rawSlug.join("/")}` : `/${rawSlug}`,
+);
 
 const supabase = useSupabaseClient();
 
-const { data: ast } = await useAsyncData(`${slug.join("_")}`, async () => {
+const { data: ast } = await useAsyncData(`render_${slug.value}`, async () => {
 	const { data } = await supabase
 		.from("content")
 		.select("md")
-		.eq("slug", `/${slug.join("/")}`)
+		.eq("slug", slug.value)
 		.maybeSingle();
 	if (data) {
-		const { md } = data;
-		const tree = await parseMarkdown(md);
+		const { md: markdown } = data;
+		const tree = await $fetch("/api/parsemd", {
+			method: "POST",
+			body: {
+				markdown,
+			},
+		});
 		return tree;
 	}
 });
@@ -39,8 +50,8 @@ const brklinks = computed(() => {
 	const links = [
 		{ label: "Домашняя", icon: "heroicons:home-20-solid", to: "/" },
 	];
-	if (slug) {
-		const category = slug[0];
+	if (slug.value) {
+		const category = slug.value[0];
 		switch (category) {
 			case "info":
 				links.push({
@@ -58,11 +69,11 @@ const brklinks = computed(() => {
 					label: "Новости",
 					icon: "fluent-emoji-high-contrast:rolled-up-newspaper",
 				} as { label: string; icon: string; to: string });
-				if (slug.length === 0) return links;
+				if (slug.value.length === 0) return links;
 				break;
 		}
 	}
-	if (slug.length > 1 && ast.value) {
+	if (slug.value.length > 1 && ast.value) {
 		links.push({
 			label: ast.value.data.title,
 		} as { label: string; icon: string; to: string });

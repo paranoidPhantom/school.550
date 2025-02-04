@@ -142,6 +142,23 @@ const promptDelete = async () => {
 
 const colorMode = useColorMode();
 
+const { data: ast } = await useAsyncData(
+	"dev_content_fetch",
+	async () => {
+		const tree = await $fetch("/api/parsemd", {
+			method: "POST",
+			body: {
+				markdown: state.md,
+			},
+		});
+		return tree;
+	},
+	{
+		watch: [state],
+		server: false,
+	},
+);
+
 // const editor = ref<Monaco.editor.ICodeEditor | null>(null);
 
 // const getSelection = () => {
@@ -303,7 +320,7 @@ const colorMode = useColorMode();
 				<MarkdownFormatter
 					class="max-h-screen w-full overflow-auto border border-gray-200 px-4 xl:w-1/2 dark:border-gray-800"
 				>
-					<MDC v-if="state.md" class="mt-4" :value="state.md" />
+					<MDCRenderer v-if="ast" :body="ast.body" :data="ast.data" />
 				</MarkdownFormatter>
 			</div>
 		</template>
