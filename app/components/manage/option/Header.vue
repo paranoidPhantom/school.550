@@ -73,12 +73,15 @@ const newGroup = async (complex: boolean) => {
 		height: 200,
 		index: 0,
 		logic: complex
-			? {
-					Столбец: {
-						index: 0,
-						links: [],
+			? [
+					{
+						data: {
+							index: 0,
+							links: [],
+						},
+						column: "",
 					},
-				}
+				]
 			: {
 					to: "/info/primary",
 				},
@@ -154,7 +157,9 @@ const group = computed(() => {
 							/>
 						</UFormGroup>
 						<div
-							v-if="!(logic[index].logic as Logic)?.to"
+							v-if="
+								(logic[index].logic as Logic)?.to === undefined
+							"
 							class="flex gap-4"
 						>
 							<UCard
@@ -316,13 +321,17 @@ const group = computed(() => {
 								icon="mdi:plus"
 								variant="soft"
 								@click="
-									logic[index].logic.push({
-										column: 'Новый столбец',
-										data: {
-											index: 0,
-											links: [],
-										},
-									})
+									() => {
+										console.log(logic[index]);
+										// if (!logic[index.logic])
+										logic[index].logic.push({
+											column: 'Новый столбец',
+											data: {
+												index: 0,
+												links: [],
+											},
+										});
+									}
 								"
 							/>
 						</div>
