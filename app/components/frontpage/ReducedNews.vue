@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { parseMarkdown } from "@nuxtjs/mdc/runtime";
-
 const supabase = useSupabaseClient();
 
 const { data: ast } = await useAsyncData("news", async () => {
@@ -10,7 +8,13 @@ const { data: ast } = await useAsyncData("news", async () => {
 		.eq("slug", "/news")
 		.maybeSingle();
 	if (error) throw error;
-	return parseMarkdown(data?.md);
+	const tree = await $fetch("/api/parsemd", {
+		method: "POST",
+		body: {
+			markdown: data?.md,
+		},
+	});
+	return tree;
 });
 </script>
 
