@@ -155,6 +155,7 @@ const { data: ast } = await useAsyncData(
 	},
 	{
 		watch: [state],
+		dedupe: "cancel",
 		server: false,
 	},
 );
