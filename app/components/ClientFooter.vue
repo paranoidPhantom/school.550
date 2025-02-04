@@ -17,7 +17,7 @@ const sections: {
 			external: true,
 		},
 		{
-			label: "Поднять проблему в GitHub",
+			label: "Сообщить о проблеме в GitHub",
 			to: "https://github.com/paranoidPhantom/school.550/issues/new",
 			external: true,
 		},
