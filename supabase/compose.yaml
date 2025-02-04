@@ -200,8 +200,6 @@ services:
         condition: service_healthy
       rest:
         condition: service_started
-      imgproxy:
-        condition: service_started
     healthcheck:
       test:
         [
