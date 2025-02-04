@@ -22,14 +22,7 @@ const { data: ast } = await useAsyncData(`render_${slug.value}`, async () => {
 		.eq("slug", slug.value)
 		.maybeSingle();
 	if (data) {
-		const { md: markdown } = data;
-		const tree = await parseMarkdown(markdown);
-		// const tree = await $fetch("/api/parsemd", {
-		// 	method: "POST",
-		// 	body: {
-		// 		markdown,
-		// 	},
-		// });
+		const tree = await parseMarkdown(data.md);
 		return tree;
 	}
 });

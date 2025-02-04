@@ -145,17 +145,11 @@ const colorMode = useColorMode();
 const { data: ast } = await useAsyncData(
 	"dev_content_fetch",
 	async () => {
-		const tree = await $fetch("/api/parsemd", {
-			method: "POST",
-			body: {
-				markdown: state.md,
-			},
-		});
+		const tree = await parseMarkdown(state.md);
 		return tree;
 	},
 	{
 		watch: [state],
-		dedupe: "cancel",
 		server: false,
 	},
 );
