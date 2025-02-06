@@ -1,4 +1,4 @@
-name: "Production@master deployment - ${{ github.job }}"
+name: Production@master deployment
 
 on:
     push:
@@ -6,6 +6,7 @@ on:
 
 jobs:
     build:
+        name: "PROD~${{ github.run_id }}"
         runs-on: ubuntu-20.04
         environment: production
 

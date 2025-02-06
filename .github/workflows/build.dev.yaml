@@ -1,4 +1,4 @@
-name: "Preview@dev - ${{ github.job }}"
+name: "Preview@dev"
 
 on:
     push:
@@ -6,6 +6,7 @@ on:
 
 jobs:
     build:
+        name: "DEV~${{ github.run_id }}"
         runs-on: ubuntu-20.04
         environment: dev
 
