@@ -21,14 +21,6 @@ jobs:
               with:
                   driver-opts: image=moby/buildkit:master # Use a BuildKit image
                   driver: docker-container
-
-            - name: Cache Docker Buildx layers
-              uses: actions/cache@v3
-              with:
-                  path: /tmp/.buildx-cache
-                  key: ${{ runner.os }}-buildx-${{ github.ref }}-${{ github.sha }}
-                  restore-keys: |
-                      ${{ runner.os }}-buildx-
             - name: "Login to GitHub Container Registry"
               uses: docker/login-action@v1
               with:
@@ -41,21 +33,21 @@ jobs:
                   context: ./db
                   push: true
                   tags: ghcr.io/paranoidphantom/db.school.550:latest
-                  cache-from: type=local,src=/tmp/.buildx-cache
-                  cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
             - name: Build and push nginx
               uses: docker/build-push-action@v3
               with:
                   context: ./nginx
                   push: true
                   tags: ghcr.io/paranoidphantom/nginx.school.550:latest
-                  cache-from: type=local,src=/tmp/.buildx-cache
-                  cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
             - name: Build and push frontend
               uses: docker/build-push-action@v3
               with:
                   context: .
                   push: true
                   tags: ghcr.io/paranoidphantom/school.550:preview
-                  cache-from: type=local,src=/tmp/.buildx-cache
-                  cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
