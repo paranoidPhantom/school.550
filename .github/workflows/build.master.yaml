@@ -1,4 +1,4 @@
-name: Production@master deployment
+name: Production@master
 
 on:
     push:
