@@ -28,15 +28,15 @@ jobs:
                   username: ${{github.actor}}
                   password: ${{secrets.GITHUB_TOKEN}}
             - name: Build and push db
-              uses: docker/build-push-action@v3
+              uses: docker/build-push-action@v6
               with:
                   context: ./db
                   push: true
                   tags: ghcr.io/paranoidphantom/db.school.550:latest
-                  cache-from: type=registry,ref=user/app:buildcache
-                  cache-to: type=registry,ref=user/app:buildcache,mode=max
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
             - name: Build and push nginx
-              uses: docker/build-push-action@v3
+              uses: docker/build-push-action@v6
               with:
                   context: ./nginx
                   push: true
@@ -44,7 +44,7 @@ jobs:
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
             - name: Build and push frontend
-              uses: docker/build-push-action@v3
+              uses: docker/build-push-action@v6
               with:
                   context: .
                   push: true
