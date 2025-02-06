@@ -16,13 +16,38 @@ jobs:
             - name: Create .env file
               run: |
                   echo '${{ secrets.ENV_FILE }}' > .env
+            - name: "Set up Docker Buildx"
+              uses: docker/setup-buildx-action@v2
+              with:
+                  driver-opts: image=moby/buildkit:master # Use a BuildKit image
+                  driver: docker-container
             - name: "Login to GitHub Container Registry"
               uses: docker/login-action@v1
               with:
                   registry: ghcr.io
                   username: ${{github.actor}}
                   password: ${{secrets.GITHUB_TOKEN}}
-
-            - name: Run deployment script
-              run: |
-                  npm run deploy-master
+            - name: Build and push db
+              uses: docker/build-push-action@v3
+              with:
+                  context: ./db
+                  push: true
+                  tags: ghcr.io/paranoidphantom/db.school.550:latest
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
+            - name: Build and push nginx
+              uses: docker/build-push-action@v3
+              with:
+                  context: ./nginx
+                  push: true
+                  tags: ghcr.io/paranoidphantom/nginx.school.550:latest
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
+            - name: Build and push frontend
+              uses: docker/build-push-action@v3
+              with:
+                  context: .
+                  push: true
+                  tags: ghcr.io/paranoidphantom/school.550:latest
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
