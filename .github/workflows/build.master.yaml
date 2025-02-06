@@ -1,20 +1,20 @@
-name: Master branch deployment
+name: Dev branch deployment
 
 on:
-  push:
-    branches: [ master ]
+    push:
+        branches: [dev]
 
 jobs:
-  build:
-    runs-on: home
-    environment: master
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    - name: Create .env file
-      run: |
-        echo '${{ secrets.ENV_FILE }}' > .env
-    - name: Run deployment script
-      run: |
-        bun run deploy-master
+    build:
+        runs-on: ubuntu-20.04
+        environment: production
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Create .env file
+              run: |
+                  echo '${{ secrets.ENV_FILE }}' > .env
+            - name: Run deployment script
+              run: |
+                  npm run deploy-master
