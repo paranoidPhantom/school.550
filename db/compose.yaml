@@ -2,7 +2,7 @@ name: sch550-fs
 
 services:
     fs:
-        image: paranoidphantom/db.school.550:latest
+        image: ghcr.io/paranoidphantom/db.school.550:latest
         build: .
         restart: unless-stopped
         volumes:
