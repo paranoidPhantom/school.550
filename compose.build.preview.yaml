@@ -6,7 +6,10 @@ include:
 services:
     uipreview:
         image: ghcr.io/paranoidphantom/school.550:preview
-        build: .
+        build:
+            context: .
+            cache_from:
+              - ghcr.io/paranoidphantom/school.550:preview
         restart: unless-stopped
         platform: linux/amd64
         volumes:
