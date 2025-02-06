@@ -25,4 +25,4 @@ jobs:
 
             - name: Run deployment script
               run: |
-                  bun run deploy-dev
+                  npm run deploy-dev
