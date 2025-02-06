@@ -1,4 +1,7 @@
 [![wakatime](https://wakatime.com/badge/user/018e7187-321d-45f8-8854-9be2e9d9116a/project/d32cd9db-91ee-4d95-90b8-b2853511bc8d.svg)](https://wakatime.com/badge/user/018e7187-321d-45f8-8854-9be2e9d9116a/project/d32cd9db-91ee-4d95-90b8-b2853511bc8d)
+[![Preview@dev](https://github.com/paranoidPhantom/school.550/actions/workflows/build.dev.yaml/badge.svg)](https://github.com/paranoidPhantom/school.550/actions/workflows/build.dev.yaml)
+[![Production@master](https://github.com/paranoidPhantom/school.550/actions/workflows/build.master.yaml/badge.svg)](https://github.com/paranoidPhantom/school.550/actions/workflows/build.master.yaml)
+
 
 # school.550
 
