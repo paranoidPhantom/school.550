@@ -9,8 +9,6 @@ services:
         build: .
         restart: unless-stopped
         platform: linux/amd64
-        volumes:
-            - ./.env.prod:/usr/src/app/.env
     nginx:
         image: ghcr.io/paranoidphantom/nginx.school.550:latest
         build: ./nginx
@@ -19,5 +17,3 @@ services:
         ports:
             - 80:80
             - 443:443
-        volumes:
-            - /etc/letsencrypt/live:/etc/letsencrypt/livech

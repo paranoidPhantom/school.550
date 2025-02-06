@@ -6,7 +6,7 @@ on:
 
 jobs:
     build:
-        name: "DEV~${{ github.run_id }}"
+        name: build
         runs-on: ubuntu-20.04
         environment: dev
 
@@ -22,7 +22,34 @@ jobs:
                   registry: ghcr.io
                   username: ${{github.actor}}
                   password: ${{secrets.GITHUB_TOKEN}}
-
-            - name: Run deployment script
-              run: |
-                  npm run deploy-dev
+            - name: Cache Docker Buildx layers
+              uses: actions/cache@v3
+              with:
+                  path: /tmp/.buildx-cache
+                  key: ${{ runner.os }}-buildx-${{ github.ref }}-${{ github.sha }}
+                  restore-keys: |
+                      ${{ runner.os }}-buildx-
+            - name: Build and push db
+              uses: docker/build-push-action@v3
+              with:
+                  context: ./db
+                  push: true
+                  tags: ghcr.io/paranoidphantom/db.school.550:latest
+                  cache-from: type=local,src=/tmp/.buildx-cache
+                  cache-to: type=local,dest=/tmp/.buildx-cache
+            - name: Build and push nginx
+              uses: docker/build-push-action@v3
+              with:
+                  context: ./nginx
+                  push: true
+                  tags: ghcr.io/paranoidphantom/nginx.school.550:latest
+                  cache-from: type=local,src=/tmp/.buildx-cache
+                  cache-to: type=local,dest=/tmp/.buildx-cache
+            - name: Build and push frontend
+              uses: docker/build-push-action@v3
+              with:
+                  context: .
+                  push: true
+                  tags: ghcr.io/paranoidphantom/school.550:preview
+                  cache-from: type=local,src=/tmp/.buildx-cache
+                  cache-to: type=local,dest=/tmp/.buildx-cache
