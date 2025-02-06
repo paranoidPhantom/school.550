@@ -6,21 +6,23 @@ defineProps<{
 
 <template>
 	<UCarousel
-		v-slot="{ item }"
 		class="overflow-hidden rounded-lg"
 		:items="images"
 		:ui="{
 			item: 'basis-full',
 			indicators: {
-				active: 'bg-black dark:bg-white',
+				active: 'border-2 border-white border-opacity-70 dark:border-black dark:border-opacity-70 bg-black dark:bg-white',
 				inactive:
-					'border border-black border-opacity-70 dark:border-white dark:opacity-70',
+					'border-2 border-black border-opacity-70 dark:border-white dark:border-opacity-70',
 				wrapper: 'opacity-70',
 			},
 		}"
+		arrows
 		indicators
 	>
-		<img :src="item" draggable="false" />
+		<template #default="{ item }">
+			<img :src="item" draggable="false" class="mx-auto rounded-lg" />
+		</template>
 	</UCarousel>
 </template>
 
