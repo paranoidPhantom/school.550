@@ -90,19 +90,3 @@ jobs:
                   tags: ghcr.io/paranoidphantom/db.school.550:latest
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
-    deploy:
-        name: Deploy application
-        runs-on: host
-        needs: [frontend-build, nginx-build, db-build]
-        steps:
-            - name: Go to deployment directory
-              run: cd /home/fred/school.550
-            - name: Create .env file
-              run: |
-                  echo '${{ secrets.ENV_FILE }}' > .env
-            - name: Pull fresh images
-              run: docker compose pull
-            - name: Stop services
-              run: docker compose down
-            - name: Restart services
-              run: docker compose up -d
