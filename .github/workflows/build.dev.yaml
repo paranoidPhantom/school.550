@@ -97,6 +97,8 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
+            - name: Go to deployment directory
+              run: cd /home/fred/school.550
             - name: Create .env file
               run: |
                   echo '${{ secrets.ENV_FILE }}' > .env
