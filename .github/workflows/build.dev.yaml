@@ -5,6 +5,18 @@ on:
         branches: [dev]
 
 jobs:
+    deploy:
+        name: deploy
+        runs-on: host
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Pull fresh images
+              run: docker compose Pull
+            - name: Stop services
+              run: docker compose down
+            - name: Start services
+              run: docker compose up -d
     build:
         name: build
         runs-on: ubuntu-20.04
