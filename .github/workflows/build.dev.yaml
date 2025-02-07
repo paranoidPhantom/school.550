@@ -103,4 +103,4 @@ jobs:
             - name: Pull fresh images
               run: docker compose pull
             - name: Restart services that got updated
-              run: docker compose up -d
+              run: docker compose up -d --remove-orphans
