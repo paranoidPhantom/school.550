@@ -102,7 +102,5 @@ jobs:
                   echo '${{ secrets.ENV_FILE }}' > .env
             - name: Pull fresh images
               run: docker compose pull
-            - name: Stop services
-              run: docker compose down
-            - name: Start services
+            - name: Restart services that got updated
               run: docker compose up -d
