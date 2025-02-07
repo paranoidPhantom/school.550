@@ -100,7 +100,11 @@ jobs:
             - name: Create .env file
               run: |
                   echo '${{ secrets.ENV_FILE }}' > .env
+            - name: Pull repository
+              run: git pull
             - name: Pull fresh images
               run: docker compose pull
-            - name: Restart services that got updated
-              run: docker compose up -d --remove-orphans
+            - name: Stop services
+              run: docker compose down --remove-orphans
+            - name: Restart services
+              run: docker compose up -d
