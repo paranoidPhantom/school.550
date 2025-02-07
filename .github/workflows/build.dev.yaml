@@ -5,18 +5,6 @@ on:
         branches: [dev]
 
 jobs:
-    deploy:
-        name: Deploy application
-        runs-on: host
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
-            - name: Pull fresh images
-              run: docker compose pull
-            - name: Stop services
-              run: docker compose down
-            - name: Start services
-              run: docker compose up -d
     frontend-build:
         name: Build frontend
         runs-on: ubuntu-20.04
@@ -39,22 +27,6 @@ jobs:
                   registry: ghcr.io
                   username: ${{github.actor}}
                   password: ${{secrets.GITHUB_TOKEN}}
-            - name: Build and push db
-              uses: docker/build-push-action@v6
-              with:
-                  context: ./db
-                  push: true
-                  tags: ghcr.io/paranoidphantom/db.school.550:latest
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max
-            - name: Build and push nginx
-              uses: docker/build-push-action@v6
-              with:
-                  context: ./nginx
-                  push: true
-                  tags: ghcr.io/paranoidphantom/nginx.school.550:latest
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max
             - name: Build and push frontend
               uses: docker/build-push-action@v6
               with:
@@ -71,9 +43,6 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
-            - name: Create .env file
-              run: |
-                  echo '${{ secrets.ENV_FILE }}' > .env
             - name: "Set up Docker Buildx"
               uses: docker/setup-buildx-action@v3
               with:
@@ -85,28 +54,12 @@ jobs:
                   registry: ghcr.io
                   username: ${{github.actor}}
                   password: ${{secrets.GITHUB_TOKEN}}
-            - name: Build and push db
-              uses: docker/build-push-action@v6
-              with:
-                  context: ./db
-                  push: true
-                  tags: ghcr.io/paranoidphantom/db.school.550:latest
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max
             - name: Build and push nginx
               uses: docker/build-push-action@v6
               with:
                   context: ./nginx
                   push: true
                   tags: ghcr.io/paranoidphantom/nginx.school.550:latest
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max
-            - name: Build and push frontend
-              uses: docker/build-push-action@v6
-              with:
-                  context: .
-                  push: true
-                  tags: ghcr.io/paranoidphantom/school.550:preview
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
 
@@ -118,9 +71,6 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
-            - name: Create .env file
-              run: |
-                  echo '${{ secrets.ENV_FILE }}' > .env
             - name: "Set up Docker Buildx"
               uses: docker/setup-buildx-action@v3
               with:
@@ -140,19 +90,19 @@ jobs:
                   tags: ghcr.io/paranoidphantom/db.school.550:latest
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
-            - name: Build and push nginx
-              uses: docker/build-push-action@v6
-              with:
-                  context: ./nginx
-                  push: true
-                  tags: ghcr.io/paranoidphantom/nginx.school.550:latest
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max
-            - name: Build and push frontend
-              uses: docker/build-push-action@v6
-              with:
-                  context: .
-                  push: true
-                  tags: ghcr.io/paranoidphantom/school.550:preview
-                  cache-from: type=gha
-                  cache-to: type=gha,mode=max
+    deploy:
+        name: Deploy application
+        runs-on: host
+        needs: [frontend-build, nginx-build, db-build]
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Create .env file
+              run: |
+                  echo '${{ secrets.ENV_FILE }}' > .env
+            - name: Pull fresh images
+              run: docker compose pull
+            - name: Stop services
+              run: docker compose down
+            - name: Start services
+              run: docker compose up -d
