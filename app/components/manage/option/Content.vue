@@ -302,7 +302,7 @@ const { data: ast } = await useAsyncData(
 				<div
 					class="flex max-h-screen min-h-96 w-full flex-col overflow-hidden xl:!w-1/2 xl:flex-1"
 				>
-					<MonacoEditor
+					<LazyMonacoEditor
 						v-model="state.md"
 						lang="markdown"
 						class="h-full flex-grow"
