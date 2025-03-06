@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:20 AS build
+FROM --platform=linux/amd64 node:20-alpine AS build
 WORKDIR /usr/src/frontend
 
 RUN npm install -g nuxi
@@ -13,7 +13,7 @@ ENV NODE_OPTIONS=--max-old-space-size=16000
 
 RUN nuxi build
 
-FROM --platform=linux/amd64 node:20 AS release
+FROM --platform=linux/amd64 node:20-alpine AS release
 WORKDIR /usr/src/frontend
 
 COPY --from=build /usr/src/frontend/.output .output
