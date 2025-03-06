@@ -18,7 +18,6 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 
 	monacoEditor: {
-		// These are default values:
 		locale: "ru",
 	},
 
