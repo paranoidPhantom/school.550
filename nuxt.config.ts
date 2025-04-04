@@ -1,7 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	experimental: {
-		componentIslands: true,
+		componentIslands: {
+			selectiveClient: true,
+		},
 	},
 
 	nitro: {
@@ -47,6 +49,7 @@ export default defineNuxtConfig({
 		"@nuxtjs/supabase",
 		"@nuxt/content",
 		"@nuxtjs/mdc",
+		"@artmizu/nuxt-prometheus",
 	],
 
 	routeRules: {
