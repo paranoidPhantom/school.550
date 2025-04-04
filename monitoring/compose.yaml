@@ -5,8 +5,6 @@ services:
     image: prom/prometheus
     container_name: prometheus
     restart: unless-stopped
-    ports:
-      - 9090:9090
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     command:
@@ -16,6 +14,9 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     restart: unless-stopped
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+      - ./certs:/certs
     ports:
       - 4100:3000
     environment:
