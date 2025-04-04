@@ -7,7 +7,7 @@ on:
 jobs:
     frontend-build:
         name: Build frontend
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22
         environment: dev
 
         steps:
@@ -37,7 +37,7 @@ jobs:
                   cache-to: type=gha,mode=max
     nginx-build:
         name: Build custom nginx
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22
         environment: dev
 
         steps:
@@ -65,7 +65,7 @@ jobs:
 
     db-build:
         name: Build file server
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22
         environment: dev
 
         steps:
