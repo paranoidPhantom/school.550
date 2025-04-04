@@ -3,6 +3,7 @@ name: sch550-root
 include:
   - path: db/compose.yaml # File server
   - path: supabase/compose.yaml # Supabase
+  - path: monitoring/compose.yaml # Monitoring
 
 services:
     uiprod:

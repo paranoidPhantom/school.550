@@ -1,6 +1,7 @@
 {
 	"name": "nuxt-app",
 	"devDependencies": {
+		"@artmizu/nuxt-prometheus": "^2.4.1",
 		"@iconify-json/akar-icons": "^1.2.0",
 		"@iconify-json/fluent-emoji": "^1.2.1",
 		"@iconify-json/line-md": "^1.2.1",
