@@ -1,10 +1,10 @@
-FROM --platform=linux/amd64 node:20-alpine AS build
+FROM oven/bun:alpine AS build
 WORKDIR /usr/src/frontend
 
-RUN npm install -g nuxi
+RUN bun install -g nuxi
 
 COPY package.json .
-RUN npm install
+RUN bun install
 
 
 COPY . .
