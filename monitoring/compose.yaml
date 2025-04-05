@@ -16,7 +16,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./grafana_data:/var/lib/grafana
-      - ./certs:/certs
     ports:
       - 4100:3000
     environment:
