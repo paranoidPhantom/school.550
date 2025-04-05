@@ -14,8 +14,6 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     restart: unless-stopped
-    ports:
-     - 4100:3000
     volumes:
       - grafana-storage:/var/lib/grafana
     environment:
