@@ -17,7 +17,7 @@ const {
 		color="gray"
 		:icon="icon ?? 'vscode-icons:file-type-pdf2'"
 	>
-		<ContentSlot />
+		<MDCSlot />
 	</UButton>
 </template>
 
