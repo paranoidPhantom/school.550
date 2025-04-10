@@ -9,7 +9,7 @@ RUN bun install
 
 COPY . .
 
-ENV NODE_OPTIONS=--max-old-space-size=16000
+ENV NODE_OPTIONS=--max-old-space-size=32000
 
 RUN nuxi build
 
