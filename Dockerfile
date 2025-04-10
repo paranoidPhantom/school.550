@@ -9,9 +9,9 @@ RUN bun install
 
 COPY . .
 
-ENV NODE_OPTIONS=--max-old-space-size=32000
+ENV BUN_JSC_forceRAMSize=134217728
 
-RUN nuxi build
+RUN bunx nuxi build
 
 FROM --platform=linux/amd64 node:20-alpine AS release
 WORKDIR /usr/src/frontend
