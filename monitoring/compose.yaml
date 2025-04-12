@@ -18,7 +18,7 @@ services:
       - grafana-storage:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-admin}
-      - GF_SERVER_ROOT_URL=/grafana
+      - GF_SERVER_ROOT_URL=${API_EXTERNAL_URL:-https://db.portal.ort.spb.ru}/grafana
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
 volumes:
   grafana-storage:
