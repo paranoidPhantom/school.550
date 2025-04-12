@@ -9,7 +9,7 @@ RUN npm install
 
 COPY . .
 
-ENV BUN_JSC_forceRAMSize=134217728
+ENV NODE_OPTIONS="--max_old_space_size=12288"
 
 RUN npx nuxi build
 
