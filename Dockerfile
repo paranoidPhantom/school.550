@@ -1,17 +1,17 @@
-FROM oven/bun:alpine AS build
+FROM node:20-alpine AS build
 WORKDIR /usr/src/frontend
 
-RUN bun install -g nuxi
+RUN npm install -g nuxi
 
 COPY package.json .
-RUN bun install
+RUN npm install
 
 
 COPY . .
 
 ENV BUN_JSC_forceRAMSize=134217728
 
-RUN bunx nuxi build
+RUN npx nuxi build
 
 FROM --platform=linux/amd64 node:20-alpine AS release
 WORKDIR /usr/src/frontend
