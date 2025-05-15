@@ -27,12 +27,6 @@ export default defineNuxtConfig({
 		locale: "ru",
 	},
 
-	content: {
-		markdown: {
-			anchorLinks: false,
-		},
-	},
-
 	mdc: {
 		headings: {
 			anchorLinks: false,
@@ -47,7 +41,6 @@ export default defineNuxtConfig({
 		"@nuxt/eslint",
 		"@nuxtjs/seo",
 		"@nuxtjs/supabase",
-		"@nuxt/content",
 		"@nuxtjs/mdc",
 		"@artmizu/nuxt-prometheus",
 	],
@@ -74,6 +67,10 @@ export default defineNuxtConfig({
 
 	future: {
 		compatibilityVersion: 4,
+	},
+	components: {
+		dirs: ["~/components/content", "~/components"],
+		global: true,
 	},
 
 	site: {
