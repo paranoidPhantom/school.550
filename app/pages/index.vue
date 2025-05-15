@@ -16,10 +16,10 @@ useHead({
 	<div class="__home">
 		<FrontpageHero />
 		<div class="space-y-16">
-			<FrontpageFederalFeedback hydrate-on-idle />
-			<FrontpageReducedNews hydrate-on-idle />
-			<FrontpageLocation hydrate-on-idle />
-			<FrontpageRequiredAnnouncements hydrate-on-idle />
+			<FrontpageFederalFeedback />
+			<FrontpageReducedNews />
+			<FrontpageLocation />
+			<FrontpageRequiredAnnouncements />
 		</div>
 	</div>
 </template>
