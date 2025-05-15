@@ -27,3 +27,4 @@ bundled/README.md
 .kv
 
 logs/users.yml
+monitoring/grafana_data/*
