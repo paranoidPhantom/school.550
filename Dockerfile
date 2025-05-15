@@ -9,7 +9,7 @@ RUN npm install
 
 COPY . .
 
-ENV NODE_OPTIONS="--max_old_space_size=12288"
+ENV NODE_OPTIONS="--max-old-space-size=12288"
 
 RUN npx nuxi build
 
