@@ -204,7 +204,7 @@ const currentGroup = computed(() =>
 						<div
 							v-if="mobile"
 							:key="`mobile_${state.mobileDepth}`"
-							class="mobile flex h-full flex-col gap-2"
+							class="mobile flex h-full flex-col gap-2 overflow-auto"
 						>
 							<template v-if="state.mobileDepth === 0">
 								<UButton
@@ -225,6 +225,7 @@ const currentGroup = computed(() =>
 													'to',
 												)
 											) {
+												event.stopPropagation();
 												state.animation = 'right';
 												state.mobileDepth = 1;
 												state.currentGroup =
