@@ -65,6 +65,7 @@ const uploadFiles = async (files: FileList) => {
 		});
 		operationState.active = false;
 	} catch (error) {
+    console.error(error);
 		operationState.active = false;
 	}
 	refreshCurrentPathFiles();

@@ -26,7 +26,7 @@ const route = useRoute();
 				height="100%"
 				fit="cover"
 				class="absolute inset-0 z-0 h-full w-full object-cover"
-			/>
+			>
 			<div class="absolute inset-3 z-10 flex flex-col justify-between">
 				<div class="flex justify-between gap-8">
 					<p

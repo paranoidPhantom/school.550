@@ -89,13 +89,13 @@ const deleteLink = async (index: number) => {
 						class="h-24 rounded-lg"
 						:src="link.image_url ?? ''"
 						alt="Сопровождающая картинка для ссылки"
-					/>
+					>
 					<UCard
+						v-else
 						:ui="{
 							base: 'h-24 overflow-hidden',
 							body: { padding: '!p-3' },
 						}"
-						v-else
 					>
 						<h5 class="max-w-64 text-sm font-semibold">
 							{{ link.label }}

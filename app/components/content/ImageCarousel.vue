@@ -21,7 +21,7 @@ defineProps<{
 		indicators
 	>
 		<template #default="{ item }">
-			<img :src="item" draggable="false" class="mx-auto rounded-lg" />
+			<img :src="item" draggable="false" class="mx-auto rounded-lg" >
 		</template>
 	</UCarousel>
 </template>

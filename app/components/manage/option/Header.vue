@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Dropdown, Logic } from "~/types/header";
+import type { Logic } from "~/types/header";
 import type { Database } from "~~/supabase/types";
 
 const sectionActive = useCookie("admin_section_header");

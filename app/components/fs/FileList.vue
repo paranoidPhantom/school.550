@@ -14,7 +14,6 @@ const emit = defineEmits<{
 const selectedFiles = defineModel<Set<string>>("selected");
 if (!selectedFiles.value) selectedFiles.value = new Set();
 
-const path = defineModel<string>("path");
 watch(
 	() => props.files,
 	() => {

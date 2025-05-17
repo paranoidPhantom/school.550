@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-const feedbackForm = useState("feedback_form_enabled", () => false);
-
 const info = ["engineering"];
 
 const carouselRef = ref();
