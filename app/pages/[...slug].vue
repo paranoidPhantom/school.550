@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { parseMarkdown } from "@nuxtjs/mdc/runtime";
 
 definePageMeta({
 	middleware: ["content"],
@@ -7,47 +6,19 @@ definePageMeta({
 
 const {
 	params: { slug: rawSlug },
+  meta: { ast }
 } = useRoute();
 
 const slug = computed(() =>
 	Array.isArray(rawSlug) ? `/${rawSlug.join("/")}` : `/${rawSlug}`,
 );
 
-const supabase = useSupabaseClient();
-
-const { data: ast } = await useAsyncData(`render_${slug.value}`, async () => {
-	const { data } = await supabase
-		.from("content")
-		.select("md")
-		.eq("slug", slug.value)
-		.maybeSingle();
-	if (data) {
-		const tree = await parseMarkdown(data.md);
-		return tree;
-	}
-});
-
-const refreshSeo = () => {
-	if (ast.value) {
-		useSeoMeta({
-			title: ast.value.data.title,
-			description:
-				ast.value.data.description === ""
-					? undefined
-					: ast.value.data.description,
-		});
-	}
-};
-
-onMounted(refreshSeo);
-watch(ast, refreshSeo);
-
 const brklinks = computed(() => {
 	const links = [
 		{ label: "Домашняя", icon: "heroicons:home-20-solid", to: "/" },
 	];
 	if (slug.value) {
-		const category = slug.value[0];
+		const category = rawSlug[0];
 		switch (category) {
 			case "info":
 				links.push({
@@ -60,18 +31,25 @@ const brklinks = computed(() => {
 					label: "Родителям",
 				} as { label: string; icon: string; to: string });
 				break;
+			case "newspaper":
+				links.push({
+					label: "Школьная газета",
+					icon: "fluent-emoji-high-contrast:rolled-up-newspaper",
+				} as { label: string; icon: string; to: string });
+				break;
 			case "news":
 				links.push({
 					label: "Новости",
+          to: "/news",
 					icon: "fluent-emoji-high-contrast:rolled-up-newspaper",
 				} as { label: string; icon: string; to: string });
 				if (slug.value.length === 0) return links;
 				break;
 		}
 	}
-	if (slug.value.length > 1 && ast.value) {
+	if (rawSlug.length > 1 && ast) {
 		links.push({
-			label: ast.value.data.title,
+			label: ast.data.title,
 		} as { label: string; icon: string; to: string });
 	}
 
