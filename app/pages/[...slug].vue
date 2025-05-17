@@ -47,7 +47,7 @@ const brklinks = computed(() => {
 				break;
 		}
 	}
-	if (rawSlug.length > 1 && ast) {
+	if ((rawslug.length > 1 || links.length == 1) && ast) {
 		links.push({
 			label: ast.data.title,
 		} as { label: string; icon: string; to: string });
