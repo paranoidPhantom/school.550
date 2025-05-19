@@ -46,6 +46,10 @@ export default defineNuxtConfig({
 		"/for-parents/**": { swr: 60 },
 		"/manage": { robots: false },
 		"/manage/**": { robots: false },
+		"/ingest/static/**": {
+			proxy: "https://us-assets.i.posthog.com/static/**",
+		},
+		"/ingest/**": { proxy: "https://us.i.posthog.com/**" },
 	},
 
 	sitemap: {
@@ -80,7 +84,7 @@ export default defineNuxtConfig({
 			environment: process.env.NODE_ENV,
 			file_server_url: process.env.FILE_SERVER_URL,
 			posthogPublicKey: "phc_VA3CJoIS41f8R0luXa1qnxQDmCa4XWsU4uaTdOlMfU9",
-			posthogHost: "https://eu.i.posthog.com",
+			posthogHost: `${process.env.SITE_URL}/ingest`,
 		},
 	},
 
