@@ -37,7 +37,7 @@ watch(visuallyImpaired, (newValue) => {
 		<NuxtLayout>
 			<NuxtPage />
 		</NuxtLayout>
-		<SearchPalette />
+		<LazySearchPalette />
 		<UNotifications />
 	</div>
 </template>
