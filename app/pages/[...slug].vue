@@ -1,12 +1,11 @@
 <script setup lang="ts">
-
 definePageMeta({
 	middleware: ["content"],
 });
 
 const {
 	params: { slug: rawSlug },
-  meta: { ast }
+	meta: { ast },
 } = useRoute();
 
 const slug = computed(() =>
@@ -40,14 +39,14 @@ const brklinks = computed(() => {
 			case "news":
 				links.push({
 					label: "Новости",
-          to: "/news",
+					to: "/news",
 					icon: "fluent-emoji-high-contrast:rolled-up-newspaper",
 				} as { label: string; icon: string; to: string });
 				if (slug.value.length === 0) return links;
 				break;
 		}
 	}
-	if ((rawslug.length > 1 || links.length == 1) && ast) {
+	if ((rawSlug.length > 1 || links.length == 1) && ast) {
 		links.push({
 			label: ast.data.title,
 		} as { label: string; icon: string; to: string });
