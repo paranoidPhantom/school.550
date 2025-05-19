@@ -21,7 +21,7 @@
 		"nuxt": "^3.14.0",
 		"nuxt-aos": "1.2.5",
 		"nuxt-monaco-editor": "^1.2.9",
-		"posthog-js": "^1.245.0",
+		"nuxt-posthog": "^1.6.3",
 		"prettier": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.6",
 		"sass": "1.78.0",
