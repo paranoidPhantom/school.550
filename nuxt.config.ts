@@ -79,6 +79,8 @@ export default defineNuxtConfig({
 			site_url: process.env.SITE_URL,
 			environment: process.env.NODE_ENV,
 			file_server_url: process.env.FILE_SERVER_URL,
+			posthogPublicKey: "phc_VA3CJoIS41f8R0luXa1qnxQDmCa4XWsU4uaTdOlMfU9",
+			posthogHost: "https://eu.i.posthog.com",
 		},
 	},
 
