@@ -85,7 +85,7 @@ export default defineNuxtConfig({
 
 	posthog: {
 		host: "https://eu.i.posthog.com",
-		publicKey: "phc_VA3CJoIS41f8R0luXa1qnxQDmCa4XWsU4uaTdOlMfU",
+		publicKey: "phc_VA3CJoIS41f8R0luXa1qnxQDmCa4XWsU4uaTdOlMfU9",
 		proxy: true,
 	},
 
