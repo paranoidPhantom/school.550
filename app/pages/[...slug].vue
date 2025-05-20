@@ -1,12 +1,24 @@
 <script setup lang="ts">
+import type { MDCParserResult } from "@nuxtjs/mdc";
+import type { RouteLocationNormalizedLoaded } from "vue-router";
+
 definePageMeta({
 	middleware: ["content"],
 });
 
+interface RouteData extends RouteLocationNormalizedLoaded<string | symbol> {
+	params: {
+		slug: string | string[];
+	};
+	meta: {
+		ast: MDCParserResult;
+	};
+}
+
 const {
 	params: { slug: rawSlug },
 	meta: { ast },
-} = useRoute();
+} = useRoute() as RouteData;
 
 const slug = computed(() =>
 	Array.isArray(rawSlug) ? `/${rawSlug.join("/")}` : `/${rawSlug}`,
@@ -16,6 +28,7 @@ const brklinks = computed(() => {
 	const links = [
 		{ label: "Домашняя", icon: "heroicons:home-20-solid", to: "/" },
 	];
+	if (!rawSlug) return links;
 	if (slug.value) {
 		const category = rawSlug[0];
 		switch (category) {
