@@ -42,6 +42,7 @@ const { data: linkGroups } = await useAsyncData(async () => {
 		.from("header-links")
 		.select("*");
 	if (error) {
+		console.error("Error fetching header-links from Supabase:", error);
 		return [];
 	}
 	if (!groups) {
