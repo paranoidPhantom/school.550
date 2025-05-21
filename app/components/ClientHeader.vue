@@ -125,9 +125,9 @@ const currentGroup = computed(() =>
 <template>
 	<div class="__header">
 		<h1 class="hidden">Школа 550</h1>
-		<div class="bg-blur" :class="`wrapper ${state.active ? 'open' : ''}`" />
+		<div class="bg-blur" :class="{ open: state.active }" />
 		<div
-			:class="`wrapper ${state.active ? 'open' : ''}`"
+			:class="{ wrapper: true, open: state.active }"
 			:style="{
 				'--section-height': `${heights[state.lastEnteredIndex] ?? 0}px`,
 			}"
@@ -324,14 +324,14 @@ const currentGroup = computed(() =>
 										v-for="(link, link_index) in (
 											subgroup as Dropdown[number]
 										).data.links"
-										:key="`${link.to}_${link.label}_${index}`"
+										:key="`${link.to}_${link.label}_${subgroupIndex}`"
 									>
 										<NuxtLink
 											v-if="state.active"
 											:class="{
 												'__first-header-link':
 													subgroupIndex === 0 &&
-													index === 0,
+													link_index === 0,
 											}"
 											v-bind="link"
 											class="w-fit max-w-96 underline-offset-4 transition-all hover:underline"
