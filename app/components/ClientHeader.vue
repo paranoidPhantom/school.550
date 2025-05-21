@@ -329,7 +329,7 @@ const currentGroup = computed(() =>
 										v-for="(link, link_index) in (
 											subgroup as Dropdown[number]
 										).data.links"
-										:key="`${link.to}_${link.label}_${subgroupIndex}`"
+										:key="`${link.to}_${link.label}_${subgroupIndex}_${link_index}`"
 									>
 										<NuxtLink
 											v-if="state.active"
