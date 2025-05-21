@@ -78,7 +78,7 @@ const deleteLink = async (index: number) => {
 			arrows
 			:ui="{ container: 'gap-4' }"
 		>
-			<UPopover
+			<!-- <UPopover
 				:text="link.description"
 				:mode="underedit ? 'click' : 'hover'"
 			>
@@ -183,7 +183,7 @@ const deleteLink = async (index: number) => {
 						/>
 					</UCard>
 				</template>
-			</UPopover>
+			</UPopover> -->
 		</UCarousel>
 		<UButton
 			v-if="links && underedit"
