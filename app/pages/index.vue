@@ -17,7 +17,7 @@ useHead({
 		<FrontpageHero />
 		<div class="space-y-16">
 			<FrontpageFederalFeedback />
-			<!-- <FrontpageReducedNews /> -->
+			<FrontpageReducedNews />
 			<FrontpageLocation />
 			<!-- <FrontpageRequiredAnnouncements /> -->
 		</div>
