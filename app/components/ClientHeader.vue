@@ -12,7 +12,6 @@ const isServer = import.meta.server;
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
 const mobile = breakpoints.smaller("lg");
-console.log("[Header] Mobile breakpoint:", mobile.value);
 
 const searchEnabled = useState("search_palette", () => false);
 
@@ -30,8 +29,6 @@ const state = reactive<{
 	mobileDepth: 0,
 });
 
-console.log("[Header] Initial state:", JSON.stringify(state));
-
 const supabase = useSupabaseClient<Database>();
 
 const heights = useState<Record<number, number>>("header_height", () => ({}));
@@ -41,19 +38,15 @@ const isToPresent = (obj: Logic): obj is { to: string } => {
 };
 
 const { data: linkGroups } = await useAsyncData(async () => {
-	console.log("[Header] Fetching link groups from Supabase");
 	const { data: groups, error } = await supabase
 		.from("header-links")
 		.select("*");
 	if (error) {
-		console.error("[Header] Error fetching groups:", error);
-	}
-	if (!groups) {
-		console.log("[Header] No groups found in Supabase");
 		return [];
 	}
-	console.log("[Header] Fetched groups:", groups.length);
-	console.log("[Header] Groups data structure:", JSON.stringify(groups));
+	if (!groups) {
+		return [];
+	}
 
 	const typedGroups = groups as unknown as (Omit<
 		(typeof groups)[number],
@@ -63,35 +56,16 @@ const { data: linkGroups } = await useAsyncData(async () => {
 	})[];
 
 	const sortedGroups = typedGroups.toSorted((a, b) => a.index - b.index);
-	console.log(
-		"[Header] Groups after sorting by index:",
-		sortedGroups.map((g) => g.groupName),
-	);
 
 	sortedGroups?.forEach((group, index) => {
-		console.log(
-			`[Header] Processing group ${group.groupName} at index ${index}`,
-		);
 		const logic = sortedGroups[index]?.logic;
-		if (!logic) {
-			console.log(`[Header] No logic found for group ${group.groupName}`);
-			return;
-		}
+		if (!logic) return;
 		if (!isToPresent(logic)) {
-			console.log(
-				`[Header] Group ${group.groupName} does not have a direct 'to' property`,
-			);
 			if (!state.currentGroup) {
 				state.currentGroup = group.groupName;
-				console.log(
-					`[Header] Setting initial currentGroup to ${group.groupName}`,
-				);
 			}
 			if (!sortedGroups[index]) return;
 			if (logic.length > 1) {
-				console.log(
-					`[Header] Group ${group.groupName} has ${logic.length} dropdown items`,
-				);
 				sortedGroups[index].logic = logic.toSorted(
 					(a, b) => a.data.index - b.data.index,
 				);
@@ -105,108 +79,47 @@ const { data: linkGroups } = await useAsyncData(async () => {
 						return link;
 					});
 				}
-				console.log(
-					`[Header] Processed ${totalLinksProcessed} links for group ${group.groupName}`,
-				);
 			}
-		} else {
-			console.log(
-				`[Header] Group ${group.groupName} has direct 'to' property:`,
-				logic.to,
-			);
 		}
 		heights.value[index] = group.height;
-		console.log(
-			`[Header] Set height for index ${index} to ${group.height}`,
-		);
 	});
-	console.log(
-		"[Header] Heights after processing:",
-		JSON.stringify(heights.value),
-	);
-	console.log("[Header] Current group after processing:", state.currentGroup);
 
 	return sortedGroups;
 });
 
 const openHeader = (groupName: string, index: number) => {
-	console.log(
-		"[Header] Opening header with group:",
-		groupName,
-		"index:",
-		index,
-	);
 	state.active = true;
 	state.currentGroup = groupName;
 	state.animation = state.lastEnteredIndex > index ? "left" : "right";
 	state.lastEnteredIndex = index;
-	console.log("[Header] State after opening:", JSON.stringify(state));
 };
 
 const router = useRouter();
 
 const closeHeader = () => {
-	console.log("[Header] Closing header");
 	state.active = false;
 	state.mobileDepth = 0;
-	console.log("[Header] State after closing:", JSON.stringify(state));
 };
 
 router.afterEach((to, from) => {
-	console.log("[Header] Route changed from", from.path, "to", to.path);
 	if (to.path !== from.path) closeHeader();
 });
 
 const { y } = useWindowScroll();
 
 const focusFirstLink = () => {
-	console.log("[Header] Attempting to focus first link");
 	const firstLink = document.querySelector(
 		".__first-header-link",
 	) as HTMLAnchorElement;
 	if (firstLink) {
-		console.log("[Header] First link found, foc				using");
 		firstLink.focus();
-	} else {
-		console.log("[Header] No first link found to focus");
 	}
 };
 
-const currentGroup = computed(() => {
-	const group = linkGroups.value?.find(
+const currentGroup = computed(() => 
+	linkGroups.value?.find(
 		(group) => group.groupName === state.currentGroup,
-	);
-	console.log(
-		"[Header] Current group computed:",
-		state.currentGroup,
-		"Found:",
-		!!group,
-	);
-	return group;
-});
-
-// Add a watch to monitor state changes
-watch(
-	() => state.active,
-	(newVal) => {
-		console.log("[Header] state.active changed to:", newVal);
-	},
-);
-
-watch(
-	() => state.currentGroup,
-	(newVal) => {
-		console.log("[Header] state.currentGroup changed to:", newVal);
-	},
-);
-
-// Log when linkGroups are loaded
-watch(
-	() => linkGroups.value,
-	(newVal) => {
-		console.log("[Header] linkGroups updated:", newVal?.length);
-	},
-	{ immediate: true },
+	)
 );
 </script>
 
@@ -240,15 +153,6 @@ watch(
 							"
 							@mouseenter="
 								() => {
-									console.log(
-										'[Header] Mouse enter on nav button:',
-										group.groupName,
-										'hasTo:',
-										Object.hasOwnProperty.call(
-											group.logic,
-											'to',
-										),
-									);
 									if (
 										!Object.hasOwnProperty.call(
 											group.logic,
@@ -263,15 +167,6 @@ watch(
 							"
 							@focus="
 								() => {
-									console.log(
-										'[Header] Focus on nav button:',
-										group.groupName,
-										'hasTo:',
-										Object.hasOwnProperty.call(
-											group.logic,
-											'to',
-										),
-									);
 									if (
 										!Object.hasOwnProperty.call(
 											group.logic,
@@ -311,10 +206,6 @@ watch(
 							"
 							@click="
 								() => {
-									console.log(
-										'[Header] Mobile menu button clicked, current state.active:',
-										state.active,
-									);
 									state.active
 										? closeHeader()
 										: (state.active = true);
@@ -327,20 +218,6 @@ watch(
 					<Transition
 						:name="state.animation"
 						mode="out-in"
-						@before-enter="
-							() =>
-								console.log('[Header] Transition before-enter')
-						"
-						@after-enter="
-							() => console.log('[Header] Transition after-enter')
-						"
-						@before-leave="
-							() =>
-								console.log('[Header] Transition before-leave')
-						"
-						@after-leave="
-							() => console.log('[Header] Transition after-leave')
-						"
 					>
 						<div
 							v-if="mobile"
@@ -398,18 +275,6 @@ watch(
 								>
 									<TransitionGroup
 										name="link"
-										@before-enter="
-											() =>
-												console.log(
-													'[Header] Link TransitionGroup before-enter',
-												)
-										"
-										@after-enter="
-											() =>
-												console.log(
-													'[Header] Link TransitionGroup after-enter',
-												)
-										"
 									>
 										<p
 											v-if="
@@ -457,18 +322,6 @@ watch(
 							>
 								<TransitionGroup
 									name="link"
-									@before-enter="
-										() =>
-											console.log(
-												'[Header] Link TransitionGroup before-enter',
-											)
-									"
-									@after-enter="
-										() =>
-											console.log(
-												'[Header] Link TransitionGroup after-enter',
-											)
-									"
 								>
 									<p
 										v-if="state.active"
