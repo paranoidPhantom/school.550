@@ -31,7 +31,7 @@ const state = reactive<{
 
 const supabase = useSupabaseClient<Database>();
 
-const heights = useState<Record<number, number>>("header_height", () => ({}));
+const heights = ref<Record<number, number>>({});
 
 const isToPresent = (obj: Logic): obj is { to: string } => {
 	return (obj as { to: string }).to !== undefined;
