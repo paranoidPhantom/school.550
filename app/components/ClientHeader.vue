@@ -31,7 +31,7 @@ const state = reactive<{
 
 const supabase = useSupabaseClient<Database>();
 
-const heights = ref<Record<number, number>>({});
+const heights = useState<Record<number, number>>("header_height", () => ({}));
 
 const isToPresent = (obj: Logic): obj is { to: string } => {
 	return (obj as { to: string }).to !== undefined;
@@ -185,7 +185,6 @@ const currentGroup = computed(() =>
 							@click="focusFirstLink"
 						/>
 					</nav>
-
 					<div class="right flex items-center gap-2">
 						<UButton
 							aria-label="Поиск"
