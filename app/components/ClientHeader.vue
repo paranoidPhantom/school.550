@@ -137,54 +137,59 @@ const currentGroup = computed(() =>
 			>
 				<div class="base">
 					<AppLogo class="ml-4 lg:ml-0" tabindex="0" />
-					<nav class="hidden items-center gap-2 lg:flex">
-						<UButton
-							v-for="(group, index) in linkGroups"
-							:key="`${group.id}_header_link`"
-							:label="group.groupName as string"
-							variant="link"
-							color="white"
-							class="font-light"
-							:to="
-								group.logic &&
-								!Array.isArray(group.logic) &&
-								Object.hasOwnProperty.call(group.logic, 'to')
-									? (group.logic.to as string)
-									: undefined
-							"
-							@mouseenter="
-								() => {
-									if (
-										Array.isArray(group.logic) &&
-										!Object.hasOwnProperty.call(
-											group.logic,
-											'to',
-										)
+					<ClientOnly>
+						<nav class="hidden items-center gap-2 lg:flex">
+							<UButton
+								v-for="(group, index) in linkGroups"
+								:key="`${group.id}_header_link`"
+								:label="group.groupName as string"
+								variant="link"
+								color="white"
+								class="font-light"
+								:to="
+									group.logic &&
+									!Array.isArray(group.logic) &&
+									Object.hasOwnProperty.call(
+										group.logic,
+										'to',
 									)
-										openHeader(
-											group.groupName as string,
-											index,
-										);
-								}
-							"
-							@focus="
-								() => {
-									if (
-										Array.isArray(group.logic) &&
-										!Object.hasOwnProperty.call(
-											group.logic,
-											'to',
+										? (group.logic.to as string)
+										: undefined
+								"
+								@mouseenter="
+									() => {
+										if (
+											Array.isArray(group.logic) &&
+											!Object.hasOwnProperty.call(
+												group.logic,
+												'to',
+											)
 										)
-									)
-										openHeader(
-											group.groupName as string,
-											index,
-										);
-								}
-							"
-							@click="focusFirstLink"
-						/>
-					</nav>
+											openHeader(
+												group.groupName as string,
+												index,
+											);
+									}
+								"
+								@focus="
+									() => {
+										if (
+											Array.isArray(group.logic) &&
+											!Object.hasOwnProperty.call(
+												group.logic,
+												'to',
+											)
+										)
+											openHeader(
+												group.groupName as string,
+												index,
+											);
+									}
+								"
+								@click="focusFirstLink"
+							/>
+						</nav>
+					</ClientOnly>
 					<div class="right flex items-center gap-2">
 						<UButton
 							aria-label="Поиск"
