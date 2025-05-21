@@ -117,20 +117,17 @@ const focusFirstLink = () => {
 	}
 };
 
-const currentGroup = computed(() => 
-	linkGroups.value?.find(
-		(group) => group.groupName === state.currentGroup,
-	)
+const currentGroup = computed(() =>
+	linkGroups.value?.find((group) => group.groupName === state.currentGroup),
 );
 </script>
 
 <template>
 	<div class="__header">
 		<h1 class="hidden">Школа 550</h1>
-		<div class="bg-blur" :class="{ open: state.active }" />
+		<div class="bg-blur" :class="`wrapper ${state.active ? 'open' : ''}`" />
 		<div
-			class="wrapper"
-			:class="{ open: state.active }"
+			:class="`wrapper ${state.active ? 'open' : ''}`"
 			:style="{
 				'--section-height': `${heights[state.lastEnteredIndex] ?? 0}px`,
 			}"
@@ -216,10 +213,7 @@ const currentGroup = computed(() =>
 					</div>
 				</div>
 				<ClientOnly>
-					<Transition
-						:name="state.animation"
-						mode="out-in"
-					>
+					<Transition :name="state.animation" mode="out-in">
 						<div
 							v-if="mobile"
 							:key="`mobile_${state.mobileDepth}`"
@@ -274,9 +268,7 @@ const currentGroup = computed(() =>
 									) in currentGroup?.logic as Dropdown"
 									:key="index"
 								>
-									<TransitionGroup
-										name="link"
-									>
+									<TransitionGroup name="link">
 										<p
 											v-if="
 												state.active && subgroup.column
@@ -321,9 +313,7 @@ const currentGroup = computed(() =>
 								:key="subgroupIndex"
 								class="flex h-full flex-col flex-wrap gap-2"
 							>
-								<TransitionGroup
-									name="link"
-								>
+								<TransitionGroup name="link">
 									<p
 										v-if="state.active"
 										class="text-sm opacity-60"
