@@ -213,10 +213,10 @@ watch(
 <template>
 	<div class="__header">
 		<h1 class="hidden">Школа 550</h1>
-		<div class="bg-blur" :class="{ active: state.active }" />
+		<div class="bg-blur" :class="{ open: state.active }" />
 		<div
 			class="wrapper"
-			:class="{ active: state.active }"
+			:class="{ open: state.active }"
 			:style="{
 				'--section-height': `${heights[state.lastEnteredIndex] ?? 0}px`,
 			}"
@@ -543,7 +543,7 @@ watch(
 				@apply dark:border-opacity-50;
 			}
 		}
-		&.active {
+		&.open {
 			@apply h-screen lg:h-[--section-height];
 			padding: 0;
 			header {
@@ -561,7 +561,7 @@ watch(
 
 .bg-blur {
 	@apply pointer-events-none fixed inset-0 z-20 transition-all duration-700;
-	&.active {
+	&.open {
 		@apply bg-gray-50 bg-opacity-20 backdrop-blur-sm;
 		@apply dark:bg-gray-800 dark:bg-opacity-50;
 	}
