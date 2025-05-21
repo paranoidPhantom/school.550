@@ -122,96 +122,102 @@ const currentGroup = computed(() =>
 </script>
 
 <template>
-	<div class="__header">
-		<h1 class="hidden">Школа 550</h1>
-		<div class="bg-blur" :class="{ open: state.active }" />
-		<div
-			:class="{ hdrwrapper: true, open: state.active }"
-			:style="{
-				'--section-height': `${heights[state.lastEnteredIndex] ?? 0}px`,
-			}"
-		>
-			<header :class="{ scrolled: y > 100 }" @mouseleave="closeHeader">
-				<div class="base">
-					<AppLogo class="ml-4 lg:ml-0" tabindex="0" />
-					<nav class="hidden items-center gap-2 lg:flex">
-						<UButton
-							v-for="(group, index) in linkGroups"
-							:key="group.id"
-							:label="group.groupName as string"
-							variant="link"
-							color="white"
-							class="font-light"
-							:to="
-								group.logic &&
-								Object.hasOwnProperty.call(group.logic, 'to')
-									? (group.logic.to as string)
-									: undefined
-							"
-							@mouseenter="
-								() => {
-									if (
-										!Object.hasOwnProperty.call(
-											group.logic,
-											'to',
-										)
+	<ClientOnly>
+		<div class="__header">
+			<h1 class="hidden">Школа 550</h1>
+			<div class="bg-blur" :class="{ open: state.active }" />
+			<div
+				:class="{ hdrwrapper: true, open: state.active }"
+				:style="{
+					'--section-height': `${heights[state.lastEnteredIndex] ?? 0}px`,
+				}"
+			>
+				<header
+					:class="{ scrolled: y > 100 }"
+					@mouseleave="closeHeader"
+				>
+					<div class="base">
+						<AppLogo class="ml-4 lg:ml-0" tabindex="0" />
+						<nav class="hidden items-center gap-2 lg:flex">
+							<UButton
+								v-for="(group, index) in linkGroups"
+								:key="group.id"
+								:label="group.groupName as string"
+								variant="link"
+								color="white"
+								class="font-light"
+								:to="
+									group.logic &&
+									Object.hasOwnProperty.call(
+										group.logic,
+										'to',
 									)
-										openHeader(
-											group.groupName as string,
-											index,
-										);
-								}
-							"
-							@focus="
-								() => {
-									if (
-										!Object.hasOwnProperty.call(
-											group.logic,
-											'to',
+										? (group.logic.to as string)
+										: undefined
+								"
+								@mouseenter="
+									() => {
+										if (
+											!Object.hasOwnProperty.call(
+												group.logic,
+												'to',
+											)
 										)
-									)
-										openHeader(
-											group.groupName as string,
-											index,
-										);
-								}
-							"
-							@click="focusFirstLink"
-						/>
-					</nav>
-					<div class="right flex items-center gap-2">
-						<UButton
-							aria-label="Поиск"
-							color="white"
-							variant="link"
-							icon="line-md:search-twotone"
-							@click="searchEnabled = true"
-						/>
-						<ColorSwitcher />
-						<!-- Mobile menu -->
-						<UButton
-							v-show="!isServer"
-							:key="state.active ? 'closed' : 'opened'"
-							aria-label="Меню страниц"
-							class="lg:hidden"
-							color="white"
-							variant="link"
-							:icon="
-								state.active
-									? 'line-md:menu-to-close-alt-transition'
-									: 'line-md:close-to-menu-alt-transition'
-							"
-							@click="
-								() => {
+											openHeader(
+												group.groupName as string,
+												index,
+											);
+									}
+								"
+								@focus="
+									() => {
+										if (
+											!Object.hasOwnProperty.call(
+												group.logic,
+												'to',
+											)
+										)
+											openHeader(
+												group.groupName as string,
+												index,
+											);
+									}
+								"
+								@click="focusFirstLink"
+							/>
+						</nav>
+						<div class="right flex items-center gap-2">
+							<UButton
+								aria-label="Поиск"
+								color="white"
+								variant="link"
+								icon="line-md:search-twotone"
+								@click="searchEnabled = true"
+							/>
+							<ColorSwitcher />
+							<!-- Mobile menu -->
+							<UButton
+								v-show="!isServer"
+								:key="state.active ? 'closed' : 'opened'"
+								aria-label="Меню страниц"
+								class="lg:hidden"
+								color="white"
+								variant="link"
+								:icon="
 									state.active
-										? closeHeader()
-										: (state.active = true);
-								}
-							"
-						/>
+										? 'line-md:menu-to-close-alt-transition'
+										: 'line-md:close-to-menu-alt-transition'
+								"
+								@click="
+									() => {
+										state.active
+											? closeHeader()
+											: (state.active = true);
+									}
+								"
+							/>
+						</div>
 					</div>
-				</div>
-				<ClientOnly>
 					<Transition :name="state.animation" mode="out-in">
 						<div
 							v-if="mobile"
@@ -348,10 +354,10 @@ const currentGroup = computed(() =>
 							</div>
 						</div>
 					</Transition>
-				</ClientOnly>
-			</header>
+				</header>
+			</div>
 		</div>
-	</div>
+	</ClientOnly>
 </template>
 
 <style lang="scss" scoped>
