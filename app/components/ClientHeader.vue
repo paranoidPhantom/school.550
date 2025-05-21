@@ -127,14 +127,16 @@ const currentGroup = computed(() =>
 		<h1 class="hidden">Школа 550</h1>
 		<div class="bg-blur" :class="{ open: state.active }" />
 		<div
-			:class="{ wrapper: true, open: state.active }"
+			:class="{ hdrwrapper: true, open: state.active }"
 			:style="{
 				'--section-height': `${heights[state.lastEnteredIndex] ?? 0}px`,
 			}"
 		>
+			<pre>Y: {{ y }}</pre>
 			<header :class="{ scrolled: y > 100 }" @mouseleave="closeHeader">
 				<div class="base">
 					<AppLogo class="ml-4 lg:ml-0" tabindex="0" />
+					<pre>{{ state }}</pre>
 					<nav class="hidden items-center gap-2 lg:flex">
 						<UButton
 							v-for="(group, index) in linkGroups"
@@ -359,7 +361,7 @@ const currentGroup = computed(() =>
 .__header {
 	--header-height: 80px;
 	height: var(--header-height);
-	.wrapper {
+	.hdrwrapper {
 		@apply z-20 flex justify-center;
 		@apply transition-all duration-300;
 		height: var(--header-height);
