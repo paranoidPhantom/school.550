@@ -68,7 +68,9 @@ const deleteLink = async (index: number) => {
 </script>
 
 <template>
-	<section class="__announcements mx-auto w-full max-w-[1200px] space-y-4">
+	<section
+		class="__announcements mx-auto my-4 w-full max-w-[1200px] space-y-4"
+	>
 		<h2 class="text-2xl font-bold">Полезные ссылки</h2>
 		<UCarousel
 			v-slot="{ item: link, index }"
@@ -89,7 +91,7 @@ const deleteLink = async (index: number) => {
 						class="h-24 rounded-lg"
 						:src="link.image_url ?? ''"
 						alt="Сопровождающая картинка для ссылки"
-					>
+					/>
 					<UCard
 						v-else
 						:ui="{
