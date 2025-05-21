@@ -72,7 +72,7 @@ const deleteLink = async (index: number) => {
 		class="__announcements mx-auto my-4 w-full max-w-[1200px] space-y-4"
 	>
 		<h2 class="text-2xl font-bold">Полезные ссылки</h2>
-		<!-- <UCarousel
+		<UCarousel
 			v-slot="{ item: link, index }"
 			:items="links ?? undefined"
 			arrows
@@ -184,7 +184,7 @@ const deleteLink = async (index: number) => {
 					</UCard>
 				</template>
 			</UPopover>
-		</UCarousel> -->
+		</UCarousel>
 		<UButton
 			v-if="links && underedit"
 			icon="mdi:plus"
