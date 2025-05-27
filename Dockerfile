@@ -10,6 +10,8 @@ RUN npm install
 COPY . .
 
 ENV NODE_OPTIONS="--max-old-space-size=12288"
+ARG ROBOTS_NO_INDEX
+ENV ROBOTS_NO_INDEX=$ROBOTS_NO_INDEX
 
 RUN npx nuxi build
 
