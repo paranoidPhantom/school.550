@@ -36,7 +36,7 @@ jobs:
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
               build-args: |
-                  ROBOTS_NO_INDEX=1
+                  - ROBOTS_NO_INDEX=1
     nginx-build:
         name: Build custom nginx
         runs-on: ubuntu-22.04
