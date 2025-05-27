@@ -40,6 +40,10 @@ export default defineNuxtConfig({
 		"nuxt-posthog",
 	],
 
+  robots: {
+    disallow: process.env.ROBOTS_NO_INDEX ? ["/**"] : []
+  },
+
 	routeRules: {
 		"/manage": { robots: false },
 		"/manage/**": { robots: false },
