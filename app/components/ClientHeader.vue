@@ -222,7 +222,7 @@ const currentGroup = computed(() =>
 						<div
 							v-if="mobile"
 							:key="`mobile_${state.mobileDepth}`"
-							class="mobile flex h-full flex-col gap-2 overflow-auto"
+							class="mobile flex flex-col gap-2 overflow-auto"
 						>
 							<template v-if="state.mobileDepth === 0">
 								<UButton
@@ -381,6 +381,9 @@ const currentGroup = computed(() =>
 			@apply overflow-hidden transition-all duration-300;
 			max-width: 1200px;
 			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      .mobile {
+        height: calc(100% - var(--header-height));
+      }
 			.base {
 				@apply mx-auto mb-4 flex items-center justify-between;
 				@apply transition-all duration-300;
