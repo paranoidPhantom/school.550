@@ -35,6 +35,8 @@ jobs:
                   tags: ghcr.io/paranoidphantom/school.550:preview
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
+                  build-args: |
+                      ROBOTS_NO_INDEX=1
     nginx-build:
         name: Build custom nginx
         runs-on: ubuntu-22.04
