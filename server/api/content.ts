@@ -42,7 +42,7 @@ export default defineCachedEventHandler(
     }
 	},
 	{
-		maxAge: 60 * 60 * 48, // Page cachced for 48 hours
+		maxAge: 60 * 60 * 48, // Page cached for 48 hours
     name: "contentSource",
     getKey: (event) => {
       const query = getQuery(event);
