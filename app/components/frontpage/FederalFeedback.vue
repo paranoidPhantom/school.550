@@ -5,7 +5,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
 <template>
 	<UAlert
 		id="content"
-		class="mx-auto w-full max-w-[1200px] space-y-4"
+		class="mx-auto w-full max-w-[1200px] space-y-4 mb-8"
 		data-aos="fade-right"
 		color="blue"
 		variant="subtle"
