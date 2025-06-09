@@ -77,6 +77,12 @@ const savePage = async () => {
 	loading.value = true;
 
 	try {
+    await $fetch("/api/content", {
+      method: "DELETE",
+      params: {
+        route: slug,
+      },
+    })
 		const { error } = await supabase
 			.from("content")
 			.update({
