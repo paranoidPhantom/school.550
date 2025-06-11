@@ -367,7 +367,11 @@ const currentGroup = computed(() =>
 	height: var(--header-height);
 	.hdrwrapper {
 		@apply z-20 flex justify-center;
-		@apply transition-all duration-300;
+		@apply duration-300;
+		transition-property:
+			height padding,
+			max-width,
+			border-radius;
 		height: var(--header-height);
 		position: fixed;
 		top: 0;
@@ -375,22 +379,27 @@ const currentGroup = computed(() =>
 		right: 0;
 		padding: 0.8rem;
 		--section-height: 500px;
+		will-change: height, padding;
 		header {
 			@apply z-50 h-full w-full px-4;
 			@apply rounded-3xl bg-gray-50 bg-opacity-20 backdrop-blur-xl;
 			@apply dark:border dark:border-gray-900 dark:border-opacity-0 dark:bg-gray-800 dark:bg-opacity-50;
-			@apply overflow-hidden transition-all duration-300;
+			@apply overflow-hidden duration-300;
+			transition-property: max-width, border-radius, padding;
 			max-width: 1200px;
 			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-      .mobile {
-        height: calc(100% - var(--header-height));
-      }
+			will-change: max-width, border-radius, padding;
+			.mobile {
+				height: calc(100% - var(--header-height));
+			}
 			.base {
 				@apply mx-auto mb-4 flex items-center justify-between;
-				@apply transition-all duration-300;
 				@apply border-b border-b-gray-900 border-opacity-0 dark:border-b-gray-100 dark:border-opacity-0;
+				@apply duration-300;
+				transition-property: border-opacity, padding-bottom;
 				max-width: 100%;
 				height: calc(var(--header-height) - 1.6rem - 2px);
+				will-change: border-opacity, padding-bottom;
 			}
 			&.scrolled {
 				@apply dark:border-opacity-50;
@@ -414,6 +423,7 @@ const currentGroup = computed(() =>
 
 .bg-blur {
 	@apply pointer-events-none fixed inset-0 z-20 transition-all duration-700;
+	will-change: backdrop-filter, background-color, background-opacity;
 	&.open {
 		@apply bg-gray-50 bg-opacity-20 backdrop-blur-sm;
 		@apply dark:bg-gray-800 dark:bg-opacity-50;
@@ -425,6 +435,7 @@ const currentGroup = computed(() =>
 	opacity: 0;
 	translate: -1rem 0;
 	filter: blur(2px);
+	will-change: opacity, transform, filter;
 }
 
 .left-leave-to,
@@ -432,6 +443,7 @@ const currentGroup = computed(() =>
 	opacity: 0;
 	translate: 1rem 0;
 	filter: blur(2px);
+	will-change: opacity, transform, filter;
 }
 
 .left-enter-active,
@@ -439,22 +451,27 @@ const currentGroup = computed(() =>
 .right-enter-active,
 .right-leave-active {
 	transition: all 0.3s ease;
+	will-change: opacity, transform, filter;
 }
 
 .link-enter-from {
 	opacity: 0;
 	translate: -1rem 0;
 	filter: blur(2px);
+	will-change: opacity, transform, filter;
 }
 .link-leave-to {
 	opacity: 0;
+	will-change: opacity;
 }
 
 .link-enter-active {
 	transition: all 0.3s ease;
+	will-change: opacity, transform, filter;
 }
 
 .link-leave-active {
 	transition: all 0.3s ease;
+	will-change: opacity;
 }
 </style>
