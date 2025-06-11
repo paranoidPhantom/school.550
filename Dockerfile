@@ -1,7 +1,7 @@
 FROM oven/bun:1 AS dependencies
 WORKDIR /usr/src/frontend
 
-COPY package.json .
+COPY package.json bun.lockb .
 
 RUN bun install
 
@@ -10,7 +10,6 @@ WORKDIR /usr/src/frontend
 
 COPY --from=dependencies /usr/src/frontend/node_modules ./node_modules
 COPY . .
-RUN npm install -g nuxi
 
 ENV NODE_OPTIONS="--max-old-space-size=12288"
 ARG ROBOTS_NO_INDEX
@@ -24,4 +23,5 @@ WORKDIR /usr/src/frontend
 COPY --from=build /usr/src/frontend/.output .output
 
 # run the app
+USER node
 ENTRYPOINT [ "node", ".output/server/index.mjs" ]

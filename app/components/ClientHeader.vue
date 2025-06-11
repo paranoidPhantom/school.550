@@ -379,7 +379,6 @@ const currentGroup = computed(() =>
 		right: 0;
 		padding: 0.8rem;
 		--section-height: 500px;
-		will-change: height, padding;
 		header {
 			@apply z-50 h-full w-full px-4;
 			@apply rounded-3xl bg-gray-50 bg-opacity-20 backdrop-blur-xl;
@@ -388,7 +387,6 @@ const currentGroup = computed(() =>
 			transition-property: max-width, border-radius, padding;
 			max-width: 1200px;
 			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-			will-change: max-width, border-radius, padding;
 			.mobile {
 				height: calc(100% - var(--header-height));
 			}
@@ -399,7 +397,6 @@ const currentGroup = computed(() =>
 				transition-property: border-opacity, padding-bottom;
 				max-width: 100%;
 				height: calc(var(--header-height) - 1.6rem - 2px);
-				will-change: border-opacity, padding-bottom;
 			}
 			&.scrolled {
 				@apply dark:border-opacity-50;
