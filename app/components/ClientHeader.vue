@@ -369,7 +369,7 @@ const currentGroup = computed(() =>
 		@apply z-20 flex justify-center;
 		@apply duration-300;
 		transition-property:
-			height padding,
+			height, padding,
 			max-width,
 			border-radius;
 		height: var(--header-height);
