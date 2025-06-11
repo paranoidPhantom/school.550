@@ -165,6 +165,7 @@ const currentGroup = computed(() =>
 											group.groupName as string,
 											index,
 										);
+									else closeHeader();
 								}
 							"
 							@focus="
