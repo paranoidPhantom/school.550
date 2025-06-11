@@ -7,6 +7,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
 		id="content"
 		class="mx-auto w-full max-w-[1200px] space-y-4 mb-8"
 		data-aos="fade-right"
+    data-aos-once="true"
 		color="blue"
 		variant="subtle"
 	>
