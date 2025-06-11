@@ -81,6 +81,7 @@ const activated = ref(false);
 					class="h-96 w-full rounded-2xl"
 					frameborder="1"
 					data-aos="fade-left"
+          data-aos-once="true"
 					allowfullscreen="true"
 					style="position: relative"
 					loading="lazy"

@@ -49,6 +49,7 @@ const entryStaggerMs = 50;
 				:key="index"
 				v-bind="article"
 				:data-aos-delay="article.globalIndex * entryStaggerMs"
+        data-aos-once="true"
 			/>
 		</div>
 		<div class="hidden md:flex">
@@ -57,6 +58,7 @@ const entryStaggerMs = 50;
 				:key="index"
 				v-bind="article"
 				:data-aos-delay="article.globalIndex * entryStaggerMs"
+        data-aos-once="true"
 			/>
 		</div>
 		<div class="hidden lg:flex">
@@ -65,6 +67,7 @@ const entryStaggerMs = 50;
 				:key="index"
 				v-bind="article"
 				:data-aos-delay="article.globalIndex * entryStaggerMs"
+        data-aos-once="true"
 			/>
 		</div>
 		<div class="hidden xl:flex">
@@ -73,6 +76,7 @@ const entryStaggerMs = 50;
 				:key="index"
 				v-bind="article"
 				:data-aos-delay="article.globalIndex * entryStaggerMs"
+        data-aos-once="true"
 			/>
 		</div>
 	</section>
