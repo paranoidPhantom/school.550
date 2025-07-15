@@ -11,7 +11,7 @@ services:
         build: .
         restart: unless-stopped
         volumes:
-            - ./.env.master:/usr/src/frontend/.env
+            - ./.env.master:/usr/src/frontend/.env.prod
     uipreview:
         image: ghcr.io/paranoidphantom/school.550:preview
         build: .
