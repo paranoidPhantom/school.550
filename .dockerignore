@@ -8,3 +8,5 @@ supabase
 .github
 .gitignore
 README.md
+.env*
+*.env
