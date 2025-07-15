@@ -10,14 +10,14 @@ services:
         image: ghcr.io/paranoidphantom/school.550:latest
         build: .
         restart: unless-stopped
-        volumes:
-            - ./.env.master:/usr/src/frontend/.env.prod
+        env_file:
+            - ./.env.master
     uipreview:
         image: ghcr.io/paranoidphantom/school.550:preview
         build: .
         restart: unless-stopped
-        volumes:
-            - ./.env.dev:/usr/src/frontend/.env
+        env_file:
+            - ./.env.dev
     nginx:
         image: ghcr.io/paranoidphantom/nginx.school.550:latest
         build: ./nginx
