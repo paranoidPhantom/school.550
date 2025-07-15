@@ -1,7 +1,7 @@
 FROM oven/bun:1 AS dependencies
 WORKDIR /usr/src/frontend
 
-COPY package.json bun.lock .
+COPY package.json bun.lock ./
 
 RUN bun install
 
