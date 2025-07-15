@@ -40,9 +40,9 @@ export default defineNuxtConfig({
 		"nuxt-posthog",
 	],
 
-  robots: {
-    disallow: process.env.ROBOTS_NO_INDEX ? ["/**"] : []
-  },
+	robots: {
+		disallow: process.env.ROBOTS_NO_INDEX ? ["/**"] : [],
+	},
 
 	routeRules: {
 		"/manage": { robots: false },
@@ -101,6 +101,12 @@ export default defineNuxtConfig({
 		},
 		cookieOptions: {
 			secure: false,
+		},
+	},
+
+	vite: {
+		optimizeDeps: {
+			include: ["debug"],
 		},
 	},
 
