@@ -122,11 +122,11 @@ function onContextMenu(file: File) {
 				}"
 				class="flex cursor-pointer items-center justify-between gap-4 p-1 hover:bg-gray-100 dark:hover:bg-gray-800"
 				@contextmenu.prevent="onContextMenu(file)"
-				@click="onClick(file)"
+				@click="selectable ? onClick(file) : $emit('fileAction', file)"
 				@dblclick="$emit('fileAction', file)"
 			>
 				<!-- Left -->
-				<div class="flex items-center gap-2">
+				<div class="flex items-center gap-2 overflow-x-auto">
 					<UIcon
 						v-if="file.isDirectory"
 						name="heroicons-outline:folder"
@@ -137,7 +137,7 @@ function onContextMenu(file: File) {
 						name="heroicons-outline:document-text"
 						class="text-gray-400"
 					/>
-					<span>{{ file.name }}</span>
+					<span class="whitespace-nowrap">{{ file.name }}</span>
 				</div>
 				<!-- Right -->
 				<div class="flex items-center gap-2">
