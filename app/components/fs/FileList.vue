@@ -122,7 +122,7 @@ function onContextMenu(file: File) {
 				}"
 				class="flex cursor-pointer items-center justify-between gap-4 p-1 hover:bg-gray-100 dark:hover:bg-gray-800"
 				@contextmenu.prevent="onContextMenu(file)"
-				@click="onClick(file)"
+				@click="selectable ? onClick(file) : $emit('fileAction', file)"
 				@dblclick="$emit('fileAction', file)"
 			>
 				<!-- Left -->
