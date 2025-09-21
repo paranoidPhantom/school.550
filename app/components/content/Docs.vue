@@ -39,7 +39,7 @@ const handleFileAction = (file: File) => {
 	} else {
 		if (file.isDirectory) state.pathFragments.push(file.name);
 		else {
-			const url = `${file_server_url}${currentPath.value}${file.name}`;
+			const url = `${file_server_url}${currentPath.value}/${file.name}`;
 
 			window.open(url);
 		}
