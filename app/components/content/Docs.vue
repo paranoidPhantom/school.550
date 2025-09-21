@@ -33,7 +33,7 @@ const { data: currentPathFiles, refresh: refreshFiles } = await useAsyncData(
 
 const handleFileAction = (file: File) => {
 	if (file.download) {
-		const url = `${file_server_url}/download${currentPath.value}${file.name}`;
+		const url = `${file_server_url}/download${currentPath.value}/${file.name}`;
 
 		window.open(url);
 	} else {
