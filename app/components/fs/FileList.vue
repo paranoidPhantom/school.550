@@ -126,7 +126,7 @@ function onContextMenu(file: File) {
 				@dblclick="$emit('fileAction', file)"
 			>
 				<!-- Left -->
-				<div class="flex items-center gap-2">
+				<div class="flex items-center gap-2 overflow-x-auto">
 					<UIcon
 						v-if="file.isDirectory"
 						name="heroicons-outline:folder"
@@ -137,7 +137,7 @@ function onContextMenu(file: File) {
 						name="heroicons-outline:document-text"
 						class="text-gray-400"
 					/>
-					<span>{{ file.name }}</span>
+					<span class="whitespace-nowrap">{{ file.name }}</span>
 				</div>
 				<!-- Right -->
 				<div class="flex items-center gap-2">
