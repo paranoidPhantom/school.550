@@ -19,16 +19,14 @@ export default async (...args: (typeof $fetch)["arguments"]) => {
 		return response;
 	} catch (error) {
 		console.error(error)
-		if ((error as Error).message === "Token expired") {
-			const token = (await $fetch(`/api/auth/fstoken`)) as string;
-			fstoken.value = token;
-			const response = await $fetch(`${file_server_url}${args[0]}`, {
-				...args[1],
-				headers: {
-					fstoken: fstoken.value,
-				},
-			});
-			return response;
-		}
-	}
+    const token = (await $fetch(`/api/auth/fstoken`)) as string;
+    fstoken.value = token;
+    const response = await $fetch(`${file_server_url}${args[0]}`, {
+      ...args[1],
+      headers: {
+        fstoken: fstoken.value,
+      },
+    });
+    return response;
+  }
 };
