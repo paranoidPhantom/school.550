@@ -130,17 +130,17 @@ function onContextMenu(file: File) {
 					<UIcon
 						v-if="file.isDirectory"
 						name="heroicons-outline:folder"
-						class="text-gray-400 shrink-none"
+						class="text-gray-400 shrink-0"
 					/>
 					<UIcon
 						v-else
 						name="heroicons-outline:document-text"
-						class="text-gray-400 shrink-none"
+						class="text-gray-400 shrink-0"
 					/>
 					<span class="truncate">{{ file.name }}</span>
 				</div>
 				<!-- Right -->
-				<div class="flex items-center gap-2 shrink-none">
+				<div class="flex items-center gap-2 shrink-0">
 					<div v-if="!file.isDirectory" class="text-sm text-gray-500 whitespace-nowrap">
 						{{ useFormattedFileSize(file.size) }}
 					</div>
