@@ -137,7 +137,7 @@ function onContextMenu(file: File) {
 						name="heroicons-outline:document-text"
 						class="text-gray-400 shrink-none"
 					/>
-					<span class="truncate ">{{ file.name }}</span>
+					<span class="truncate">{{ file.name }}</span>
 				</div>
 				<!-- Right -->
 				<div class="flex items-center gap-2 shrink-none">
