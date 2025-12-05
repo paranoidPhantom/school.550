@@ -11,11 +11,6 @@ export const useFeedbackRequest = () => {
 		id: "bug_feedback",
 		actions: [
 			{
-				label: "Telegram",
-				to: "https://t.me/paranoidPhantom",
-				target: "_blank",
-			},
-			{
 				label: "Почта",
 				to: "mailto:andrei@hudalla.dev",
 			},
