@@ -50,7 +50,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 					class="absolute left-0 top-0 h-full w-full rotate-[102deg] object-contain"
 					:src="`/images/hero-circle${i === 1 || i === 3 ? '-break' : ''}.svg`"
 					alt="Круг который крутится"
-				>
+				/>
 				<div
 					v-if="i === 1"
 					class="absolute -top-[2vw] left-1/2 h-[5vw] w-[5vw]"
@@ -63,7 +63,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 						src="/images/hexagon.svg"
 						alt="Шестиугольник"
 						class="hexagon ansolute left-0 top-0 h-full w-full object-contain"
-					>
+					/>
 				</div>
 				<div
 					v-if="i === 3"
@@ -77,7 +77,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 						src="/images/hexagon.svg"
 						alt="Шестиугольник"
 						class="hexagon ansolute left-0 top-0 h-full w-full object-contain"
-					>
+					/>
 				</div>
 			</div>
 		</div>
@@ -97,7 +97,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 				class: 'object-cover',
 			}"
 			style="height: calc(100vh + 5px)"
-		>
+		/>
 		<img
 			src="/images/noise.png"
 			alt="Динамичная текустура шума"
@@ -110,7 +110,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 			fit="cover"
 			style="height: calc(100vh + 5px)"
 			:style="{ '--x': x + 'px', '--y': y + 'px' }"
-		>
+		/>
 		<!-- Hero -->
 		<div class="animate-fade-in flex flex-col items-center gap-2">
 			<!-- Line 1 -->
@@ -130,7 +130,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 			<!-- Line 2 -->
 			<div class="flex flex-wrap gap-5">
 				<h1
-					class="large xs:text-base text-xs sm:text-2xl md:text-3xl lg:text-4xl"
+					class="large text-xs xs:text-base sm:text-2xl md:text-3xl lg:text-4xl"
 					style="animation-delay: 2.74s"
 					:style="{
 						'--gradient-white': visuallyImpaired
@@ -186,10 +186,22 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 				<UButton
 					variant="solid"
 					color="gray"
-					to="https://t.me/school550_spb"
-					aria-label="Канал в Telegram"
+					to="https://max.ru/id7825335561_gosb"
+					aria-label="Канал в Max"
 				>
-					<UIcon name="icon-park-outline:telegram" />
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 42 42"
+						fill="none"
+						class="w-4"
+					>
+						<path
+							fill="currentColor"
+							fill-rule="evenodd"
+							d="M21.47 41.88c-4.11 0-6.02-.6-9.34-3-2.1 2.7-8.75 4.81-9.04 1.2 0-2.71-.6-5-1.28-7.5C1 29.5.08 26.07.08 21.1.08 9.23 9.82.3 21.36.3c11.55 0 20.6 9.37 20.6 20.91a20.6 20.6 0 0 1-20.49 20.67Zm.17-31.32c-5.62-.29-10 3.6-10.97 9.7-.8 5.05.62 11.2 1.83 11.52.58.14 2.04-1.04 2.95-1.95a10.4 10.4 0 0 0 5.08 1.81 10.7 10.7 0 0 0 11.19-9.97 10.7 10.7 0 0 0-10.08-11.1Z"
+							clip-rule="evenodd"
+						></path>
+					</svg>
 				</UButton>
 				<UButton
 					variant="solid"
@@ -311,7 +323,8 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 		}
 
 		.dynamic-noise {
-			--image: radial-gradient(
+			--image:
+				radial-gradient(
 					circle 200px at var(--x) var(--y),
 					black 0,
 					transparent 100%
