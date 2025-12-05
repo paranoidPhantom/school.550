@@ -185,7 +185,7 @@ const sections: {
 					<UTooltip text="Max">
 						<NuxtLink
 							aria-label="Канал в Max"
-							to="https://max.ru/id7825335561_gosb"
+							to="https://max.ru/id7825335561_gos"
 							class="flex items-center"
 						>
 							<svg

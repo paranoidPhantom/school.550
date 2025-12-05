@@ -186,7 +186,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 				<UButton
 					variant="solid"
 					color="gray"
-					to="https://max.ru/id7825335561_gosb"
+					to="https://max.ru/id7825335561_gos"
 					aria-label="Канал в Max"
 				>
 					<svg
