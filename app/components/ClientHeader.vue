@@ -129,10 +129,14 @@ onMounted(() => {
 			wrapperRef.value.getBoundingClientRect().top + window.scrollY;
 	}
 });
+const route = useRoute();
 </script>
 
 <template>
-	<div class="__header">
+	<div
+		class="__header"
+		:style="{ height: route.path === '/' ? '0' : 'var(--header-height)' }"
+	>
 		<h1 class="hidden">Школа 550</h1>
 		<div class="bg-blur" :class="{ open: state.active }" />
 		<div
@@ -377,7 +381,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .__header {
 	--header-height: 80px;
-	height: 0;
+
 	.hdrwrapper {
 		@apply z-20 flex justify-center;
 		@apply duration-300;
