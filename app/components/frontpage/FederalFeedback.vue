@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-const feedbackForm = useState("feedback_form_enabled", () => false);
+// const feedbackForm = useState("feedback_form_enabled", () => false);
+
+const { data: bs } = await useFetch("/bs");
 </script>
 
 <template>
-	<UAlert
+	<div v-html="bs" />
+	<!-- <UAlert
 		id="content"
-		class="mx-auto w-full max-w-[1200px] space-y-4 mb-8"
-		data-aos="fade-right"
-    data-aos-once="true"
+		class="mx-auto mt-4 w-full max-w-[1200px] space-y-2"
 		color="blue"
 		variant="subtle"
 	>
@@ -16,7 +17,7 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
 				src="https://pos.gosuslugi.ru/bin/banner-fluid/gosuslugi-logo-blue.svg"
 				class="my-4 opacity-80 dark:brightness-150 dark:contrast-125"
 				width="150px"
-			>
+			/>
 		</template>
 		<template #description>
 			<div class="flex flex-col gap-4">
@@ -28,11 +29,12 @@ const feedbackForm = useState("feedback_form_enabled", () => false);
 					class="w-fit"
 					icon="line-md:bell-twotone-alert-loop"
 					@click="feedbackForm = true"
-					>Сообщить о проблеме</UButton
 				>
+					Написать о проблеме
+				</UButton>
 			</div>
 		</template>
-	</UAlert>
+	</UAlert> -->
 </template>
 
 <style lang="scss" scoped></style>

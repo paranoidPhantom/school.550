@@ -290,7 +290,6 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 	}
 	.hero {
 		@apply w-full;
-		padding-bottom: calc(80px + 1.8rem);
 		height: calc(100vh - 80px + 3rem);
 
 		.animate-fade-in {
@@ -329,7 +328,13 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 					black 0,
 					transparent 100%
 				),
-				linear-gradient(to bottom, black, black 90%, transparent);
+				linear-gradient(
+					to bottom,
+					transparent,
+					black 10%,
+					black 90%,
+					transparent
+				);
 			-webkit-mask-image: var(--image);
 			mask-image: var(--image);
 			-webkit-mask-composite: intersect;

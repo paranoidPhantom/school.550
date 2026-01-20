@@ -14,9 +14,10 @@ useHead({
 
 <template>
 	<div class="__home">
-		<FrontpageHero />
-		<div class="space-y-16">
-			<FrontpageFederalFeedback />
+		<div class="relative mx-[-2rem] h-screen">
+			<FrontpageHero />
+		</div>
+		<div class="relative space-y-16">
 			<FrontpageReducedNews />
 			<FrontpageLocation />
 			<!-- <FrontpageRequiredAnnouncements /> -->
