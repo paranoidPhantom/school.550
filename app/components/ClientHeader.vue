@@ -119,6 +119,16 @@ const focusFirstLink = () => {
 const currentGroup = computed(() =>
 	linkGroups.value?.find((group) => group.groupName === state.currentGroup),
 );
+
+const wrapperRef = ref<HTMLDivElement | null>();
+const topDisplacement = ref(400);
+
+onMounted(() => {
+	if (wrapperRef.value) {
+		topDisplacement.value =
+			wrapperRef.value.getBoundingClientRect().top + window.scrollY;
+	}
+});
 </script>
 
 <template>
@@ -126,13 +136,16 @@ const currentGroup = computed(() =>
 		<h1 class="hidden">Школа 550</h1>
 		<div class="bg-blur" :class="{ open: state.active }" />
 		<div
-			:class="{ hdrwrapper: true, open: state.active }"
+			ref="wrapperRef"
+			class="hdrwrapper"
+			:class="{ open: state.active }"
 			:style="{
 				'--section-height': `${heights[state.lastEnteredIndex] ?? 1}px`,
+				position: y > topDisplacement ? 'fixed' : 'static',
 			}"
 		>
 			<header
-				:class="{ scrolled: (y ?? 1) > 100 }"
+				:class="{ scrolled: (y ?? 1) > topDisplacement }"
 				@mouseleave="closeHeader"
 			>
 				<div class="base">
@@ -368,12 +381,8 @@ const currentGroup = computed(() =>
 	.hdrwrapper {
 		@apply z-20 flex justify-center;
 		@apply duration-300;
-		transition-property:
-			height, padding,
-			max-width,
-			border-radius;
+		transition-property: height, padding, max-width, border-radius;
 		height: var(--header-height);
-		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
