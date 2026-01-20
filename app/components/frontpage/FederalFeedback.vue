@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-const feedbackForm = useState("feedback_form_enabled", () => false);
+// const feedbackForm = useState("feedback_form_enabled", () => false);
 
 const { data: bs } = await useFetch("/bs");
 </script>
 
 <template>
-	<UAlert
+	<div v-html="bs" />
+	<!-- <UAlert
 		id="content"
 		class="mx-auto mt-4 w-full max-w-[1200px] space-y-2"
 		color="blue"
@@ -19,7 +20,6 @@ const { data: bs } = await useFetch("/bs");
 			/>
 		</template>
 		<template #description>
-			<div class="hidden" v-html="bs" />
 			<div class="flex flex-col gap-4">
 				<p class="text-sm sm:w-3/4">
 					Есть предложения по организации учебного процесса или
@@ -34,7 +34,7 @@ const { data: bs } = await useFetch("/bs");
 				</UButton>
 			</div>
 		</template>
-	</UAlert>
+	</UAlert> -->
 </template>
 
 <style lang="scss" scoped></style>

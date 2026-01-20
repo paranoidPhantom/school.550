@@ -377,7 +377,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .__header {
 	--header-height: 80px;
-	height: var(--header-height);
+	height: 0;
 	.hdrwrapper {
 		@apply z-20 flex justify-center;
 		@apply duration-300;

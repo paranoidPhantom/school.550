@@ -12,7 +12,7 @@ defineShortcuts({
 
 		<div class="relative">
 			<ClientHeader />
-			<main class="mt-4 px-4 pb-4 md:px-8">
+			<main class="px-4 pb-4 md:px-8">
 				<slot />
 			</main>
 			<ClientFooter />

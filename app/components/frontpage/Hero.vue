@@ -317,13 +317,7 @@ const visuallyImpaired = useCookie("visImpairmentMode");
 		.static-noise,
 		.hero-bg,
 		.dashed-circles {
-			--image: linear-gradient(
-				to bottom,
-				transparent,
-				black 2%,
-				black 98%,
-				transparent
-			);
+			--image: linear-gradient(to bottom, black, black 98%, transparent);
 			mask-image: var(--image);
 		}
 
