@@ -20,7 +20,7 @@ useHead({
 		<div class="relative space-y-16">
 			<FrontpageReducedNews />
 			<FrontpageLocation />
-			<!-- <FrontpageRequiredAnnouncements /> -->
+			<FrontpageRequiredAnnouncements />
 		</div>
 	</div>
 </template>
